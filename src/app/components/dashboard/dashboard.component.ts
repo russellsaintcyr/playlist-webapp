@@ -18,7 +18,20 @@ export class DashboardComponent implements OnInit {
       },
       err => {
         console.log('Error: ' + err.statusText);
-      }
+        // if (err.status === 401) alert('You need to login first.');
+        this._spotifyService.authorize().subscribe(
+          res => {
+            console.log(res)
+          },
+          err => {
+            console.log(err)
+          },
+          () => {
+            console.log('Completed')
+          }
+        )
+      },
+      () => console.log("Completed.")
     )
   }
 
