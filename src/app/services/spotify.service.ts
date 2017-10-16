@@ -28,7 +28,15 @@ export class SpotifyService {
     // headers.set("Access-Control-Allow-Origin", "*");
     // headers.set("Access-Control-Allow-Methods", "GET");
     // headers.set("Foo", "yo yo yo");
-    this.authURL = 'https://accounts.spotify.com/authorize?client_id=e8629f625be5446a8434f03c0063ac27&response_type=code&redirect_uri=http://localhost:4200/callback';
+
+    // Implicit Grant Flow
+    // Implicit grant flow is for clients that are implemented entirely using JavaScript and running in the resource owner’s browser.
+    //   You do not need any server-side code to use it. Rate limits for requests are improved but there is no refresh token provided.
+    //   This flow is described in RFC-6749.
+    let client_id = 'e8629f625be5446a8434f03c0063ac27';
+    let response_type = 'token';
+    let redirect_uri = 'http://localhost:4200/callback';
+    this.authURL = 'https://accounts.spotify.com/authorize?client_id=' + client_id+ '&response_type=' + response_type + '&redirect_uri=' + redirect_uri;
     return this._http.get(this.authURL, {headers: new Headers({
       // 'Foo': 'fee',
       // 'Russ-Meister': 'Nbnb mnb mnb'
