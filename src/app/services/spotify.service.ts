@@ -19,10 +19,8 @@ export class SpotifyService {
   getPlaylist(playlistID: string, offset: number) {
     // spotify:user:x1111x:playlist:46JHZX9X1hHUpxhZCkKuS1
     let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/' + playlistID + '/tracks?offset=' + offset;
-    console.log(spotURL);
-    return this._http.get(spotURL, {headers: new Headers({
-      'Authorization': 'Bearer '+ this.bearerToken
-    })}).map(res => res.json())
+    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
+    return this._http.get(spotURL, {headers: headers}).map(res => res.json())
   }
 
   searchMusic(str: string, type = 'artist') {

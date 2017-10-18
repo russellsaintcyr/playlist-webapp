@@ -4,6 +4,7 @@ import {DashboardComponent} from "../components/dashboard/dashboard.component";
 import {AboutComponent} from "../components/about/about.component";
 import {PlaylistsComponent} from "../components/playlists/playlists.component";
 import {LoginComponent} from "../components/login/login.component";
+import {PlaylistComponent} from "../components/playlist/playlist.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'playlists',
     component: PlaylistsComponent
+  },
+  {
+    path: 'playlist',
+    component: PlaylistComponent
   },
   {
     path: 'login',
