@@ -13,6 +13,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { LoginComponent } from './components/login/login.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
+import { SongViewComponent } from './components/song-view/song-view.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PlaylistComponent } from './components/playlist/playlist.component';
     HeaderComponent,
     PlaylistsComponent,
     LoginComponent,
-    PlaylistComponent
+    PlaylistComponent,
+    SongViewComponent
   ],
   imports: [
     BrowserModule,

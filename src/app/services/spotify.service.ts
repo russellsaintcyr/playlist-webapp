@@ -13,7 +13,9 @@ export class SpotifyService {
 
   constructor(private _http: Http) {
     this.userID = 'x1111x';
-    this.bearerToken = 'BQBZdSdEliBX3AOIrqbvyvoTqYLrFsJ3N2JFDzWkPrBstZVHYR1z6T2ZoQQXP5RpNddvBjX_Yfp7SEpUC-2EkKBfuG3TEvS64vgFCKv5hHKyQFTTvBB6JXdBan7486-KAK0kQ66JT9Fv9m4IHK7_0i1JMC4s5UF6auiM75etVu-jz5g2gAt1RNlh0xYz-vGR8Z97b-vPIme5XcTX3qEOI-QdHQTK_Bhh1vErNmWupI8TunHuCMfKcDYsA9oTN51NOF0EK2j23Ce4VsnpaWe1dw'
+    // TODO set this via property, or a field, so can update via mobile
+    // The access token must have the user-modify-playback-state scope authorized in order to control playback
+    this.bearerToken = 'BQBzIWy4SRHKbGDzoQZjAP2ZqvrMfozw_fcAKuh9vahnqW3ztPWtlRI5zNXc85qMXB1pXqg57J44z6yiNNm4k8aQZLoH3orq48Nxkru3thKaf8tDWYWaNNaYRDRCca26qqbbL5fU3nnvA9X8PeG9Mk7mrfmwf8t0v6H193PX9v8YgTo8hGB6WLVV-_tqFMMmd7d8yzSA2zWJhHXTOBKTxD4rvfBBs97YBw6kc_hPlULFooJpoYMnPiyYdhigEb8yMWtJ1Rl5YKG265YnuwgFDA';
   }
 
   getPlaylist(playlistID: string, offset: number) {
@@ -30,6 +32,15 @@ export class SpotifyService {
       // 'Zac-Meister': 'Nbnb mnb mnb'
     })}).map(res => res.json())
   }
+
+  playTrack(trackURI) {
+    let URL = 'https://api.spotify.com/v1/me/player/play';
+    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
+    let body = {
+      context_uri : trackURI
+    };
+    return this._http.put(URL, body, {headers: headers}).map(res => res.json())
+  };
 
   authorize() {
     // const headers = new Headers({
