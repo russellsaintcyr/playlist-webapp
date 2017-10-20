@@ -14,6 +14,8 @@ import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { LoginComponent } from './components/login/login.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { SongViewComponent } from './components/song-view/song-view.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { CallbackComponent } from './components/callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { SongViewComponent } from './components/song-view/song-view.component';
     PlaylistsComponent,
     LoginComponent,
     PlaylistComponent,
-    SongViewComponent
+    SongViewComponent,
+    SettingsComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
