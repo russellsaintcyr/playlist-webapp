@@ -1,0 +1,10 @@
+<div *ngIf="tracks !== undefined">
+  {{tracks.length}} tracks returned.
+  <ol>
+    <li *ngFor="let track of tracks; let i = index">
+      <img src="{{track.track.album.images[2].url}}">
+      <button (click)="playTrack(track.track.uri)" class="btn btn-success"><i class="fa fa-play-circle"></i></button>
+      {{track.track.name}} - Album: {{track.track.album.name}}
+    </li>
+  </ol>
+</div>

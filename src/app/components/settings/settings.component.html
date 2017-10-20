@@ -1,0 +1,9 @@
+<form>
+  <div class="form-group">
+    <input type="text" [(ngModel)]="bearerToken" name="zorg" class="form-control">
+    <button type="button" class="btn btn-default" (click)="setBearerToken()">Set Token</button>
+  </div>
+</form>
+<div *ngIf="bearerToken === null">
+  No bearerToken found in local storage.
+</div>
