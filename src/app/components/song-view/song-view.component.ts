@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SongViewComponent implements OnInit {
 
+  public track: Object;
+
   constructor() { }
 
   ngOnInit() {
+    this.track = JSON.parse(localStorage.getItem('selectedTrack'));
   }
 
 }

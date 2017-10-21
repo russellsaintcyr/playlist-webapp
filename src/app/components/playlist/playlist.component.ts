@@ -25,9 +25,13 @@ export class PlaylistComponent implements OnInit {
     })
   }
 
-  playTrack(trackURI) {
-    console.log('Playing track ' + trackURI);
-    this._spotifyService.playTrack(trackURI).subscribe(res => {
+  playTrack(track) {
+    console.log('Playing track ' + track.url);
+    // TODO store track details in case change view
+    localStorage.setItem('selectedTrack', JSON.stringify(track));
+    // TODO pop up the footer playbar
+    // now tell to play
+    this._spotifyService.playTrack(track.url).subscribe(res => {
         console.log(res);
         // this.tracks = res.items;
         // localStorage.setItem('tracks-' + offset, JSON.stringify(res.items));
