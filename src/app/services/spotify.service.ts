@@ -42,7 +42,12 @@ export class SpotifyService {
     })}).map(res => res.json())
   }
 
-  playTrack(trackURI) {
+  playTrack(trackURIs) {
+    if (trackURIs === undefined) {
+      // TODO provide message service or toasts
+      alert('No track URIs provided');
+      return;
+    }
     if (this.bearerToken === undefined || this.bearerToken === null) {
       alert('No bearer auth token found');
       return;
@@ -50,8 +55,7 @@ export class SpotifyService {
     let URL = 'https://api.spotify.com/v1/me/player/play';
     let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
     let body = {
-      // uris : [trackURI]
-      'context_uri': trackURI
+      uris : [trackURIs]
     };
     return this._http.put(URL, body, {headers: headers}).map(res => res.json())
   };

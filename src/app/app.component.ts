@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Hello Russell';
+
+  setRating(rating: Number) {
+    console.log('Rating: ' + rating);
+    // set ID and rating
+  }
 }
