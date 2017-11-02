@@ -1,32 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Observable} from "rxjs/Observable";
-import {ParamMap} from "@angular/router";
+import {Location, LocationStrategy, PathLocationStrategy} from "@angular/common";
 
 @Component({
   selector: 'callback',
   templateUrl: './callback.component.html',
-  styleUrls: ['./callback.component.css']
+  styleUrls: ['./callback.component.css'],
+  providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
 })
 export class CallbackComponent implements OnInit {
 
-  public accessToken: Observable<string>;
-  public tokenType: Observable<string>;
-  public error: string;
-  public state: string;
+  public accessToken: string;
+  public tokenType: string;
+  public expiresIn: string;
+  public queryStringArray: Array<string>;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private location: Location) {
+    let queryString = this.location.path(true).substring(10);
+    this.queryStringArray = queryString.split('&');
+  }
+
+  getQueryVariable(variable) {
+    for (var i = 0; i < this.queryStringArray.length; i++) {
+      var pair = this.queryStringArray[i].split('=');
+      if (decodeURIComponent(pair[0]) == variable) {
+        return decodeURIComponent(pair[1]);
+      }
+    }
+    console.log('Query variable %s not found', variable);
+  }
 
   ngOnInit() {
-    this.route
-      .queryParamMap
-      .map(params => params.get('access_token') || 'None')
-      .subscribe(foo => this.accessToken);
+    // feedback
+    this.accessToken = this.getQueryVariable('access_token');
+    this.tokenType = this.getQueryVariable('token_type');
+    this.expiresIn = this.getQueryVariable('expires_in');
+    // set token
+    localStorage.setItem('bearerToken', this.accessToken);
+    console.log('Updated local storage token');
 
-    const id = this.route.snapshot.paramMap.get('token_type');
-    console.log(id);
-    const id2 = this.route.snapshot.params['token_type'];
-    console.log(id2);
   }
 
 }
