@@ -92,4 +92,14 @@ export class SpotifyService {
     console.log(this.authURL);
     return this.authURL;
   }
+
+  getPlaylists() {
+    if (this.bearerToken === undefined || this.bearerToken === null) {
+      alert('No bearer auth token found');
+      return;
+    }
+    let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
+    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
+    return this._http.get(spotURL, {headers: headers}).map(res => res.json())
+  }
 }

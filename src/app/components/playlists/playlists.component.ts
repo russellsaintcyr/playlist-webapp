@@ -12,6 +12,7 @@ export class PlaylistsComponent implements OnInit {
   private  priv: string;
   public pub: string;
   public tracks: Object;
+  public playlists: Object;
 
   constructor(private _spotifyService:SpotifyService) {
   this.priv = 'Privy';
@@ -19,6 +20,18 @@ export class PlaylistsComponent implements OnInit {
  }
 
   ngOnInit() {
+    this.showPlaylists();
+  }
+
+  showPlaylists() {
+    this._spotifyService.getPlaylists().subscribe(res => {
+        this.playlists = res.items;
+      },
+      err => {
+        console.log('Error: ' + err.statusText);
+      },
+      () => console.log("Completed.")
+    )
   }
 
   showPlaylist(offset) {
