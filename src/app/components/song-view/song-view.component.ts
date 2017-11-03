@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Track} from "../../classes/track";
 
 @Component({
   selector: 'song-view',
@@ -7,12 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SongViewComponent implements OnInit {
 
-  public track: Object;
+  public track: Track;
 
   constructor() { }
 
   ngOnInit() {
-    this.track = JSON.parse(localStorage.getItem('selectedTrack'));
+    let trakk = JSON.parse(localStorage.getItem('selectedTrack'));
+    this.track = new Track(trakk.uri, trakk.name, trakk.album.images[1].url, trakk.album.name, trakk.artists[0].name);
   }
 
   setRating(rating: Number, uri: string) {
