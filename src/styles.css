@@ -16,6 +16,13 @@
 .star-width {
   padding-right: 12px;
 }
+.star-selected {
+  color: yellow;
+}
+.star-unselected {
+  color: gray;
+}
+
 html {
   position: relative;
   min-height: 100%;

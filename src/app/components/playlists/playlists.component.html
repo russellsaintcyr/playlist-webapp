@@ -1,6 +1,7 @@
 <ol>
   <li *ngFor="let playlist of playlists; let i = index">
-    <img src="{{playlist.images[0].url}}" width="50" height="50">
-    {{playlist.name}}
+    <a (click)="setPlaylist(playlist.uri)"><img src="{{playlist.images[0].url}}" width="50" height="50"></a>
+    &nbsp;&nbsp;&nbsp;
+    <a (click)="setPlaylist(playlist.uri)">{{playlist.name}}</a>
   </li>
 </ol>

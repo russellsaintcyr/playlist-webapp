@@ -34,6 +34,11 @@ export class PlaylistsComponent implements OnInit {
     )
   }
 
+  setPlaylist(playlistURI: string) {
+    localStorage.setItem('selectedPlaylist', playlistURI);
+    console.log('Set selectedPlaylist to ' + playlistURI);
+  }
+
   showPlaylist(offset) {
     // console.log(event);
     this._spotifyService.getPlaylist('46JHZX9X1hHUpxhZCkKuS1', offset).subscribe(res => {
