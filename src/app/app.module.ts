@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule} from "./app-routing/app-routing.module";
@@ -16,6 +16,7 @@ import { PlaylistComponent } from './components/playlist/playlist.component';
 import { SongViewComponent } from './components/song-view/song-view.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CallbackComponent } from './components/callback/callback.component';
+import {GlobalErrorHandler} from "./classes/GlobalErrorHandler";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,12 @@ import { CallbackComponent } from './components/callback/callback.component';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

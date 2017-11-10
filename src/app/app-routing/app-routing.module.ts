@@ -12,7 +12,7 @@ import {CallbackComponent} from "../components/callback/callback.component";
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    component: PlaylistsComponent
   },
   {
     path: 'dashboard',

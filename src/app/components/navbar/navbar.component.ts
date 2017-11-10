@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  public alertMessage: string;
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  hasAlerts() {
+    return false;
+  }
 }

@@ -28,7 +28,8 @@ export class PlaylistsComponent implements OnInit {
         this.playlists = res.items;
       },
       err => {
-        console.log('Error: ' + err.statusText);
+        // console.log('Error: ' + err.statusText);
+        throw new Error('Bloody hell: ' + err.statusText);
       },
       () => console.log("Completed.")
     )
@@ -47,7 +48,8 @@ export class PlaylistsComponent implements OnInit {
         localStorage.setItem('tracks-' + offset, JSON.stringify(res.items));
       },
       err => {
-        console.log('Error: ' + err.statusText);
+        // console.log('Error: ' + err.statusText);
+        throw new Error('Bloody hell: ' + err.statusText)
       },
       () => console.log("Completed.")
     )
