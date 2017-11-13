@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SpotifyService} from "../../services/spotify.service";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'playlists',
@@ -14,7 +15,7 @@ export class PlaylistsComponent implements OnInit {
   public tracks: Object;
   public playlists: Object;
 
-  constructor(private _spotifyService:SpotifyService) {
+  constructor(private _spotifyService:SpotifyService, private alertService: AlertService) {
   this.priv = 'Privy';
   this.pub = 'Pubby';
  }
@@ -28,7 +29,7 @@ export class PlaylistsComponent implements OnInit {
         this.playlists = res.items;
       },
       err => {
-        // console.log('Error: ' + err.statusText);
+        this.alertService.warn('Error retrieving playlists: ' + err.statusText);
         throw new Error('Bloody hell: ' + err.statusText);
       },
       () => console.log("Completed.")

@@ -17,6 +17,8 @@ import { SongViewComponent } from './components/song-view/song-view.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CallbackComponent } from './components/callback/callback.component';
 import {GlobalErrorHandler} from "./classes/GlobalErrorHandler";
+import {AlertService} from "./services/alert.service";
+import {AlertComponent} from "./directives/alert.component";
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import {GlobalErrorHandler} from "./classes/GlobalErrorHandler";
     PlaylistComponent,
     SongViewComponent,
     SettingsComponent,
-    CallbackComponent
+    CallbackComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,8 @@ import {GlobalErrorHandler} from "./classes/GlobalErrorHandler";
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler
-    }
+    },
+    AlertService
   ],
   bootstrap: [AppComponent]
 })
