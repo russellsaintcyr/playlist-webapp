@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
 
@@ -10,18 +10,24 @@ import {AlertService} from "../../services/alert.service";
 })
 export class PlaylistsComponent implements OnInit {
 
-  private  priv: string;
+  private priv: string;
   public pub: string;
   public tracks: Object;
   public playlists: Object;
 
   constructor(private _spotifyService:SpotifyService, private alertService: AlertService) {
-  this.priv = 'Privy';
-  this.pub = 'Pubby';
- }
+    this.priv = 'Privy';
+    this.pub = 'Pubby';
+  }
 
   ngOnInit() {
     this.showPlaylists();
+  }
+
+  reAuthorize(intervalId) {
+    // TODO handle auth token globally via new Error
+    window.open(this._spotifyService.getAuthorizeURL(), '_self');
+    clearInterval(intervalId);
   }
 
   showPlaylists() {
@@ -30,7 +36,9 @@ export class PlaylistsComponent implements OnInit {
       },
       err => {
         this.alertService.warn('Error retrieving playlists: ' + err.statusText);
-        throw new Error('Bloody hell: ' + err.statusText);
+        this.alertService.info('Re-authorizing Spotify token in 2 seconds...');
+        let intervalId = setInterval( () => this.reAuthorize(intervalId), 2000);
+        // throw new Error('Bloody hell: ' + err.statusText);
       },
       () => console.log("Completed.")
     )
