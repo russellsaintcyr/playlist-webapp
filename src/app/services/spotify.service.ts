@@ -12,10 +12,8 @@ export class SpotifyService {
   private bearerToken: string;
 
   constructor(private _http: Http, private alertService: AlertService) {
+    // TODO remove hard-coded user ID
     this.userID = 'x1111x';
-    // TODO set this via property, or a field, so can update via mobile
-    // The access token must have the user-modify-playback-state scope authorized in order to control playback
-    // this.bearerToken = 'BQBzIWy4SRHKbGDzoQZjAP2ZqvrMfozw_fcAKuh9vahnqW3ztPWtlRI5zNXc85qMXB1pXqg57J44z6yiNNm4k8aQZLoH3orq48Nxkru3thKaf8tDWYWaNNaYRDRCca26qqbbL5fU3nnvA9X8PeG9Mk7mrfmwf8t0v6H193PX9v8YgTo8hGB6WLVV-_tqFMMmd7d8yzSA2zWJhHXTOBKTxD4rvfBBs97YBw6kc_hPlULFooJpoYMnPiyYdhigEb8yMWtJ1Rl5YKG265YnuwgFDA';
     this.bearerToken = localStorage.getItem('bearerToken');
   }
 
@@ -83,14 +81,17 @@ export class SpotifyService {
 
   getAuthorizeURL() {
     let client_id = 'e8629f625be5446a8434f03c0063ac27';
-    let response_type = 'token';
+    let response_type = 'token'; // Implicit Grant Flow https://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow
     let redirect_uri = 'http://localhost:4200/callback';
+    // let scopes = 'user-modify-playback-state';
     let scopes = 'user-read-currently-playing user-read-playback-state playlist-modify-private playlist-modify-public playlist-read-private streaming user-modify-playback-state user-read-currently-playing user-read-recently-played';
+    console.log('Spotify scopes: ' + scopes);
     this.authURL = 'http://accounts.spotify.com/authorize?client_id=' + client_id +
+      '&scope=' + encodeURIComponent(scopes) +
       '&response_type=' + response_type +
-      '&redirect_uri=' + encodeURIComponent(redirect_uri) +
-      '&scopes=' + encodeURIComponent(scopes);
-    console.log(this.authURL);
+      '&show_dialog=true' +
+      '&redirect_uri=' + encodeURIComponent(redirect_uri);
+    // console.log(this.authURL);
     return this.authURL;
   }
 

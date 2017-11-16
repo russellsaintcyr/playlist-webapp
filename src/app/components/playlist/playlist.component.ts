@@ -39,8 +39,6 @@ export class PlaylistComponent implements OnInit {
   }
 
   playTrack(track) {
-    console.log('Playing track ' + track.uri);
-    // TODO store track details in case change view
     localStorage.setItem('selectedTrack', JSON.stringify(track));
     // TODO pop up the footer playbar
     // now tell to play
