@@ -1,9 +1,14 @@
+<div *ngIf="selectedPlaylist !== undefined">
+  <h2>{{selectedPlaylist.name}}</h2>
+  <img src="{{selectedPlaylist.images[0].url}}" width="320" height="320" class="img-responsive">
+  <h4>No. of Tracks: {{selectedPlaylist.tracks.total}}</h4>
+</div>
+
 <div *ngIf="tracks !== undefined">
   {{tracks.length}} tracks returned.
   <ol>
     <li *ngFor="let track of tracks; let i = index">
-      <img src="{{track.track.album.images[2].url}}">
-      <button (click)="playTrack(track.track)" class="btn btn-success"><i class="fa fa-play-circle"></i></button>
+      <img src="{{track.track.album.images[2].url}}" class="btn btn-success" style="margin: 5px;" (click)="playTrack(track.track)">
       {{track.track.name}} - Album: {{track.track.album.name}}
     </li>
   </ol>

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'playlists',
@@ -15,7 +16,7 @@ export class PlaylistsComponent implements OnInit {
   public tracks: Object;
   public playlists: Object;
 
-  constructor(private _spotifyService:SpotifyService, private alertService: AlertService) {
+  constructor(private _spotifyService:SpotifyService, private alertService: AlertService, private router: Router) {
     this.priv = 'Privy';
     this.pub = 'Pubby';
   }
@@ -44,9 +45,11 @@ export class PlaylistsComponent implements OnInit {
     )
   }
 
-  setPlaylist(playlistURI: string) {
-    localStorage.setItem('selectedPlaylist', playlistURI);
-    console.log('Set selectedPlaylist to ' + playlistURI);
+  setPlaylist(playlist) {
+    localStorage.setItem('selectedPlaylist', JSON.stringify(playlist));
+    // localStorage.setItem('selectedPlaylistID', playlist.id);
+    // this.alertService.success('Set playlist ID to ' + playlist.id);
+    this.router.navigateByUrl('/playlist');
   }
 
   showPlaylist(offset) {

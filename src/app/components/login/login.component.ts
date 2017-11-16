@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SpotifyService} from "../../services/spotify.service";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'login',
@@ -9,7 +10,7 @@ import {SpotifyService} from "../../services/spotify.service";
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private _spotifyService:SpotifyService) { }
+  constructor(private _spotifyService:SpotifyService, private alertService: AlertService) { }
 
   ngOnInit() {
   }

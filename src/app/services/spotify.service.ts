@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/map';
-import {Observable} from "rxjs/Observable";
+import {AlertService} from "./alert.service";
 
 @Injectable()
 export class SpotifyService {
@@ -11,7 +11,7 @@ export class SpotifyService {
   private userID: string;
   private bearerToken: string;
 
-  constructor(private _http: Http) {
+  constructor(private _http: Http, private alertService: AlertService) {
     this.userID = 'x1111x';
     // TODO set this via property, or a field, so can update via mobile
     // The access token must have the user-modify-playback-state scope authorized in order to control playback
@@ -19,13 +19,14 @@ export class SpotifyService {
     this.bearerToken = localStorage.getItem('bearerToken');
   }
 
-  getPlaylist(playlistID: string, offset: number) {
+  getPlaylist(playlist, offset: number) {
     if (this.bearerToken === undefined || this.bearerToken === null) {
       alert('No bearer auth token found');
       return;
     }
     // spotify:user:x1111x:playlist:46JHZX9X1hHUpxhZCkKuS1
-    let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/' + playlistID + '/tracks?offset=' + offset;
+    // spotify:user:dan_deacon_official:playlist:6IcAMCeYekGcJWfXxuIcuM
+    let spotURL = 'https://api.spotify.com/v1/users/' + playlist.owner.id + '/playlists/' + playlist.id + '/tracks?offset=' + offset;
     let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
     return this._http.get(spotURL, {headers: headers}).map(res => res.json())
   }

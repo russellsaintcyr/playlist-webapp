@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Http} from "@angular/http";
 import {SpotifyService} from "../../services/spotify.service";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'playlist',
@@ -10,19 +11,31 @@ import {SpotifyService} from "../../services/spotify.service";
 })
 export class PlaylistComponent implements OnInit {
 
-  private playlistID: string = '46JHZX9X1hHUpxhZCkKuS1';
+  // private playlistID: string; //46JHZX9X1hHUpxhZCkKuS1
+  private selectedPlaylist;
   public tracks: Object;
 
-  constructor(private _http: Http, private _spotifyService: SpotifyService) {
+  constructor(private _http: Http, private _spotifyService: SpotifyService,
+              private alertService: AlertService) {
     console.log('loading data');
   }
 
   ngOnInit() {
-    // console.log(tra?cks2017);
-    this.loadLocalFile();
-    this.loadLocalFile().subscribe(res => {
-      this.tracks = res;
-    })
+    // this.loadLocalFile();
+    // this.loadLocalFile().subscribe(res => {
+    //   this.tracks = res;
+    // })
+    this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
+    this._spotifyService.getPlaylist(this.selectedPlaylist, 0).subscribe(res => {
+        this.tracks = res.items;
+      },
+      err => {
+        // console.log('Error: ' + err.statusText);
+        throw new Error('Bloody hell: ' + err.statusText)
+      },
+      () => console.log("Completed.")
+    )
+
   }
 
   playTrack(track) {
@@ -36,7 +49,8 @@ export class PlaylistComponent implements OnInit {
         // localStorage.setItem('tracks-' + offset, JSON.stringify(res.items));
       },
       err => {
-        console.log('Error: ' + err.statusText);
+        this.alertService.error(err.statusText);
+        // throw new Error(err.statusText);
       },
       () => console.log("Completed calling playTrack.")
     )
