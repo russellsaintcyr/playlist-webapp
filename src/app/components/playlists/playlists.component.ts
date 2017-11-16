@@ -14,7 +14,7 @@ export class PlaylistsComponent implements OnInit {
   private priv: string;
   public pub: string;
   public tracks: Object;
-  public playlists: Object;
+  public playlists;
 
   constructor(private _spotifyService:SpotifyService, private alertService: AlertService, private router: Router) {
     this.priv = 'Privy';
@@ -22,7 +22,21 @@ export class PlaylistsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.showPlaylists();
+    // check if we have playlists
+    if (localStorage.getItem('playlists') === null) {
+      this.retrievePlaylists();
+      this.alertService.info('Retrieved playlists.');
+    } else {
+      this.playlists = JSON.parse(localStorage.getItem('playlists'));
+      this.alertService.info('Loaded playlists from local data.');
+    }
+  }
+
+  refreshPlaylists() {
+    this.playlists = null;
+    localStorage.removeItem('playlists');
+    this.retrievePlaylists();
+    this.alertService.info('Refreshed playlists.');
   }
 
   reAuthorize(intervalId) {
@@ -31,9 +45,10 @@ export class PlaylistsComponent implements OnInit {
     clearInterval(intervalId);
   }
 
-  showPlaylists() {
+  retrievePlaylists() {
     this._spotifyService.getPlaylists().subscribe(res => {
-        this.playlists = res.items;
+        this.playlists = res;
+        localStorage.setItem('playlists', JSON.stringify(res));
       },
       err => {
         this.alertService.warn('Error retrieving playlists: ' + err.statusText);
@@ -47,13 +62,23 @@ export class PlaylistsComponent implements OnInit {
 
   setPlaylist(playlist) {
     localStorage.setItem('selectedPlaylist', JSON.stringify(playlist));
-    // localStorage.setItem('selectedPlaylistID', playlist.id);
     // this.alertService.success('Set playlist ID to ' + playlist.id);
     this.router.navigateByUrl('/playlist');
   }
 
+  loadOffset(url) {
+    this._spotifyService.getURL(url).subscribe(res => {
+        this.playlists = res;
+        localStorage.setItem('playlists', JSON.stringify(res));
+      },
+      err => {
+        throw new Error('Bloody hell: ' + err.statusText)
+      },
+      () => console.log("Completed.")
+    )
+  }
+
   showPlaylist(offset) {
-    // console.log(event);
     this._spotifyService.getPlaylist('46JHZX9X1hHUpxhZCkKuS1', offset).subscribe(res => {
         console.log(res);
         this.tracks = res.items;

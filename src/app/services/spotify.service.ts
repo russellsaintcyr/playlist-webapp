@@ -94,6 +94,15 @@ export class SpotifyService {
     return this.authURL;
   }
 
+  getURL(spotURL) {
+    if (this.bearerToken === undefined || this.bearerToken === null) {
+      alert('No bearer auth token found');
+      return;
+    }
+    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
+    return this._http.get(spotURL, {headers: headers}).map(res => res.json())
+  }
+
   getPlaylists() {
     if (this.bearerToken === undefined || this.bearerToken === null) {
       alert('No bearer auth token found');
