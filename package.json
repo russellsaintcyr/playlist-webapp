@@ -9,7 +9,7 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
     "e2e": "protractor",
-    "postinstall": "ng build --aot -prod"
+    "postinstall": "ng build --aot --target=production"
   },
   "engines": {
     "node": "6.11.4",
@@ -39,10 +39,10 @@
     "ts-helpers": "^1.1.1",
     "typescript": "~2.3.4",
     "zone.js": "^0.8.14"
+    "@types/node": "~6.0.60",
   },
   "devDependencies": {
     "@angular/language-service": "^4.4.5",
-    "@types/node": "~6.0.60",
     "codelyzer": "~3.2.0",
     "karma": "~1.7.0",
     "karma-chrome-launcher": "~2.1.1",

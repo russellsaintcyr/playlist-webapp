@@ -12,7 +12,7 @@ import {AlertService} from "../../services/alert.service";
 export class PlaylistComponent implements OnInit {
 
   // private playlistID: string; //46JHZX9X1hHUpxhZCkKuS1
-  private selectedPlaylist;
+  public selectedPlaylist;
   public tracks: Object;
 
   constructor(private _http: Http, private _spotifyService: SpotifyService,
