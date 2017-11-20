@@ -3,6 +3,8 @@
   <img src="{{selectedPlaylist.images[0].url}}" width="320" height="320" class="img-responsive">
   <h4>No. of Tracks: {{selectedPlaylist.tracks.total}}</h4>
   <a href="javascript:void(0)" (click)="playAllTracks()">Play All</a>
+  <a href="javascript:void(0)" (click)="playNextPrevious('previous')">Previous</a>
+  <a href="javascript:void(0)" (click)="playNextPrevious('next')">Next</a>
 </div>
 
 <div *ngIf="tracks !== undefined">

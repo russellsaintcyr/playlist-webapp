@@ -39,16 +39,25 @@ export class PlaylistComponent implements OnInit {
 
   }
 
+  playNextPrevious(direction:string) {
+    this._spotifyService.playNextPrevious(direction).subscribe(res => {
+        this.alertService.success('Playing  ' + direction + ' track');
+      },
+      err => {
+        this.alertService.error(err.statusText);
+      }
+    )
+  }
+
   playAllTracks(){
-    console.log('Play everything!');
     this._spotifyService.playContextURI(this.selectedPlaylist.uri).subscribe(res => {
-        this.alertService.success('Playing playlist');
+        this.alertService.success('Playing previous track');
       },
       err => {
         this.alertService.error(err.statusText);
         // throw new Error(err.statusText);
-      },
-      () => console.log("Completed calling playTrack.")
+      }
+      // () => console.log("Completed playAllTracks playTrack.")
     )
   }
 
@@ -63,8 +72,8 @@ export class PlaylistComponent implements OnInit {
       err => {
         this.alertService.error(err.statusText);
         // throw new Error(err.statusText);
-      },
-      () => console.log("Completed calling playTrack.")
+      }
+      // () => console.log("Completed calling playTrack.")
     )
   };
 
