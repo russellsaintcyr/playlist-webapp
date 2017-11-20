@@ -31,11 +31,25 @@ export class PlaylistComponent implements OnInit {
       },
       err => {
         // console.log('Error: ' + err.statusText);
-        throw new Error('Bloody hell: ' + err.statusText)
+        window.open(this._spotifyService.getAuthorizeURL(), '_self');
+        throw new Error(err.statusText)
       },
       () => console.log("Completed.")
     )
 
+  }
+
+  playAllTracks(){
+    console.log('Play everything!');
+    this._spotifyService.playContextURI(this.selectedPlaylist.uri).subscribe(res => {
+        this.alertService.success('Playing playlist');
+      },
+      err => {
+        this.alertService.error(err.statusText);
+        // throw new Error(err.statusText);
+      },
+      () => console.log("Completed calling playTrack.")
+    )
   }
 
   playTrack(track) {

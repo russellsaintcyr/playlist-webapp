@@ -41,6 +41,23 @@ export class SpotifyService {
     })}).map(res => res.json())
   }
 
+  playContextURI(context_uri) {
+    if (context_uri === undefined) {
+      alert('No context_uri provided');
+      return;
+    }
+    if (this.bearerToken === undefined || this.bearerToken === null) {
+      alert('No bearer auth token found');
+      return;
+    }
+    let URL = 'https://api.spotify.com/v1/me/player/play';
+    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
+    let body = {
+      context_uri : context_uri
+    };
+    return this._http.put(URL, body, {headers: headers}).map(res => res.json())
+  };
+
   playTrack(trackURIs) {
     if (trackURIs === undefined) {
       // TODO provide message service or toasts
