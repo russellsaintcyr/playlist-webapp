@@ -17,7 +17,6 @@ export class PlaylistComponent implements OnInit {
 
   constructor(private _http: Http, private _spotifyService: SpotifyService,
               private alertService: AlertService) {
-    console.log('loading data');
   }
 
   ngOnInit() {
@@ -33,8 +32,7 @@ export class PlaylistComponent implements OnInit {
         // console.log('Error: ' + err.statusText);
         window.open(this._spotifyService.getAuthorizeURL(), '_self');
         throw new Error(err.statusText)
-      },
-      () => console.log("Completed.")
+      }
     )
 
   }

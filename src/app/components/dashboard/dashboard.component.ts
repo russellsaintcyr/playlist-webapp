@@ -25,13 +25,9 @@ export class DashboardComponent implements OnInit {
           },
           err => {
             console.log(err)
-          },
-          () => {
-            console.log('Completed')
           }
         )
-      },
-      () => console.log("Completed.")
+      }
     )
   }
 

@@ -55,8 +55,7 @@ export class PlaylistsComponent implements OnInit {
         this.alertService.info('Re-authorizing Spotify token in 2 seconds...');
         let intervalId = setInterval( () => this.reAuthorize(intervalId), 2000);
         // throw new Error(err.statusText);
-      },
-      () => console.log("Completed.")
+      }
     )
   }
 
@@ -73,8 +72,7 @@ export class PlaylistsComponent implements OnInit {
       },
       err => {
         throw new Error(err.statusText)
-      },
-      () => console.log("Completed.")
+      }
     )
   }
 
@@ -87,8 +85,7 @@ export class PlaylistsComponent implements OnInit {
       err => {
         // console.log('Error: ' + err.statusText);
         throw new Error(err.statusText)
-      },
-      () => console.log("Completed.")
+      }
     )
   }
 
