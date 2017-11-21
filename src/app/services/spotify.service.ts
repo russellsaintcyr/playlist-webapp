@@ -24,10 +24,6 @@ export class SpotifyService {
   }
 
   getPlaylist(playlist, offset: number) {
-    if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [getPlaylist]');
-      return;
-    }
     // spotify:user:x1111x:playlist:46JHZX9X1hHUpxhZCkKuS1
     // spotify:user:dan_deacon_official:playlist:6IcAMCeYekGcJWfXxuIcuM
     let spotURL = 'https://api.spotify.com/v1/users/' + playlist.owner.id + '/playlists/' + playlist.id + '/tracks?offset=' + offset;
@@ -35,10 +31,6 @@ export class SpotifyService {
   }
 
   searchMusic(str: string, type = 'artist') {
-    if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [searchMusic]');
-      return;
-    }
     this.searchURL = 'https://api.spotify.com/v1/search?q=foo&type=artist';
     return this._http.get(this.searchURL, {headers: new Headers({
       // 'ZZZ': 'fee',
@@ -47,28 +39,16 @@ export class SpotifyService {
   }
 
   playNextPrevious(direction) {
-    if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [playNextPrevious]');
-      return;
-    }
     let URL = 'https://api.spotify.com/v1/me/player/' + direction;
     return this._http.post(URL, null,{headers: this.headers}).map(res => res.json())
   };
 
   getCurrentlyPlaying() {
-    if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [playNextPrevious]');
-      return;
-    }
     let URL = 'https://api.spotify.com/v1/me/player/currently-playing';
     return this._http.get(URL,{headers: this.headers}).map(res => res.json())
   };
 
   controlPlayback(body, verb) {
-    if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [controlPlayback]');
-      return;
-    }
     let URL = 'https://api.spotify.com/v1/me/player/' + verb;
     return this._http.put(URL, body, {headers: this.headers}).map(res => res.json())
   };
@@ -110,18 +90,10 @@ export class SpotifyService {
   }
 
   getURL(spotURL) {
-    if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [getURL]');
-      return;
-    }
     return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 
   getPlaylists() {
-    if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [getPlaylists]');
-      return;
-    }
     let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
     return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }

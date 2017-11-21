@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Track} from "../../classes/track";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'song-view',
@@ -10,11 +11,15 @@ export class SongViewComponent implements OnInit {
 
   public track: Track;
 
-  constructor() { }
+  constructor(private alertService: AlertService) { }
 
   ngOnInit() {
     let trakk = JSON.parse(localStorage.getItem('selectedTrack'));
-    this.track = new Track(trakk.uri, trakk.name, trakk.album.images[1].url, trakk.album.name, trakk.artists[0].name);
+    if (trakk !== null) {
+      this.track = new Track(trakk.uri, trakk.name, trakk.album.images[1].url, trakk.album.name, trakk.artists[0].name);
+    } else {
+      this.alertService.warn('No selectedTrack found locally.')
+    }
   }
 
   setRating(rating: Number, uri: string) {

@@ -13,7 +13,9 @@ export class NavbarComponent implements OnInit {
   public isPlaying: boolean;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
+    console.log('getting currently playing.');
     if (this.spotifyService.getCurrentlyPlaying() !== undefined) {
+      console.log('got currently playing.');
       this.spotifyService.getCurrentlyPlaying().subscribe(res => {
           console.log(res);
           this.isPlaying = res.is_playing;
@@ -22,6 +24,8 @@ export class NavbarComponent implements OnInit {
           console.log('Error: ' + err.statusText);
         }
       )
+    } else {
+      console.log('got currently playing returned undefined');
     }
   }
 
