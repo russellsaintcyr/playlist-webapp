@@ -12,6 +12,7 @@ export class SpotifyService {
   private userID: string;
   private bearerToken: string;
   private baseURL: string;
+  private headers;
 
   constructor(private _http: Http, private alertService: AlertService) {
     // TODO remove hard-coded user ID
@@ -19,14 +20,7 @@ export class SpotifyService {
     this.bearerToken = localStorage.getItem('bearerToken');
     this.baseURL = location.hostname;
     if (location.port !== '') this.baseURL += ':' + location.port;
-
-    // this.getCurrentlyPlaying().subscribe(res => {
-    //     console.log(res);
-    //   },
-    //   err => {
-    //     console.log('Error: ' + err.statusText);
-    //   }
-    // )
+    this.headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
   }
 
   getPlaylist(playlist, offset: number) {
@@ -37,8 +31,7 @@ export class SpotifyService {
     // spotify:user:x1111x:playlist:46JHZX9X1hHUpxhZCkKuS1
     // spotify:user:dan_deacon_official:playlist:6IcAMCeYekGcJWfXxuIcuM
     let spotURL = 'https://api.spotify.com/v1/users/' + playlist.owner.id + '/playlists/' + playlist.id + '/tracks?offset=' + offset;
-    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    return this._http.get(spotURL, {headers: headers}).map(res => res.json())
+    return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 
   searchMusic(str: string, type = 'artist') {
@@ -59,8 +52,7 @@ export class SpotifyService {
       return;
     }
     let URL = 'https://api.spotify.com/v1/me/player/' + direction;
-    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    return this._http.post(URL, null,{headers: headers}).map(res => res.json())
+    return this._http.post(URL, null,{headers: this.headers}).map(res => res.json())
   };
 
   getCurrentlyPlaying() {
@@ -69,8 +61,7 @@ export class SpotifyService {
       return;
     }
     let URL = 'https://api.spotify.com/v1/me/player/currently-playing';
-    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    return this._http.get(URL,{headers: headers}).map(res => res.json())
+    return this._http.get(URL,{headers: this.headers}).map(res => res.json())
   };
 
   controlPlayback(body, verb) {
@@ -79,8 +70,7 @@ export class SpotifyService {
       return;
     }
     let URL = 'https://api.spotify.com/v1/me/player/' + verb;
-    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    return this._http.put(URL, body, {headers: headers}).map(res => res.json())
+    return this._http.put(URL, body, {headers: this.headers}).map(res => res.json())
   };
 
   // authorize() {
@@ -124,8 +114,7 @@ export class SpotifyService {
       this.alertService.error('No bearer auth token found [getURL]');
       return;
     }
-    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    return this._http.get(spotURL, {headers: headers}).map(res => res.json())
+    return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 
   getPlaylists() {
@@ -134,7 +123,6 @@ export class SpotifyService {
       return;
     }
     let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
-    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    return this._http.get(spotURL, {headers: headers}).map(res => res.json())
+    return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 }
