@@ -16,6 +16,7 @@ export class SpotifyService {
     // TODO remove hard-coded user ID
     this.userID = 'x1111x';
     this.bearerToken = localStorage.getItem('bearerToken');
+    console.log(location.hostname);
   }
 
   getPlaylist(playlist, offset: number) {
@@ -110,7 +111,7 @@ export class SpotifyService {
   getAuthorizeURL() {
     let client_id = 'e8629f625be5446a8434f03c0063ac27';
     let response_type = 'token'; // Implicit Grant Flow https://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow
-    let redirect_uri = 'http://localhost:4200/callback';
+    let redirect_uri = 'http://' + location.hostname + '/callback';
     // let scopes = 'user-modify-playback-state';
     let scopes = 'user-read-currently-playing user-read-playback-state playlist-modify-private playlist-modify-public playlist-read-private streaming user-modify-playback-state user-read-currently-playing user-read-recently-played';
     console.log('Spotify scopes: ' + scopes);
