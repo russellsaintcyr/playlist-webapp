@@ -37,16 +37,6 @@ export class PlaylistComponent implements OnInit {
 
   }
 
-  playNextPrevious(direction:string) {
-    this._spotifyService.playNextPrevious(direction).subscribe(res => {
-        this.alertService.success('Playing  ' + direction + ' track');
-      },
-      err => {
-        this.alertService.error(err.statusText);
-      }
-    )
-  }
-
   playAllTracks(){
     this._spotifyService.playContextURI(this.selectedPlaylist.uri).subscribe(res => {
         this.alertService.success('Playing previous track');

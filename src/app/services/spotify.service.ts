@@ -19,7 +19,14 @@ export class SpotifyService {
     this.bearerToken = localStorage.getItem('bearerToken');
     this.baseURL = location.hostname;
     if (location.port !== '') this.baseURL += ':' + location.port;
-    console.log('baseURL=' + this.baseURL);
+
+    // this.getCurrentlyPlaying().subscribe(res => {
+    //     console.log(res);
+    //   },
+    //   err => {
+    //     console.log('Error: ' + err.statusText);
+    //   }
+    // )
   }
 
   getPlaylist(playlist, offset: number) {
@@ -71,6 +78,17 @@ export class SpotifyService {
     let URL = 'https://api.spotify.com/v1/me/player/' + direction;
     let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
     return this._http.post(URL, null,{headers: headers}).map(res => res.json())
+  };
+
+
+  getCurrentlyPlaying() {
+    if (this.bearerToken === undefined || this.bearerToken === null) {
+      this.alertService.error('No bearer auth token found [playNextPrevious]');
+      return;
+    }
+    let URL = 'https://api.spotify.com/v1/me/player/currently-playing';
+    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
+    return this._http.get(URL,{headers: headers}).map(res => res.json())
   };
 
   playTrack(trackURIs) {
