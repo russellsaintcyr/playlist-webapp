@@ -13,14 +13,16 @@ export class NavbarComponent implements OnInit {
   public isPlaying: boolean;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
-    this.spotifyService.getCurrentlyPlaying().subscribe(res => {
-        console.log(res);
-        this.isPlaying = res.is_playing;
-      },
-      err => {
-        console.log('Error: ' + err.statusText);
-      }
-    )
+    if (this.spotifyService.getCurrentlyPlaying() !== undefined) {
+      this.spotifyService.getCurrentlyPlaying().subscribe(res => {
+          console.log(res);
+          this.isPlaying = res.is_playing;
+        },
+        err => {
+          console.log('Error: ' + err.statusText);
+        }
+      )
+    }
   }
 
   ngOnInit() {
