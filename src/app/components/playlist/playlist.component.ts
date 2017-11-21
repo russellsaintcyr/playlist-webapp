@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Http} from "@angular/http";
 import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
@@ -37,31 +37,27 @@ export class PlaylistComponent implements OnInit {
 
   }
 
-  playAllTracks(){
-    this._spotifyService.playContextURI(this.selectedPlaylist.uri).subscribe(res => {
-        this.alertService.success('Playing previous track');
+  playAllTracks() {
+    this._spotifyService.controlPlayback({context_uri: this.selectedPlaylist.uri}, 'play').subscribe(res => {
+        this.alertService.success('Playing all tracks in playlist');
       },
       err => {
         this.alertService.error(err.statusText);
         // throw new Error(err.statusText);
       }
-      // () => console.log("Completed playAllTracks playTrack.")
     )
   }
 
   playTrack(track) {
     localStorage.setItem('selectedTrack', JSON.stringify(track));
-    // TODO pop up the footer playbar
     // now tell to play
-    this._spotifyService.playTrack(track.uri).subscribe(res => {
-        // this.tracks = res.items;
-        // localStorage.setItem('tracks-' + offset, JSON.stringify(res.items));
+    this._spotifyService.controlPlayback({uris: [track.uri]}, 'play').subscribe(res => {
+        console.log(res);
       },
       err => {
         this.alertService.error(err.statusText);
         // throw new Error(err.statusText);
       }
-      // () => console.log("Completed calling playTrack.")
     )
   };
 

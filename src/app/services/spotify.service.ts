@@ -53,23 +53,6 @@ export class SpotifyService {
     })}).map(res => res.json())
   }
 
-  playContextURI(context_uri) {
-    if (context_uri === undefined) {
-      this.alertService.error('No context_uri provided [playContextURI]');
-      return;
-    }
-    if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [playContextURI]');
-      return;
-    }
-    let URL = 'https://api.spotify.com/v1/me/player/play';
-    let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    let body = {
-      context_uri : context_uri
-    };
-    return this._http.put(URL, body, {headers: headers}).map(res => res.json())
-  };
-
   playNextPrevious(direction) {
     if (this.bearerToken === undefined || this.bearerToken === null) {
       this.alertService.error('No bearer auth token found [playNextPrevious]');
@@ -79,7 +62,6 @@ export class SpotifyService {
     let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
     return this._http.post(URL, null,{headers: headers}).map(res => res.json())
   };
-
 
   getCurrentlyPlaying() {
     if (this.bearerToken === undefined || this.bearerToken === null) {
@@ -91,43 +73,35 @@ export class SpotifyService {
     return this._http.get(URL,{headers: headers}).map(res => res.json())
   };
 
-  playTrack(trackURIs) {
-    if (trackURIs === undefined) {
-      // TODO provide message service or toasts
-      this.alertService.error('No track URIs provided [playTrack]');
-      return;
-    }
+  controlPlayback(body, verb) {
     if (this.bearerToken === undefined || this.bearerToken === null) {
-      this.alertService.error('No bearer auth token found [playTrack]');
+      this.alertService.error('No bearer auth token found [controlPlayback]');
       return;
     }
-    let URL = 'https://api.spotify.com/v1/me/player/play';
+    let URL = 'https://api.spotify.com/v1/me/player/' + verb;
     let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    let body = {
-      uris : [trackURIs]
-    };
     return this._http.put(URL, body, {headers: headers}).map(res => res.json())
   };
 
-  authorize() {
-    // need to set the scopes below
-    // user-read-currently-playing
-    // user-read-playback-state
-
-    const headers = new Headers({
-      // 'Access-Control-Allow-Origin': '*'
-      // headers.set("Access-Control-Allow-Methods", "GET");
-    });
-    // headers.set("Access-Control-Allow-Origin", "*");
-    // headers.set("Access-Control-Allow-Methods", "GET");
-    // headers.set("Foo", "yo yo yo");
-
-    // Implicit Grant Flow
-    // Implicit grant flow is for clients that are implemented entirely using JavaScript and running in the resource owner’s browser.
-    //   You do not need any server-side code to use it. Rate limits for requests are improved but there is no refresh token provided.
-    //   This flow is described in RFC-6749.
-    return this._http.get(this.authURL, {headers: headers}).map(res => res.json())
-  }
+  // authorize() {
+  //   // need to set the scopes below
+  //   // user-read-currently-playing
+  //   // user-read-playback-state
+  //
+  //   const headers = new Headers({
+  //     // 'Access-Control-Allow-Origin': '*'
+  //     // headers.set("Access-Control-Allow-Methods", "GET");
+  //   });
+  //   // headers.set("Access-Control-Allow-Origin", "*");
+  //   // headers.set("Access-Control-Allow-Methods", "GET");
+  //   // headers.set("Foo", "yo yo yo");
+  //
+  //   // Implicit Grant Flow
+  //   // Implicit grant flow is for clients that are implemented entirely using JavaScript and running in the resource owner’s browser.
+  //   //   You do not need any server-side code to use it. Rate limits for requests are improved but there is no refresh token provided.
+  //   //   This flow is described in RFC-6749.
+  //   return this._http.get(this.authURL, {headers: headers}).map(res => res.json())
+  // }
 
   getAuthorizeURL() {
     let client_id = 'e8629f625be5446a8434f03c0063ac27';

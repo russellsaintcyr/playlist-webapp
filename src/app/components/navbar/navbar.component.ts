@@ -37,7 +37,14 @@ export class NavbarComponent implements OnInit {
   }
 
   stop() {
-
+    this.spotifyService.controlPlayback(null, 'pause').subscribe(res => {
+        this.alertService.success('Stopping playback');
+        this.isPlaying = false;
+      },
+      err => {
+        this.alertService.error(err.statusText);
+      }
+    )
   }
 
 }
