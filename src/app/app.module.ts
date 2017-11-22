@@ -19,6 +19,7 @@ import { CallbackComponent } from './components/callback/callback.component';
 import {GlobalErrorHandler} from "./classes/GlobalErrorHandler";
 import {AlertService} from "./services/alert.service";
 import {AlertComponent} from "./directives/alert.component";
+import { NowPlayingComponent } from './components/now-playing/now-playing.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {AlertComponent} from "./directives/alert.component";
     SongViewComponent,
     SettingsComponent,
     CallbackComponent,
-    AlertComponent
+    AlertComponent,
+    NowPlayingComponent
   ],
   imports: [
     BrowserModule,

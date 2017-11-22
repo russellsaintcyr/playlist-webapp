@@ -13,20 +13,20 @@ export class NavbarComponent implements OnInit {
   public isPlaying: boolean;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
-    console.log('getting currently playing.');
-    if (this.spotifyService.getCurrentlyPlaying() !== undefined) {
-      console.log('got currently playing.');
-      this.spotifyService.getCurrentlyPlaying().subscribe(res => {
-          console.log(res);
-          this.isPlaying = res.is_playing;
-        },
-        err => {
-          console.log('Error: ' + err.statusText);
-        }
-      )
-    } else {
-      console.log('got currently playing returned undefined');
-    }
+    // console.log('getting currently playing.');
+    // if (this.spotifyService.getCurrentlyPlaying() !== undefined) {
+    //   console.log('got currently playing.');
+    //   this.spotifyService.getCurrentlyPlaying().subscribe(res => {
+    //       console.log(res);
+    //       this.isPlaying = res.is_playing;
+    //     },
+    //     err => {
+    //       console.log('Error: ' + err.statusText);
+    //     }
+    //   )
+    // } else {
+    //   console.log('got currently playing returned undefined');
+    // }
   }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
 
   playNextPrevious(direction:string) {
     this.spotifyService.playNextPrevious(direction).subscribe(res => {
-        this.alertService.success('Playing  ' + direction + ' track');
+        // this.alertService.success('Playing  ' + direction + ' track');
       },
       err => {
         this.alertService.error(err.statusText);

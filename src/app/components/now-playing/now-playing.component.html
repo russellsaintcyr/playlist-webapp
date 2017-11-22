@@ -1,0 +1,23 @@
+<div *ngIf="track !== null && track !== undefined">
+  <p><img src="{{track.coverImage}}"></p>
+  <p>
+    <i class="fa fa-star-o fa-3x star-width star-unselected" id="star1" (click)="setRating(1, track.uri)"></i>
+    <i class="fa fa-star-o fa-3x star-width star-unselected" id="star2" (click)="setRating(2, track.uri)"></i>
+    <i class="fa fa-star-o fa-3x star-width star-unselected" id="star3" (click)="setRating(3, track.uri)"></i>
+    <i class="fa fa-star-o fa-3x star-width star-unselected" id="star4" (click)="setRating(4, track.uri)"></i>
+    <i class="fa fa-star-o fa-3x star-width star-unselected" id="star5" (click)="setRating(5, track.uri)"></i>
+  </p>
+  <h3>{{track.name}}</h3>
+  <p>
+    From the album {{track.albumName}}
+    <!-- TODO loop through artists, and link -->
+    <br>Main Artist: {{track.mainArtist}}
+  </p>
+</div>
+
+<div *ngIf="track === null">
+  Track is null
+</div>
+<div *ngIf="track === undefined">
+  Track is undefined
+</div>

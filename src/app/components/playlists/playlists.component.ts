@@ -16,7 +16,7 @@ export class PlaylistsComponent implements OnInit {
   public tracks: Object;
   public playlists;
 
-  constructor(private _spotifyService:SpotifyService, private alertService: AlertService, private router: Router) {
+  constructor(private _spotifyService: SpotifyService, private alertService: AlertService, private router: Router) {
     this.priv = 'Privy';
     this.pub = 'Pubby';
   }
@@ -53,7 +53,7 @@ export class PlaylistsComponent implements OnInit {
       err => {
         this.alertService.warn('Error retrieving playlists: ' + err.statusText);
         this.alertService.info('Re-authorizing Spotify token in 2 seconds...');
-        let intervalId = setInterval( () => this.reAuthorize(intervalId), 2000);
+        let intervalId = setInterval(() => this.reAuthorize(intervalId), 2000);
         // throw new Error(err.statusText);
       }
     )

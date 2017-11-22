@@ -8,6 +8,7 @@ import {PlaylistComponent} from "../components/playlist/playlist.component";
 import {SongViewComponent} from "../components/song-view/song-view.component";
 import {SettingsComponent} from "../components/settings/settings.component";
 import {CallbackComponent} from "../components/callback/callback.component";
+import {NowPlayingComponent} from "../components/now-playing/now-playing.component";
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path: 'songview',
     component: SongViewComponent
+  },
+  {
+    path: 'nowplaying',
+    component: NowPlayingComponent
   },
   {
     path: 'login',
