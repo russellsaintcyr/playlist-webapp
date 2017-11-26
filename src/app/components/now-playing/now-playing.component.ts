@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
 import {Track} from "../../classes/track";
+import {Rating} from "app/classes/rating";
 
 @Component({
   selector: 'now-playing',
@@ -12,6 +13,7 @@ import {Track} from "../../classes/track";
 export class NowPlayingComponent implements OnInit {
 
   public track: Track;
+  public ratings: Array<Rating>;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
   }
@@ -19,6 +21,15 @@ export class NowPlayingComponent implements OnInit {
   ngOnInit() {
     console.log('Getting currently playing song....');
     this.getCurrentlyPlaying(null);
+    if (localStorage.getItem('ratings') === null) {
+      this.alertService.info('No local ratings yet set.');
+      this.ratings = [];
+      localStorage.setItem('ratings', JSON.stringify(this.ratings));
+    } else {
+      this.ratings = JSON.parse(localStorage.getItem('ratings'));
+      this.alertService.info('Loaded ' + this.ratings.length + ' ratings from local data.');
+    }
+
   }
 
   getCurrentlyPlaying(intervalId) {
@@ -31,6 +42,16 @@ export class NowPlayingComponent implements OnInit {
           this.track = new Track(res.item.uri, res.item.name, res.item.album.images[1].url, res.item.album.name, res.item.artists[0].name);
           console.log(this.track);
           if (intervalId !== null) clearInterval(intervalId);
+          // search for existing rating
+          let obj = this.ratings.find(function (obj: Rating) {
+            return obj.trackURI === res.item.uri;
+          });
+          if (obj === undefined) {
+            // reset stars if no rating
+            this.showStars(0);
+          } else {
+            this.showStars(obj.rating)
+          }
         }
       },
       err => {
@@ -41,26 +62,40 @@ export class NowPlayingComponent implements OnInit {
     )
   }
 
-  setRating(rating: Number, uri: string) {
-    let elem = document.getElementById('star' + rating);
-    // console.log();
+  showStars(rating) {
     let cssSelected = 'fa fa-star-o fa-3x star-width star-selected';
     let cssUnSelected = 'fa fa-star-o fa-3x star-width star-unselected';
-    document.getElementById('star1').className = (rating >= 1) ? cssSelected : cssUnSelected;
-    document.getElementById('star2').className = (rating >= 2) ? cssSelected : cssUnSelected;
-    document.getElementById('star3').className = (rating >= 3) ? cssSelected : cssUnSelected;
-    document.getElementById('star4').className = (rating >= 4) ? cssSelected : cssUnSelected;
-    document.getElementById('star5').className = (rating == 5) ? cssSelected : cssUnSelected;
-    // elem.className = "fa fa-star-o fa-3x fa-spin star-width star-selected";
-    let trackRating = {
-      rating: rating,
-      trackURI: uri,
-      playlistURI: localStorage.getItem('selectedPlaylist')
-    };
-    console.log(trackRating);
-    localStorage.setItem('ratings', JSON.stringify(trackRating));
-    console.log('saved rating to local storage');
-    this.playNextPrevious('next');
+    if (document.getElementById('star1') !== null) {
+      document.getElementById('star1').className = (rating >= 1) ? cssSelected : cssUnSelected;
+      document.getElementById('star2').className = (rating >= 2) ? cssSelected : cssUnSelected;
+      document.getElementById('star3').className = (rating >= 3) ? cssSelected : cssUnSelected;
+      document.getElementById('star4').className = (rating >= 4) ? cssSelected : cssUnSelected;
+      document.getElementById('star5').className = (rating == 5) ? cssSelected : cssUnSelected;
+    } else {
+      console.log('Failed to get star1 element.');
+    }
+  }
+
+  setRating(rating: number, uri: string) {
+    let elem = document.getElementById('star' + rating);
+    // console.log();
+    this.showStars(rating);
+
+    // search for existing rating
+    let obj = this.ratings.find(function (obj: Rating) {
+      return obj.trackURI === uri;
+    });
+    if (obj === undefined) {
+      this.ratings.push(new Rating(uri, rating));
+    } else {
+      this.alertService.warn('TODO: add code to update existing rating using findIndex and splice.');
+      // let zzz = this.ratings.findIndex(uri);
+    }
+
+
+    localStorage.setItem('ratings', JSON.stringify(this.ratings));
+    console.log('saved rating to local storage array');
+    // this.playNextPrevious('next');
   }
 
   playNextPrevious(direction: string) {

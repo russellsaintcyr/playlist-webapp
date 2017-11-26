@@ -1,4 +1,4 @@
-<div *ngIf="track !== null && track !== undefined">
+<div>
   <p><img src="{{track.coverImage}}"></p>
   <p>
     <i class="fa fa-star-o fa-3x star-width star-unselected" id="star1" (click)="setRating(1, track.uri)"></i>
@@ -15,9 +15,9 @@
   </p>
 </div>
 
-<div *ngIf="track === null">
-  Track is null
-</div>
-<div *ngIf="track === undefined">
-  Track is undefined
-</div>
+<!--<div *ngIf="track === null">-->
+  <!--Track is null-->
+<!--</div>-->
+<!--<div *ngIf="track === undefined">-->
+  <!--Track is undefined-->
+<!--</div>-->
