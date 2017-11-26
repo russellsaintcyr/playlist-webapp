@@ -80,22 +80,22 @@ export class NowPlayingComponent implements OnInit {
     let elem = document.getElementById('star' + rating);
     // console.log();
     this.showStars(rating);
-
+    let newRating = new Rating(uri, rating);
     // search for existing rating
     let obj = this.ratings.find(function (obj: Rating) {
       return obj.trackURI === uri;
     });
     if (obj === undefined) {
-      this.ratings.push(new Rating(uri, rating));
+      this.ratings.push(newRating);
     } else {
-      this.alertService.warn('TODO: add code to update existing rating using findIndex and splice.');
-      // let zzz = this.ratings.findIndex(uri);
+      let xxx = this.ratings.findIndex(function (obj: Rating) {
+        return obj.trackURI === uri;
+      });
+      this.ratings.splice(xxx, 1, newRating);
     }
-
-
     localStorage.setItem('ratings', JSON.stringify(this.ratings));
-    console.log('saved rating to local storage array');
-    // this.playNextPrevious('next');
+    // TODO enable next line via user preference
+    this.playNextPrevious('next');
   }
 
   playNextPrevious(direction: string) {
