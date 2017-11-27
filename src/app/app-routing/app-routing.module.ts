@@ -5,7 +5,6 @@ import {AboutComponent} from "../components/about/about.component";
 import {PlaylistsComponent} from "../components/playlists/playlists.component";
 import {LoginComponent} from "../components/login/login.component";
 import {PlaylistComponent} from "../components/playlist/playlist.component";
-import {SongViewComponent} from "../components/song-view/song-view.component";
 import {SettingsComponent} from "../components/settings/settings.component";
 import {CallbackComponent} from "../components/callback/callback.component";
 import {NowPlayingComponent} from "../components/now-playing/now-playing.component";
@@ -30,10 +29,6 @@ const routes: Routes = [
   {
     path: 'playlist',
     component: PlaylistComponent
-  },
-  {
-    path: 'songview',
-    component: SongViewComponent
   },
   {
     path: 'nowplaying',

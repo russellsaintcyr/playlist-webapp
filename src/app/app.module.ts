@@ -13,7 +13,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { LoginComponent } from './components/login/login.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
-import { SongViewComponent } from './components/song-view/song-view.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CallbackComponent } from './components/callback/callback.component';
 import {GlobalErrorHandler} from "./classes/GlobalErrorHandler";
@@ -32,7 +31,6 @@ import { NowPlayingComponent } from './components/now-playing/now-playing.compon
     PlaylistsComponent,
     LoginComponent,
     PlaylistComponent,
-    SongViewComponent,
     SettingsComponent,
     CallbackComponent,
     AlertComponent,
