@@ -19,34 +19,6 @@ export class NowPlayingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Add polyfill (browser fallback) for Array.find() for mobile
-    // TODO perhaps add to root for all pages?
-    if (!Array.prototype.find) {
-      console.log('Adding Array.find support using polyfill.');
-      Array.prototype.find = function(predicate) {
-        if (this == null) {
-          throw new TypeError('Array.prototype.find called on null or undefined');
-        }
-        if (typeof predicate !== 'function') {
-          throw new TypeError('predicate must be a function');
-        }
-        var list = Object(this);
-        var length = list.length >>> 0;
-        var thisArg = arguments[1];
-        var value;
-
-        for (var i = 0; i < length; i++) {
-          value = list[i];
-          if (predicate.call(thisArg, value, i, list)) {
-            return value;
-          }
-        }
-        return undefined;
-      };
-    } else {
-      console.log('Array.find is supported.');
-    }
-    // now get gurrent song
     console.log('Getting currently playing song....');
     this.getCurrentlyPlaying(null);
     if (localStorage.getItem('ratings') === null) {
@@ -71,18 +43,18 @@ export class NowPlayingComponent implements OnInit {
           console.log(this.track);
           if (intervalId !== null) clearInterval(intervalId);
           // search for existing rating
-          let obj = undefined;
+          // let obj = undefined;
           // confirm we can use find() with array
-          if (typeof this.ratings.find === 'function') {
+          // if (typeof this.ratings.find === 'function') {
             let obj = this.ratings.find(function (obj: Rating) {
               return obj.trackURI === res.item.uri;
             });
-          } else {
-            this.alertService.warn('Array.find not supported.');
-            let obj = this.ratings.filter(function (obj: Rating) {
-              return obj.trackURI === res.item.uri;
-            })[0];
-          }
+          // } else {
+          //   this.alertService.warn('Array.find not supported.');
+          //   let obj = this.ratings.filter(function (obj: Rating) {
+          //     return obj.trackURI === res.item.uri;
+          //   })[0];
+          // }
           console.log('obj=' + obj);
           if (obj === undefined) {
             // reset stars if no rating

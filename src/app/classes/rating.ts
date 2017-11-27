@@ -7,7 +7,4 @@ export class Rating {
     this.rating = rating;
   }
 
-  public find(xxx) {
-    return Array.prototype.find(xxx);
-  }
 }
