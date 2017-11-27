@@ -19,17 +19,8 @@ export class NowPlayingComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Getting currently playing song....');
-    this.getCurrentlyPlaying(null);
-    if (localStorage.getItem('ratings') === null) {
-      this.alertService.info('No local ratings yet set.');
-      this.ratings = [];
-      localStorage.setItem('ratings', JSON.stringify(this.ratings));
-    } else {
-      this.ratings = JSON.parse(localStorage.getItem('ratings'));
-      this.alertService.info('Loaded ' + this.ratings.length + ' ratings from local data.');
-    }
-
+    // Add polyfill (browser fallback) for Array.find() for mobile
+    // TODO perhaps add to root for all pages?
     if (!Array.prototype.find) {
       console.log('Adding Array.find support');
       Array.prototype.find = function(predicate) {
@@ -52,6 +43,17 @@ export class NowPlayingComponent implements OnInit {
         }
         return undefined;
       };
+    }
+    // now get gurrent song
+    console.log('Getting currently playing song....');
+    this.getCurrentlyPlaying(null);
+    if (localStorage.getItem('ratings') === null) {
+      this.alertService.info('No local ratings yet set.');
+      this.ratings = [];
+      localStorage.setItem('ratings', JSON.stringify(this.ratings));
+    } else {
+      this.ratings = JSON.parse(localStorage.getItem('ratings'));
+      this.alertService.info('Loaded ' + this.ratings.length + ' ratings from local data.');
     }
 
   }
