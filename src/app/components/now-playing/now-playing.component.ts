@@ -22,12 +22,12 @@ export class NowPlayingComponent implements OnInit {
     console.log('Getting currently playing song....');
     this.getCurrentlyPlaying(null);
     if (localStorage.getItem('ratings') === null) {
-      this.alertService.info('No local ratings yet set.');
+      console.log('No local ratings yet set.');
       this.ratings = [];
       localStorage.setItem('ratings', JSON.stringify(this.ratings));
     } else {
       this.ratings = JSON.parse(localStorage.getItem('ratings'));
-      this.alertService.info('Loaded ' + this.ratings.length + ' ratings from local data.');
+      console.log('Loaded ' + this.ratings.length + ' ratings from local data.');
     }
 
   }
@@ -55,7 +55,6 @@ export class NowPlayingComponent implements OnInit {
           //     return obj.trackURI === res.item.uri;
           //   })[0];
           // }
-          console.log('obj=' + obj);
           if (obj === undefined) {
             // reset stars if no rating
             NowPlayingComponent.showStars(0);
