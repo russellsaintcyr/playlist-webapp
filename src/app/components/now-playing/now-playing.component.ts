@@ -78,11 +78,12 @@ export class NowPlayingComponent implements OnInit {
               return obj.trackURI === res.item.uri;
             });
           } else {
-            this.alertService.warn('Array.find not supported.')
-            let obj = this.ratings.find(function (obj: Rating) {
+            this.alertService.warn('Array.find not supported.');
+            let obj = this.ratings.filter(function (obj: Rating) {
               return obj.trackURI === res.item.uri;
-            });
+            })[0];
           }
+          console.log('obj=' + obj);
           if (obj === undefined) {
             // reset stars if no rating
             NowPlayingComponent.showStars(0);
