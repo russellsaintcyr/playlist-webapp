@@ -43,14 +43,20 @@ export class NowPlayingComponent implements OnInit {
           console.log(this.track);
           if (intervalId !== null) clearInterval(intervalId);
           // search for existing rating
-          let obj = this.ratings.find(function (obj: Rating) {
-            return obj.trackURI === res.item.uri;
-          });
+          let obj = undefined;
+          // confirm we can use find() with array
+          if (typeof this.ratings.find === 'function') {
+            let obj = this.ratings.find(function (obj: Rating) {
+              return obj.trackURI === res.item.uri;
+            });
+          } else {
+            this.alertService.warn('Array.find not supported.')
+          }
           if (obj === undefined) {
             // reset stars if no rating
-            this.showStars(0);
+            NowPlayingComponent.showStars(0);
           } else {
-            this.showStars(obj.rating)
+            NowPlayingComponent.showStars(obj.rating)
           }
         }
       },
@@ -62,7 +68,7 @@ export class NowPlayingComponent implements OnInit {
     )
   }
 
-  showStars(rating) {
+  static showStars(rating) {
     let cssSelected = 'fa fa-star-o fa-3x star-width star-selected';
     let cssUnSelected = 'fa fa-star-o fa-3x star-width star-unselected';
     if (document.getElementById('star1') !== null) {
@@ -79,7 +85,7 @@ export class NowPlayingComponent implements OnInit {
   setRating(rating: number, uri: string) {
     let elem = document.getElementById('star' + rating);
     // console.log();
-    this.showStars(rating);
+    NowPlayingComponent.showStars(rating);
     let newRating = new Rating(uri, rating);
     // search for existing rating
     let obj = this.ratings.find(function (obj: Rating) {
