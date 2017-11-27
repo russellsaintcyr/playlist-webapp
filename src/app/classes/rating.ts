@@ -6,4 +6,8 @@ export class Rating {
     this.trackURI = trackURI;
     this.rating = rating;
   }
+
+  public find(xxx) {
+    return Array.prototype.find(xxx);
+  }
 }
