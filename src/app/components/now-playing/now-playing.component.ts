@@ -22,7 +22,7 @@ export class NowPlayingComponent implements OnInit {
     // Add polyfill (browser fallback) for Array.find() for mobile
     // TODO perhaps add to root for all pages?
     if (!Array.prototype.find) {
-      console.log('Adding Array.find support');
+      console.log('Adding Array.find support using polyfill.');
       Array.prototype.find = function(predicate) {
         if (this == null) {
           throw new TypeError('Array.prototype.find called on null or undefined');
@@ -43,6 +43,8 @@ export class NowPlayingComponent implements OnInit {
         }
         return undefined;
       };
+    } else {
+      console.log('Array.find is supported.');
     }
     // now get gurrent song
     console.log('Getting currently playing song....');
