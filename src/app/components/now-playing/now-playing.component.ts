@@ -56,10 +56,12 @@ export class NowPlayingComponent implements OnInit {
           //   })[0];
           // }
           if (obj === undefined) {
-            // reset stars if no rating
             NowPlayingComponent.showStars(0);
           } else {
-            NowPlayingComponent.showStars(obj.rating)
+            // TODO add this as a preference/setting
+            console.log('Skipping song since is already rated.');
+            //NowPlayingComponent.showStars(obj.rating)
+            this.playNextPrevious('next');
           }
         }
       },
