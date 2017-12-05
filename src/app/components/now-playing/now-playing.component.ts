@@ -38,17 +38,17 @@ export class NowPlayingComponent implements OnInit {
         if (res === null) {
           this.alertService.warn('No track is currently playing.')
         } else {
-          console.log(res.item);
+          // console.log(res.item);
           this.track = new Track(res.item.uri, res.item.name, res.item.album.images[1].url, res.item.album.name, res.item.artists[0].name);
-          console.log(this.track);
+          // console.log(this.track);
           if (intervalId !== null) clearInterval(intervalId);
           // search for existing rating
           // let obj = undefined;
           // confirm we can use find() with array
           // if (typeof this.ratings.find === 'function') {
-            let obj = this.ratings.find(function (obj: Rating) {
-              return obj.trackURI === res.item.uri;
-            });
+          let obj = this.ratings.find(function (obj: Rating) {
+            return obj.trackURI === res.item.uri;
+          });
           // } else {
           //   this.alertService.warn('Array.find not supported.');
           //   let obj = this.ratings.filter(function (obj: Rating) {
@@ -110,7 +110,6 @@ export class NowPlayingComponent implements OnInit {
   playNextPrevious(direction: string) {
     this.spotifyService.playNextPrevious(direction).subscribe(res => {
         // update track
-      console.log('Updating track in 2 seconds');
         let intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 2000);
       },
       err => {
