@@ -19,6 +19,7 @@ import {GlobalErrorHandler} from "./classes/GlobalErrorHandler";
 import {AlertService} from "./services/alert.service";
 import {AlertComponent} from "./directives/alert.component";
 import { NowPlayingComponent } from './components/now-playing/now-playing.component';
+import { StatsComponent } from './components/stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { NowPlayingComponent } from './components/now-playing/now-playing.compon
     SettingsComponent,
     CallbackComponent,
     AlertComponent,
-    NowPlayingComponent
+    NowPlayingComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,

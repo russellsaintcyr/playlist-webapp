@@ -8,6 +8,7 @@ import {PlaylistComponent} from "../components/playlist/playlist.component";
 import {SettingsComponent} from "../components/settings/settings.component";
 import {CallbackComponent} from "../components/callback/callback.component";
 import {NowPlayingComponent} from "../components/now-playing/now-playing.component";
+import {StatsComponent} from "../components/stats/stats.component";
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent
+  },
+  {
+    path: 'stats',
+    component: StatsComponent
   },
   {
     path: 'callback',
