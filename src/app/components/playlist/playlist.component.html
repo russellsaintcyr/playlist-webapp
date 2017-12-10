@@ -9,16 +9,35 @@
 <div *ngIf="selectedPlaylist !== undefined && selectedPlaylist !== null">
   <h2>{{selectedPlaylist.name}}</h2>
   <img src="{{selectedPlaylist.images[0].url}}" width="320" height="320" class="img-responsive">
-  <h4>No. of Tracks: {{selectedPlaylist.tracks.total}}</h4>
-  <a href="javascript:void(0)" (click)="playAllTracks()">Play All</a>
+  <!--<h5>No. of Tracks: {{selectedPlaylist.tracks.total}}</h5>-->
+  {{stars0}} <i class="fa fa-star-o star-unselected"></i><br>
+  {{stars1}} <i class="fa fa-star-o star-selected"></i><br>
+  {{stars2}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><br>
+  {{stars3}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><br>
+  {{stars4}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><br>
+  {{stars5}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i>
+  <br><a href="javascript:void(0)" (click)="playAllTracks()">Play All</a>
+
+  <!--loop through tracks-->
   <div *ngIf="tracks !== null && tracks !== undefined">
     {{tracks.length}} tracks returned.
-    <ol>
-      <li *ngFor="let track of tracks; let i = index">
-        <img src="{{track.track.album.images[2].url}}" class="btn btn-success" style="margin: 5px;" (click)="playTrack(track.track)">
-        {{track.track.name}} - Album: {{track.track.album.name}}
-      </li>
-    </ol>
+    <table>
+      <tr *ngFor="let track of tracks; let i = index">
+        <td>
+          <img src="{{track.track.album.images[2].url}}" class="btn btn-success" style="margin: 5px;" (click)="playTrack(track.track)">
+        </td>
+        <td>
+          {{track.track.name}} - By {{track.track.artists[0].name}} from {{track.track.album.name}}
+          <br>
+          {{track.rating}} <i class="fa fa-star-o star-selected"></i>
+          <!--<i class="fa fa-star-o star-unselected" id="star1" (click)="setRating(1, track.uri)"></i>-->
+          <!--<i class="fa fa-star-o star-unselected" id="star2" (click)="setRating(2, track.uri)"></i>-->
+          <!--<i class="fa fa-star-o star-unselected" id="star3" (click)="setRating(3, track.uri)"></i>-->
+          <!--<i class="fa fa-star-o star-unselected" id="star4" (click)="setRating(4, track.uri)"></i>-->
+          <!--<i class="fa fa-star-o star-unselected" id="star5" (click)="setRating(5, track.uri)"></i>-->
+        </td>
+      </tr>
+    </table>
   </div>
 </div>
 

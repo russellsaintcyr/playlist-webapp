@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Http} from "@angular/http";
 import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
+import {Rating} from "../../classes/rating";
 
 @Component({
   selector: 'playlist',
@@ -14,6 +15,12 @@ export class PlaylistComponent implements OnInit {
   // private playlistID: string; //46JHZX9X1hHUpxhZCkKuS1
   public selectedPlaylist;
   public tracks: Object;
+  public stars0 = 0;
+  public stars1 = 0;
+  public stars2 = 0;
+  public stars3 = 0;
+  public stars4 = 0;
+  public stars5 = 0;
 
   constructor(private _http: Http, private _spotifyService: SpotifyService,
               private alertService: AlertService) {
@@ -27,6 +34,33 @@ export class PlaylistComponent implements OnInit {
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     this._spotifyService.getPlaylist(this.selectedPlaylist, 0).subscribe(res => {
         this.tracks = res.items;
+        let traxx = this.tracks;
+        // get ratings if any
+        if (localStorage.getItem('ratings') !== null) {
+          let ratings = JSON.parse(localStorage.getItem('ratings'));
+          // loop through tracks
+          for (let x in this.tracks) {
+            console.log(this.tracks[x].track.uri);
+            // see if have rating
+            let obj = ratings.find(function (obj: Rating) {
+              return obj.trackURI === traxx[x].track.uri;
+            });
+            if (obj !== undefined) {
+              this.tracks[x].rating = obj.rating;
+            } else {
+              this.tracks[x].rating = 0;
+            }
+            console.log(this.tracks[x].rating);
+            // add to overall count
+            if (this.tracks[x].rating === 0) this.stars0++;
+            if (this.tracks[x].rating === 1) this.stars1++;
+            if (this.tracks[x].rating === 2) this.stars2++;
+            if (this.tracks[x].rating === 3) this.stars3++;
+            if (this.tracks[x].rating === 4) this.stars4++;
+            if (this.tracks[x].rating === 5) this.stars5++;
+          }
+
+        }
       },
       err => {
         // console.log('Error: ' + err.statusText);

@@ -83,7 +83,7 @@ export class SpotifyService {
     this.authURL = 'http://accounts.spotify.com/authorize?client_id=' + client_id +
       '&scope=' + encodeURIComponent(scopes) +
       '&response_type=' + response_type +
-      '&show_dialog=true' +
+      '&show_dialog=false' +
       '&redirect_uri=' + encodeURIComponent(redirect_uri);
     // console.log(this.authURL);
     return this.authURL;

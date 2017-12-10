@@ -20,6 +20,7 @@ export class StatsComponent implements OnInit {
   ngOnInit() {
     this.ratings = JSON.parse(localStorage.getItem('ratings'));
     console.log(this.ratings.length + ' ratings found.');
+    // TODO perhaps use angular filter to get ratings instead of javascript loop
     for (let i = 0; i < this.ratings.length; i++) {
       if (this.ratings[i].rating === 1) this.stars1++;
       if (this.ratings[i].rating === 2) this.stars2++;
