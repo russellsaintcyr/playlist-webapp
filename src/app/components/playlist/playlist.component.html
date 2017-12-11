@@ -37,7 +37,14 @@
 
   <!--loop through tracks-->
   <div *ngIf="tracks !== null && tracks !== undefined">
-    {{tracks.length}} tracks returned.
+    Showing {{playlist.offset}} to {{(playlist.limit+playlist.offset)}} of {{playlist.total}} tracks.
+    <div *ngIf="playlist.previous !== null">
+      <a (click)="loadOffset(playlist.previous)" href="javascript:void(0)">Previous</a>
+    </div>
+    <div *ngIf="playlist.next !== null">
+      <a (click)="loadOffset(playlist.next)" href="javascript:void(0)">Next</a>
+    </div>
+
     <table>
       <tr *ngFor="let track of tracks; let i = index">
         <td>

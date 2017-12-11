@@ -22,6 +22,8 @@ export class PlaylistComponent implements OnInit {
   public stars4 = 0;
   public stars5 = 0;
 
+  public playlist;
+
   constructor(private _http: Http, private _spotifyService: SpotifyService,
               private alertService: AlertService) {
   }
@@ -34,33 +36,8 @@ export class PlaylistComponent implements OnInit {
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     this._spotifyService.getPlaylist(this.selectedPlaylist, 0).subscribe(res => {
         this.tracks = res.items;
-        let traxx = this.tracks;
-        // get ratings if any
-        if (localStorage.getItem('ratings') !== null) {
-          let ratings = JSON.parse(localStorage.getItem('ratings'));
-          // loop through tracks
-          for (let x in this.tracks) {
-            // console.log(this.tracks[x].track.uri);
-            // see if have rating
-            let obj = ratings.find(function (obj: Rating) {
-              return obj.trackURI === traxx[x].track.uri;
-            });
-            if (obj !== undefined) {
-              this.tracks[x].rating = obj.rating;
-            } else {
-              this.tracks[x].rating = 0;
-            }
-            // console.log(this.tracks[x].rating);
-            // add to overall count
-            if (this.tracks[x].rating === 0) this.stars0++;
-            if (this.tracks[x].rating === 1) this.stars1++;
-            if (this.tracks[x].rating === 2) this.stars2++;
-            if (this.tracks[x].rating === 3) this.stars3++;
-            if (this.tracks[x].rating === 4) this.stars4++;
-            if (this.tracks[x].rating === 5) this.stars5++;
-          }
-
-        }
+        this.playlist = res;
+        this.getRatings();
       },
       err => {
         // console.log('Error: ' + err.statusText);
@@ -69,6 +46,54 @@ export class PlaylistComponent implements OnInit {
       }
     )
 
+  }
+
+  getRatings() {
+    // get ratings if any
+    let traxx = this.tracks;
+    if (localStorage.getItem('ratings') !== null) {
+      // reset
+      this.stars0 = 0;
+      this.stars1 = 0;
+      this.stars2 = 0;
+      this.stars3 = 0;
+      this.stars4 = 0;
+      this.stars5 = 0;
+      let ratings = JSON.parse(localStorage.getItem('ratings'));
+      // loop through tracks
+      for (let x in this.tracks) {
+        // console.log(this.tracks[x].track.uri);
+        // see if have rating
+        let obj = ratings.find(function (obj: Rating) {
+          return obj.trackURI === traxx[x].track.uri;
+        });
+        if (obj !== undefined) {
+          this.tracks[x].rating = obj.rating;
+        } else {
+          this.tracks[x].rating = 0;
+        }
+        // console.log(this.tracks[x].rating);
+        // add to overall count
+        if (this.tracks[x].rating === 0) this.stars0++;
+        if (this.tracks[x].rating === 1) this.stars1++;
+        if (this.tracks[x].rating === 2) this.stars2++;
+        if (this.tracks[x].rating === 3) this.stars3++;
+        if (this.tracks[x].rating === 4) this.stars4++;
+        if (this.tracks[x].rating === 5) this.stars5++;
+      }
+    }
+  }
+
+  loadOffset(url) {
+    this._spotifyService.getURL(url).subscribe(res => {
+        this.tracks = res.items;
+        this.playlist = res;
+        this.getRatings();
+      },
+      err => {
+        throw new Error(err.statusText)
+      }
+    )
   }
 
   playRating(rating: number, action: string) {
