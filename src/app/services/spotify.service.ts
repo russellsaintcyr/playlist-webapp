@@ -97,4 +97,15 @@ export class SpotifyService {
     let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
     return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
+
+  createPlaylist(body) {
+    let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
+    return this._http.post(spotURL, body,{headers: this.headers}).map(res => res.json())
+  }
+
+  addToPlaylist(body, playlistID: string) {
+    let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/' + playlistID + '/tracks';
+    return this._http.post(spotURL, body,{headers: this.headers}).map(res => res.json())
+  }
+
 }

@@ -71,7 +71,7 @@ export class PlaylistComponent implements OnInit {
 
   }
 
-  playRating(rating: number) {
+  playRating(rating: number, action: string) {
     let arrTracks = [];
     for (let x in this.tracks) {
       // console.log(this.tracks[x].track.uri + ' ' + this.tracks[x].rating);
@@ -79,18 +79,37 @@ export class PlaylistComponent implements OnInit {
         arrTracks.push(this.tracks[x].track.uri);
       }
     }
-    console.log(arrTracks);
     if (arrTracks.length > 0) {
-      this.alertService.info('Playing selected tracks');
-      this._spotifyService.controlPlayback({uris: arrTracks}, 'play').subscribe(res => {
-          console.log('Playback successfully called');
-        },
-        err => {
-          this.alertService.error(err.statusText);
-        }
-      )
+      if (action === 'play') {
+        this.alertService.info('Playing selected tracks');
+        this._spotifyService.controlPlayback({uris: arrTracks}, 'play').subscribe(res => {
+            console.log('Playback successfully called');
+          },
+          err => {
+            this.alertService.error(err.statusText);
+          }
+        )
+      } else {
+        this.alertService.info('Creating new playlist');
+        // TODO get playlist name from user?
+        let playlistName = rating + '-star Tracks';
+        // first create playlist, then add tracks
+        this._spotifyService.createPlaylist({name: playlistName}).subscribe(res => {
+            this._spotifyService.addToPlaylist({uris: arrTracks}, res.id).subscribe(res2 => {
+                this.alertService.success('Created new playlist ' + playlistName + ' with ' + arrTracks.length + ' tracks.');
+              },
+              err => {
+                this.alertService.error(err.statusText);
+              }
+            )
+          },
+          err => {
+            this.alertService.error(err.statusText);
+          }
+        )
+      }
     } else {
-      this.alertService.info('No songs to play.');
+      this.alertService.info('No songs assigned to this rating.');
     }
   }
 
