@@ -10,12 +10,23 @@
   <h2>{{selectedPlaylist.name}}</h2>
   <img src="{{selectedPlaylist.images[0].url}}" width="320" height="320" class="img-responsive">
   <!--<h5>No. of Tracks: {{selectedPlaylist.tracks.total}}</h5>-->
-  {{stars0}} <i class="fa fa-star-o star-unselected"></i><br>
-  {{stars1}} <i class="fa fa-star-o star-selected"></i><br>
-  {{stars2}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><br>
-  {{stars3}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><br>
-  {{stars4}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><br>
+  {{stars0}} <i class="fa fa-star-o star-unselected"></i>
+  <a href="javascript:void(0)" (click)="playRating(0)">Play</a>
+  <br>
+  {{stars1}} <i class="fa fa-star-o star-selected"></i>
+  <a href="javascript:void(0)" (click)="playRating(1)">Play</a>
+  <br>
+  {{stars2}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i>
+  <a href="javascript:void(0)" (click)="playRating(2)">Play</a>
+  <br>
+  {{stars3}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i>
+  <a href="javascript:void(0)" (click)="playRating(3)">Play</a>
+  <br>
+  {{stars4}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i>
+  <a href="javascript:void(0)" (click)="playRating(4)">Play</a>
+  <br>
   {{stars5}} <i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i><i class="fa fa-star-o star-selected"></i>
+  <a href="javascript:void(0)" (click)="playRating(5)">Play</a>
   <br><a href="javascript:void(0)" (click)="playAllTracks()">Play All</a>
 
   <!--loop through tracks-->

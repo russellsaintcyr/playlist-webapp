@@ -40,7 +40,7 @@ export class PlaylistComponent implements OnInit {
           let ratings = JSON.parse(localStorage.getItem('ratings'));
           // loop through tracks
           for (let x in this.tracks) {
-            console.log(this.tracks[x].track.uri);
+            // console.log(this.tracks[x].track.uri);
             // see if have rating
             let obj = ratings.find(function (obj: Rating) {
               return obj.trackURI === traxx[x].track.uri;
@@ -50,7 +50,7 @@ export class PlaylistComponent implements OnInit {
             } else {
               this.tracks[x].rating = 0;
             }
-            console.log(this.tracks[x].rating);
+            // console.log(this.tracks[x].rating);
             // add to overall count
             if (this.tracks[x].rating === 0) this.stars0++;
             if (this.tracks[x].rating === 1) this.stars1++;
@@ -69,6 +69,29 @@ export class PlaylistComponent implements OnInit {
       }
     )
 
+  }
+
+  playRating(rating: number) {
+    let arrTracks = [];
+    for (let x in this.tracks) {
+      // console.log(this.tracks[x].track.uri + ' ' + this.tracks[x].rating);
+      if (this.tracks[x].rating === rating) {
+        arrTracks.push(this.tracks[x].track.uri);
+      }
+    }
+    console.log(arrTracks);
+    if (arrTracks.length > 0) {
+      this.alertService.info('Playing selected tracks');
+      this._spotifyService.controlPlayback({uris: arrTracks}, 'play').subscribe(res => {
+          console.log('Playback successfully called');
+        },
+        err => {
+          this.alertService.error(err.statusText);
+        }
+      )
+    } else {
+      this.alertService.info('No songs to play.');
+    }
   }
 
   playAllTracks() {
