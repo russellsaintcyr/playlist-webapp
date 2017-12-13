@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 import {Location, LocationStrategy, PathLocationStrategy} from "@angular/common";
 
 @Component({
@@ -14,7 +15,7 @@ export class CallbackComponent implements OnInit {
   public expiresIn: string;
   public queryStringArray: Array<string>;
 
-  constructor(private location: Location) {
+  constructor(private location: Location, private router: Router) {
     let queryString = this.location.path(true).substring(10);
     this.queryStringArray = queryString.split('&');
   }
@@ -37,7 +38,12 @@ export class CallbackComponent implements OnInit {
     // set token
     localStorage.setItem('bearerToken', this.accessToken);
     console.log('Updated local storage token');
-
+    // redirect
+    let savedState = localStorage.getItem('savedState');
+    if (savedState !== null && savedState !== undefined) {
+      console.log('Navigating to saved state of ' + savedState);
+      this.router.navigateByUrl('/' + savedState);
+    }
   }
 
 }

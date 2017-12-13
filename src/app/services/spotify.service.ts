@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/map';
 import {AlertService} from "./alert.service";
+import {Location} from "@angular/common";
 
 @Injectable()
 export class SpotifyService {
@@ -14,7 +15,10 @@ export class SpotifyService {
   private baseURL: string;
   private headers;
 
-  constructor(private _http: Http, private alertService: AlertService) {
+  constructor(private _http: Http, private alertService: AlertService, lokation: Location) {
+    // save state to return if token expired
+    let currentState = location.pathname.substring(1);
+    if (currentState !== 'callback') localStorage.setItem('savedState', currentState);
     // TODO remove hard-coded user ID
     this.userID = 'x1111x';
     this.bearerToken = localStorage.getItem('bearerToken');
