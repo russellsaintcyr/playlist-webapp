@@ -56,7 +56,7 @@ export class NowPlayingComponent implements OnInit {
           //   })[0];
           // }
           if (obj === undefined) {
-            NowPlayingComponent.showStars(0);
+            NowPlayingComponent.showStars(0, res.item.id);
           } else {
             // TODO add this as a preference/setting
             console.log('Skipping song since is already rated.');
@@ -73,24 +73,24 @@ export class NowPlayingComponent implements OnInit {
     )
   }
 
-  static showStars(rating) {
-    let cssSelected = 'fa fa-star-o fa-3x star-width star-selected';
-    let cssUnSelected = 'fa fa-star-o fa-3x star-width star-unselected';
-    if (document.getElementById('star1') !== null) {
-      document.getElementById('star1').className = (rating >= 1) ? cssSelected : cssUnSelected;
-      document.getElementById('star2').className = (rating >= 2) ? cssSelected : cssUnSelected;
-      document.getElementById('star3').className = (rating >= 3) ? cssSelected : cssUnSelected;
-      document.getElementById('star4').className = (rating >= 4) ? cssSelected : cssUnSelected;
-      document.getElementById('star5').className = (rating == 5) ? cssSelected : cssUnSelected;
+  static showStars(rating, trackID) {
+    let cssSelected = 'fa fa-star-o fa-2x star-width star-selected';
+    let cssUnSelected = 'fa fa-star-o fa-2x star-width star-unselected';
+    if (document.getElementById('star1-' + trackID) !== null) {
+      document.getElementById('star1-' + trackID).className = (rating >= 1) ? cssSelected : cssUnSelected;
+      document.getElementById('star2-' + trackID).className = (rating >= 2) ? cssSelected : cssUnSelected;
+      document.getElementById('star3-' + trackID).className = (rating >= 3) ? cssSelected : cssUnSelected;
+      document.getElementById('star4-' + trackID).className = (rating >= 4) ? cssSelected : cssUnSelected;
+      document.getElementById('star5-' + trackID).className = (rating == 5) ? cssSelected : cssUnSelected;
     } else {
-      console.log('Failed to get star1 element.');
+      console.log('Failed to get element with ID star1-' + trackID);
     }
   }
 
   setRating(rating: number, uri: string) {
     let elem = document.getElementById('star' + rating);
     // console.log();
-    NowPlayingComponent.showStars(rating);
+    NowPlayingComponent.showStars(rating, '');
     let newRating = new Rating(uri, rating);
     // search for existing rating
     let obj = this.ratings.find(function (obj: Rating) {

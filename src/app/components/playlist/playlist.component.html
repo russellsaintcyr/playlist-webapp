@@ -53,12 +53,11 @@
         <td>
           {{track.track.name}} - By {{track.track.artists[0].name}} from {{track.track.album.name}}
           <br>
-          {{track.rating}} <i class="fa fa-star-o star-selected"></i>
-          <!--<i class="fa fa-star-o star-unselected" id="star1" (click)="setRating(1, track.uri)"></i>-->
-          <!--<i class="fa fa-star-o star-unselected" id="star2" (click)="setRating(2, track.uri)"></i>-->
-          <!--<i class="fa fa-star-o star-unselected" id="star3" (click)="setRating(3, track.uri)"></i>-->
-          <!--<i class="fa fa-star-o star-unselected" id="star4" (click)="setRating(4, track.uri)"></i>-->
-          <!--<i class="fa fa-star-o star-unselected" id="star5" (click)="setRating(5, track.uri)"></i>-->
+          <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star1-' + track.track.id}}" (click)="setRating(1, track.track)"></i>
+          <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star2-' + track.track.id}}" (click)="setRating(2, track.track)"></i>
+          <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star3-' + track.track.id}}" (click)="setRating(3, track.track)"></i>
+          <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star4-' + track.track.id}}" (click)="setRating(4, track.track)"></i>
+          <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star5-' + track.track.id}}" (click)="setRating(5, track.track)"></i>
         </td>
       </tr>
     </table>

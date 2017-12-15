@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
 import {Rating} from "../../classes/rating";
+import {NowPlayingComponent} from "../now-playing/now-playing.component";
 
 @Component({
   selector: 'playlist',
@@ -21,6 +22,8 @@ export class PlaylistComponent implements OnInit {
   public stars3 = 0;
   public stars4 = 0;
   public stars5 = 0;
+  public ratings: Array<Rating>;
+
 
   public playlist;
 
@@ -29,15 +32,10 @@ export class PlaylistComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.loadLocalFile();
-    // this.loadLocalFile().subscribe(res => {
-    //   this.tracks = res;
-    // })
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     this._spotifyService.getPlaylist(this.selectedPlaylist, 0).subscribe(res => {
         this.tracks = res.items;
         this.playlist = res;
-        this.getRatings();
       },
       err => {
         // console.log('Error: ' + err.statusText);
@@ -48,38 +46,45 @@ export class PlaylistComponent implements OnInit {
 
   }
 
+  setRating(rating: number, track) {
+    let elem = document.getElementById('star' + rating);
+    // console.log();
+    NowPlayingComponent.showStars(rating, track.id);
+    let newRating = new Rating(track.uri, rating);
+    // search for existing rating
+    let obj = this.ratings.find(function (obj: Rating) {
+      return obj.trackURI === track.uri;
+    });
+    if (obj === undefined) {
+      this.ratings.push(newRating);
+    } else {
+      let xxx = this.ratings.findIndex(function (obj: Rating) {
+        return obj.trackURI === track.uri;
+      });
+      this.ratings.splice(xxx, 1, newRating);
+    }
+    localStorage.setItem('ratings', JSON.stringify(this.ratings));
+  }
+
   getRatings() {
     // get ratings if any
     let traxx = this.tracks;
     if (localStorage.getItem('ratings') !== null) {
-      // reset
-      this.stars0 = 0;
-      this.stars1 = 0;
-      this.stars2 = 0;
-      this.stars3 = 0;
-      this.stars4 = 0;
-      this.stars5 = 0;
-      let ratings = JSON.parse(localStorage.getItem('ratings'));
-      // loop through tracks
+      this.ratings = JSON.parse(localStorage.getItem('ratings'));
+      // loop through all tracks and adjust stars
       for (let x in this.tracks) {
-        // console.log(this.tracks[x].track.uri);
         // see if have rating
-        let obj = ratings.find(function (obj: Rating) {
+        let obj = this.ratings.find(function (obj: Rating) {
           return obj.trackURI === traxx[x].track.uri;
         });
+        // set to 0 if no rating
         if (obj !== undefined) {
-          this.tracks[x].rating = obj.rating;
+          this.tracks[x].track.rating = obj.rating;
         } else {
-          this.tracks[x].rating = 0;
+          this.tracks[x].track.rating = 0;
         }
-        // console.log(this.tracks[x].rating);
-        // add to overall count
-        if (this.tracks[x].rating === 0) this.stars0++;
-        if (this.tracks[x].rating === 1) this.stars1++;
-        if (this.tracks[x].rating === 2) this.stars2++;
-        if (this.tracks[x].rating === 3) this.stars3++;
-        if (this.tracks[x].rating === 4) this.stars4++;
-        if (this.tracks[x].rating === 5) this.stars5++;
+        // change the HTML
+        NowPlayingComponent.showStars(this.tracks[x].track.rating, this.tracks[x].track.id);
       }
     }
   }
