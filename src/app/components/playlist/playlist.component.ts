@@ -4,6 +4,7 @@ import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
 import {Rating} from "../../classes/rating";
 import {NowPlayingComponent} from "../now-playing/now-playing.component";
+import {AfterViewChecked} from "@angular/core";
 
 @Component({
   selector: 'playlist',
@@ -11,7 +12,7 @@ import {NowPlayingComponent} from "../now-playing/now-playing.component";
   styleUrls: ['./playlist.component.css'],
   providers: [SpotifyService]
 })
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent implements OnInit, AfterViewChecked {
 
   // private playlistID: string; //46JHZX9X1hHUpxhZCkKuS1
   public selectedPlaylist;
@@ -23,12 +24,16 @@ export class PlaylistComponent implements OnInit {
   public stars4 = 0;
   public stars5 = 0;
   public ratings: Array<Rating>;
-
-
   public playlist;
+  private ratingsLoaded: boolean;
 
   constructor(private _http: Http, private _spotifyService: SpotifyService,
               private alertService: AlertService) {
+    this.ratingsLoaded = false;
+  }
+
+  ngAfterViewChecked(){
+    this.getRatings();
   }
 
   ngOnInit() {
@@ -67,12 +72,22 @@ export class PlaylistComponent implements OnInit {
   }
 
   getRatings() {
-    // get ratings if any
+    // if (this.ratingsLoaded) {
+    //   console.log('Ratings already loaded.');
+    //   return;
+    // }
     let traxx = this.tracks;
     if (localStorage.getItem('ratings') !== null) {
       this.ratings = JSON.parse(localStorage.getItem('ratings'));
+      console.log('Loaded ' + this.ratings.length + ' ratings.');
       // loop through all tracks and adjust stars
+      console.log('Looping through tracks');
       for (let x in this.tracks) {
+        // first ensure is loaded in DOM
+        if (document.getElementById('star1-' + this.tracks[x].track.id) === null) {
+          console.log('Exiting for loop because DOM is not ready');
+          break;
+        }
         // see if have rating
         let obj = this.ratings.find(function (obj: Rating) {
           return obj.trackURI === traxx[x].track.uri;
@@ -86,6 +101,8 @@ export class PlaylistComponent implements OnInit {
         // change the HTML
         NowPlayingComponent.showStars(this.tracks[x].track.rating, this.tracks[x].track.id);
       }
+      console.log('Done looping through tracks');
+      this.ratingsLoaded = true;
     }
   }
 
@@ -158,7 +175,7 @@ export class PlaylistComponent implements OnInit {
     localStorage.setItem('selectedTrack', JSON.stringify(track));
     // now tell to play
     this._spotifyService.controlPlayback({uris: [track.uri]}, 'play').subscribe(res => {
-        console.log(res);
+        // console.log(res);
       },
       err => {
         this.alertService.error(err.statusText);
