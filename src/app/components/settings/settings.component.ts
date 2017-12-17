@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'settings',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class SettingsComponent implements OnInit {
 
   public bearerToken: string;
-  constructor() {
+  constructor(private alertService: AlertService) {
     this.bearerToken = localStorage.getItem('bearerToken');
   }
 
@@ -18,6 +19,10 @@ export class SettingsComponent implements OnInit {
   setBearerToken() {
     localStorage.setItem('bearerToken', this.bearerToken);
     console.log('Updated local storage.' + this.bearerToken);
-    alert('Updated local token');
+  }
+
+  clearRatings() {
+    localStorage.removeItem('ratings');
+    this.alertService.success('Cleared ratings')
   }
 }

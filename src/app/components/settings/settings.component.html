@@ -4,6 +4,7 @@
     <button type="button" class="btn btn-default" (click)="setBearerToken()">Set Token</button>
   </div>
 </form>
+<a (click)="clearRatings()" href="javascript:void(0)">Clear ratings</a>
 <div *ngIf="bearerToken === null">
   No bearerToken found in local storage.
 </div>
