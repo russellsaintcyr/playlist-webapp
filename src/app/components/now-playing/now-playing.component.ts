@@ -14,12 +14,14 @@ export class NowPlayingComponent implements OnInit {
 
   public track: Track;
   public ratings: Array<Rating>;
+  public autoSkip: boolean;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
   }
 
   ngOnInit() {
     console.log('Getting currently playing song....');
+    this.autoSkip = false;
     this.getCurrentlyPlaying(null);
     if (localStorage.getItem('ratings') === null) {
       console.log('No local ratings yet set.');
@@ -39,7 +41,7 @@ export class NowPlayingComponent implements OnInit {
           this.alertService.warn('No track is currently playing.')
         } else {
           // console.log(res.item);
-          this.track = new Track(res.item.uri, res.item.name, res.item.album.images[1].url, res.item.album.name, res.item.artists[0].name);
+          this.track = new Track(res.item.uri, res.item.name, res.item.album.images[1].url, res.item.album.name, res.item.artists[0].name, res.item.id);
           // console.log(this.track);
           if (intervalId !== null) clearInterval(intervalId);
           // search for existing rating
@@ -56,12 +58,14 @@ export class NowPlayingComponent implements OnInit {
           //   })[0];
           // }
           if (obj === undefined) {
-            NowPlayingComponent.showStars(0, res.item.id);
+            NowPlayingComponent.showStars(0, res.item.id, null);
           } else {
+            NowPlayingComponent.showStars(obj.rating, res.item.id, null);
             // TODO add this as a preference/setting
-            console.log('Skipping song since is already rated.');
-            //NowPlayingComponent.showStars(obj.rating)
-            this.playNextPrevious('next');
+            if (this.autoSkip) {
+              console.log('Skipping song since is already rated.');
+              this.playNextPrevious('next');
+            }
           }
         }
       },
@@ -73,7 +77,8 @@ export class NowPlayingComponent implements OnInit {
     )
   }
 
-  static showStars(rating, trackID) {
+  static showStars(rating, trackID, intervalId2) {
+    if (intervalId2 !== null) clearInterval(intervalId2);
     let cssSelected = 'fa fa-star-o fa-2x star-width star-selected';
     let cssUnSelected = 'fa fa-star-o fa-2x star-width star-unselected';
     if (document.getElementById('star1-' + trackID) !== null) {
@@ -83,36 +88,37 @@ export class NowPlayingComponent implements OnInit {
       document.getElementById('star4-' + trackID).className = (rating >= 4) ? cssSelected : cssUnSelected;
       document.getElementById('star5-' + trackID).className = (rating == 5) ? cssSelected : cssUnSelected;
     } else {
-      console.log('Failed to get element with ID star1-' + trackID);
+      console.log('Failed to get element with ID star1-' + trackID + '. Retrying in 1 second.');
+      let intervalId2 = setInterval(() => this.showStars(rating, trackID, intervalId2), 1000);
     }
   }
 
-  setRating(rating: number, uri: string) {
+  setRating(rating: number, track: Track) {
     let elem = document.getElementById('star' + rating);
     // console.log();
-    NowPlayingComponent.showStars(rating, '');
-    let newRating = new Rating(uri, rating);
+    NowPlayingComponent.showStars(rating, track.id, null);
+    let newRating = new Rating(track.uri, rating);
     // search for existing rating
     let obj = this.ratings.find(function (obj: Rating) {
-      return obj.trackURI === uri;
+      return obj.trackURI === track.uri;
     });
     if (obj === undefined) {
       this.ratings.push(newRating);
     } else {
       let xxx = this.ratings.findIndex(function (obj: Rating) {
-        return obj.trackURI === uri;
+        return obj.trackURI === track.uri;
       });
       this.ratings.splice(xxx, 1, newRating);
     }
     localStorage.setItem('ratings', JSON.stringify(this.ratings));
     // TODO enable next line via user preference
-    this.playNextPrevious('next');
+    if (this.autoSkip) this.playNextPrevious('next');
   }
 
   playNextPrevious(direction: string) {
     this.spotifyService.playNextPrevious(direction).subscribe(res => {
         // update track
-        let intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 2000);
+        let intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 2500);
       },
       err => {
         this.alertService.error(err.statusText);

@@ -33,6 +33,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(){
+    console.log('ngAfterViewChecked. ratingsLoaded=' + this.ratingsLoaded);
     this.getRatings();
   }
 
@@ -54,7 +55,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   setRating(rating: number, track) {
     let elem = document.getElementById('star' + rating);
     // console.log();
-    NowPlayingComponent.showStars(rating, track.id);
+    NowPlayingComponent.showStars(rating, track.id, null);
     let newRating = new Rating(track.uri, rating);
     // search for existing rating
     let obj = this.ratings.find(function (obj: Rating) {
@@ -99,7 +100,14 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
           this.tracks[x].track.rating = 0;
         }
         // change the HTML
-        NowPlayingComponent.showStars(this.tracks[x].track.rating, this.tracks[x].track.id);
+        NowPlayingComponent.showStars(this.tracks[x].track.rating, this.tracks[x].track.id, null);
+        // increment
+        // if (this.tracks[x].track.rating === 0) this.stars0++;
+        // if (this.tracks[x].track.rating === 1) this.stars1++;
+        // if (this.tracks[x].track.rating === 2) this.stars2++;
+        // if (this.tracks[x].track.rating === 3) this.stars3++;
+        // if (this.tracks[x].track.rating === 4) this.stars4++;
+        // if (this.tracks[x].track.rating === 5) this.stars5++;
       }
       console.log('Done looping through tracks');
       this.ratingsLoaded = true;

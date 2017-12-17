@@ -20,6 +20,8 @@ import {AlertService} from "./services/alert.service";
 import {AlertComponent} from "./directives/alert.component";
 import { NowPlayingComponent } from './components/now-playing/now-playing.component';
 import { StatsComponent } from './components/stats/stats.component';
+import { FooComponent } from './components/foo/foo.component';
+import { FooServiceComponent } from './components/foo-service/foo-service.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { StatsComponent } from './components/stats/stats.component';
     CallbackComponent,
     AlertComponent,
     NowPlayingComponent,
-    StatsComponent
+    StatsComponent,
+    FooComponent,
+    FooServiceComponent
   ],
   imports: [
     BrowserModule,
