@@ -58,9 +58,14 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     NowPlayingComponent.showStars(rating, track.id, null);
     let newRating = new Rating(track.uri, rating);
     // search for existing rating
-    let obj = this.ratings.find(function (obj: Rating) {
-      return obj.trackURI === track.uri;
-    });
+    let obj = undefined;
+    if (this.ratings !== undefined) {
+      obj = this.ratings.find(function (obj: Rating) {
+        return obj.trackURI === track.uri;
+      });
+    } else {
+      this.ratings = [];
+    }
     if (obj === undefined) {
       this.ratings.push(newRating);
     } else {
@@ -90,9 +95,14 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
           break;
         }
         // see if have rating
-        let obj = this.ratings.find(function (obj: Rating) {
-          return obj.trackURI === traxx[x].track.uri;
-        });
+        let obj = undefined;
+        if (this.ratings !== undefined) {
+          obj = this.ratings.find(function (obj: Rating) {
+            return obj.trackURI === traxx[x].track.uri;
+          });
+        } else {
+          this.ratings = [];
+        }
         // set to 0 if no rating
         if (obj !== undefined) {
           this.tracks[x].track.rating = obj.rating;
