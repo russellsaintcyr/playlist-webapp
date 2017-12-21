@@ -6,6 +6,8 @@ export class Track {
   public id: string;
   // TODO create artists array with IDs for linking
   public mainArtist: string;
+  public rating: number;
+  public album: string;
 
   constructor(uri: string, name: string, cover: string, album: string, artists: string, id: string) {
     this.uri = uri;

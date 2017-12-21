@@ -5,6 +5,8 @@ import {AlertService} from "../../services/alert.service";
 import {Rating} from "../../classes/rating";
 import {NowPlayingComponent} from "../now-playing/now-playing.component";
 import {AfterViewChecked} from "@angular/core";
+import {Track} from "../../classes/track";
+import {MetaTrack} from "../../classes/metatrack";
 
 @Component({
   selector: 'playlist',
@@ -16,7 +18,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
 
   // private playlistID: string; //46JHZX9X1hHUpxhZCkKuS1
   public selectedPlaylist;
-  public tracks: Object;
+  public tracks: Array<MetaTrack>;
   public stars0 = 0;
   public stars1 = 0;
   public stars2 = 0;
@@ -32,9 +34,18 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     this.ratingsLoaded = false;
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     console.log('ngAfterViewChecked. ratingsLoaded=' + this.ratingsLoaded);
     this.getRatings();
+  }
+
+  clearRatingCounts() {
+    this.stars0 = 0;
+    this.stars1 = 0;
+    this.stars2 = 0;
+    this.stars3 = 0;
+    this.stars4 = 0;
+    this.stars5 = 0;
   }
 
   ngOnInit() {
@@ -82,6 +93,10 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     //   console.log('Ratings already loaded.');
     //   return;
     // }
+    if (this.tracks === undefined) {
+      console.log('Tracks not yet defined so not getting ratings.');
+      return;
+    }
     let traxx = this.tracks;
     if (localStorage.getItem('ratings') !== null) {
       this.ratings = JSON.parse(localStorage.getItem('ratings'));
@@ -112,16 +127,35 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         // change the HTML
         NowPlayingComponent.showStars(this.tracks[x].track.rating, this.tracks[x].track.id, null);
         // increment
-        // if (this.tracks[x].track.rating === 0) this.stars0++;
-        // if (this.tracks[x].track.rating === 1) this.stars1++;
-        // if (this.tracks[x].track.rating === 2) this.stars2++;
-        // if (this.tracks[x].track.rating === 3) this.stars3++;
-        // if (this.tracks[x].track.rating === 4) this.stars4++;
-        // if (this.tracks[x].track.rating === 5) this.stars5++;
+        if (this.tracks[x].track.rating === 0) this.stars0++;
+        if (this.tracks[x].track.rating === 1) this.stars1++;
+        if (this.tracks[x].track.rating === 2) this.stars2++;
+        if (this.tracks[x].track.rating === 3) this.stars3++;
+        if (this.tracks[x].track.rating === 4) this.stars4++;
+        if (this.tracks[x].track.rating === 5) this.stars5++;
       }
       console.log('Done looping through tracks');
       this.ratingsLoaded = true;
+    } else {
+      console.log('No ratings found in local storage');
     }
+  }
+
+  showAllTracks() {
+    // call with offset, and then add
+    this._spotifyService.getURL(this.playlist.next).subscribe(res => {
+        console.log('Pushing ' + res.items.length + ' to tracks array.');
+        res.items.forEach(element => {
+          this.tracks.push(element);
+        });
+        console.log('Tracks array length: ' + this.tracks.length);
+        this.clearRatingCounts();
+        this.getRatings();
+      },
+      err => {
+        throw new Error(err.statusText)
+      }
+    )
   }
 
   loadOffset(url) {
@@ -139,8 +173,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   playRating(rating: number, action: string) {
     let arrTracks = [];
     for (let x in this.tracks) {
-      // console.log(this.tracks[x].track.uri + ' ' + this.tracks[x].rating);
-      if (this.tracks[x].rating === rating) {
+      // console.log(this.tracks[x].uri + ' ' + this.tracks[x].rating);
+      if (this.tracks[x].track.rating === rating) {
         arrTracks.push(this.tracks[x].track.uri);
       }
     }
