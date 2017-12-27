@@ -36,7 +36,6 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     console.log('ngAfterViewChecked. ratingsLoaded=' + this.ratingsLoaded);
-    this.getRatings();
   }
 
   clearRatingCounts() {
@@ -77,22 +76,35 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     } else {
       this.ratings = [];
     }
+    // no rating
     if (obj === undefined) {
       this.ratings.push(newRating);
     } else {
+      let oldRating = -1;
       let xxx = this.ratings.findIndex(function (obj: Rating) {
+        oldRating = track.rating;
         return obj.trackURI === track.uri;
       });
+      // decrement any previous rating!
+      if (oldRating === 0) this.stars0--;
+      if (oldRating === 1) this.stars1--;
+      if (oldRating === 2) this.stars2--;
+      if (oldRating === 3) this.stars3--;
+      if (oldRating === 4) this.stars4--;
+      if (oldRating === 5) this.stars5--;
       this.ratings.splice(xxx, 1, newRating);
     }
     localStorage.setItem('ratings', JSON.stringify(this.ratings));
+    // increment
+    if (rating === 0) this.stars0++;
+    if (rating === 1) this.stars1++;
+    if (rating === 2) this.stars2++;
+    if (rating === 3) this.stars3++;
+    if (rating === 4) this.stars4++;
+    if (rating === 5) this.stars5++;
   }
 
   getRatings() {
-    // if (this.ratingsLoaded) {
-    //   console.log('Ratings already loaded.');
-    //   return;
-    // }
     if (this.tracks === undefined) {
       console.log('Tracks not yet defined so not getting ratings.');
       return;
@@ -149,8 +161,6 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
           this.tracks.push(element);
         });
         console.log('Tracks array length: ' + this.tracks.length);
-        this.clearRatingCounts();
-        this.getRatings();
       },
       err => {
         throw new Error(err.statusText)
@@ -158,11 +168,15 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     )
   }
 
+  updateCounts() {
+    this.clearRatingCounts();
+    this.getRatings();
+  }
+
   loadOffset(url) {
     this._spotifyService.getURL(url).subscribe(res => {
         this.tracks = res.items;
         this.playlist = res;
-        this.getRatings();
       },
       err => {
         throw new Error(err.statusText)
