@@ -1,11 +1,17 @@
-<p><img *ngIf="track !== undefined" src="{{track.coverImage}}"></p>
+<p><img *ngIf="track !== undefined" src="{{track.coverImage}}" class="img-responsive"></p>
 <p *ngIf="track !== undefined">
+<span *ngIf="!loadingTrack">
   <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
   <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
   <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
   <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
   <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
-<!--  <a (click)="playNextPrevious('next')" href="javascript:void(0)">Next</a>-->
+</span>
+<span *ngIf="loadingTrack">
+  <i class="fa fa-spinner fa-spin"></i>&nbsp;
+  Loading next track
+</span>
+
 </p>
 <div *ngIf="track !== undefined">
   <h3>{{track.name}}</h3>
@@ -13,14 +19,7 @@
     From the album {{track.albumName}}
     <!-- TODO loop through artists, and link -->
     <br>Main Artist: {{track.mainArtist}}
+    <br>Playlist: {{selectedPlaylist.name}}
   </p>
 </div>
 
-<!--<input type="checkbox" ngModel="autoSkip" name="autoSkip" title="Auto Skip"> Auto Skip-->
-
-<!--<div *ngIf="track === null">-->
-<!--Track is null-->
-<!--</div>-->
-<!--<div *ngIf="track === undefined">-->
-<!--Track is undefined-->
-<!--</div>-->
