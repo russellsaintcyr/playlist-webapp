@@ -52,6 +52,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     console.log('ngOnInit called.');
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
+    document.body.style.backgroundImage = "url('" + this.selectedPlaylist.images[0].url + "')";
     this._spotifyService.getPlaylist(this.selectedPlaylist, 0).subscribe(res => {
         this.tracks = res.items;
         this.playlist = res;
