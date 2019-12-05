@@ -35,7 +35,9 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    console.log('ngAfterViewChecked. ratingsLoaded=' + this.ratingsLoaded);
+    console.log('ngAfterViewChecked called.');
+    this.getRatings();
+    console.log('ratingsLoaded=' + this.ratingsLoaded);
   }
 
   clearRatingCounts() {
@@ -48,6 +50,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    console.log('ngOnInit called.');
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     this._spotifyService.getPlaylist(this.selectedPlaylist, 0).subscribe(res => {
         this.tracks = res.items;
@@ -58,8 +61,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         window.open(this._spotifyService.getAuthorizeURL(), '_self');
         throw new Error(err.statusText)
       }
-    )
-
+    );
   }
 
   setRating(rating: number, track) {

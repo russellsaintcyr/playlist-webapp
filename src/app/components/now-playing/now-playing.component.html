@@ -5,7 +5,7 @@
   <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
   <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
   <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
-  <a (click)="playNextPrevious('next')" href="javascript:void(0)">Next</a>
+<!--  <a (click)="playNextPrevious('next')" href="javascript:void(0)">Next</a>-->
 </p>
 <div *ngIf="track !== undefined">
   <h3>{{track.name}}</h3>
@@ -16,7 +16,7 @@
   </p>
 </div>
 
-<input type="checkbox" ngModel="autoSkip" name="autoSkip" title="Auto Skip"> Auto Skip
+<!--<input type="checkbox" ngModel="autoSkip" name="autoSkip" title="Auto Skip"> Auto Skip-->
 
 <!--<div *ngIf="track === null">-->
 <!--Track is null-->

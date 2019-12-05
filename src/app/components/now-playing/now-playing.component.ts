@@ -111,8 +111,8 @@ export class NowPlayingComponent implements OnInit {
       this.ratings.splice(xxx, 1, newRating);
     }
     localStorage.setItem('ratings', JSON.stringify(this.ratings));
-    // TODO enable next line via user preference
-    if (this.autoSkip) this.playNextPrevious('next');
+    // TODO enable next line via user preference, for now do automatically
+    this.playNextPrevious('next');
   }
 
   playNextPrevious(direction: string) {
