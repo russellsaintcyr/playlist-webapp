@@ -23,12 +23,12 @@
 
 </p>
 <div *ngIf="track !== undefined">
-  <h3>{{track.name}}</h3>
-  <p>
-    From the album {{track.albumName}}
+  <h3 style="color: chartreuse">{{track.name}}</h3>
+  <div>
     <!-- TODO loop through artists, and link -->
-    <br>Main Artist: {{track.mainArtist}}
-    <br>Playlist: {{selectedPlaylist.name}}
-  </p>
+    <br>Main Artist <i class="fas fa-music-alt"></i> {{track.mainArtist}}
+    <br>Album <i class="fas fa-music-alt"></i> {{track.albumName}}
+    <br>Playlist <i class="fas fa-music-alt"></i> {{selectedPlaylist.name}}
+  </div>
 </div>
 

@@ -35,9 +35,9 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    console.log('ngAfterViewChecked called.');
+    // console.log('ngAfterViewChecked called.');
     this.getRatings();
-    console.log('ratingsLoaded=' + this.ratingsLoaded);
+    // console.log('ratingsLoaded=' + this.ratingsLoaded);
   }
 
   clearRatingCounts() {
