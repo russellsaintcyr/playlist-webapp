@@ -1,13 +1,22 @@
 <p><img *ngIf="track !== undefined" src="{{track.coverImage}}" class="img-responsive"></p>
 <p *ngIf="track !== undefined">
 <span *ngIf="!loadingTrack">
-  <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
-  <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
-  <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
-  <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
-  <i class="fa fa-star-o fa-2x star-width star-unselected" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
+<!--  <i class="far fa-star"></i>-->
+<!--  <i class="fad fa-star fa-5x"></i>-->
+<!--  <i class="fad fa-star fa-5x star-unselected"></i>-->
+<!--  <i class="fad fa-star fa-3x star-unselected"></i>-->
+<!--  <i class="fad fa-star fa-3x star-selected"></i>-->
+  <i class="fad fa-star fa-3x star-unselected" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
+  <i class="fad fa-star fa-3x star-unselected" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
+  <i class="fad fa-star fa-3x star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
+  <i class="fad fa-star fa-3x star-unselected" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
+  <i class="fad fa-star fa-3x star-unselected" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
+  <a (click)="playNextPrevious('next')" href="javascript:void(0)">
+    Next
+    <i class="fad fa-step-forward"></i>
+  </a>
 </span>
-<span *ngIf="loadingTrack">
+  <span *ngIf="loadingTrack">
   <i class="fa fa-spinner fa-spin"></i>&nbsp;
   Loading next track
 </span>

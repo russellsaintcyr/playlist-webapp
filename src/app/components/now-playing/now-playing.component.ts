@@ -84,8 +84,8 @@ export class NowPlayingComponent implements OnInit {
 
   static showStars(rating, trackID, intervalId2) {
     if (intervalId2 !== null) clearInterval(intervalId2);
-    let cssSelected = 'fa fa-star-o fa-2x star-width star-selected';
-    let cssUnSelected = 'fa fa-star-o fa-2x star-width star-unselected';
+    let cssSelected = 'fad fa-star fa-3x star-selected';
+    let cssUnSelected = 'fad fa-star fa-3x star-unselected';
     if (document.getElementById('star1-' + trackID) !== null) {
       document.getElementById('star1-' + trackID).className = (rating >= 1) ? cssSelected : cssUnSelected;
       document.getElementById('star2-' + trackID).className = (rating >= 2) ? cssSelected : cssUnSelected;
