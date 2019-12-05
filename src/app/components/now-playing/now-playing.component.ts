@@ -45,7 +45,7 @@ export class NowPlayingComponent implements OnInit {
           console.log(res.item);
           // first image in array is largest
           this.track = new Track(res.item.uri, res.item.name, res.item.album.images[0].url, res.item.album.name, res.item.artists[0].name, res.item.id);
-          // console.log(this.track);
+          document.body.style.backgroundImage = "url('" + res.item.album.images[0].url + "')";
           if (intervalId !== null) clearInterval(intervalId);
           // search for existing rating
           // let obj = undefined;

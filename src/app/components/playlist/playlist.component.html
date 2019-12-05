@@ -8,7 +8,7 @@
 
 <div *ngIf="selectedPlaylist !== undefined && selectedPlaylist !== null">
   <h2>{{selectedPlaylist.name}}</h2>
-  <img src="{{selectedPlaylist.images[0].url}}" width="320" height="320" class="img-responsive">
+  <img src="{{selectedPlaylist.images[0].url}}" class="img-responsive">
   <!--<h5>No. of Tracks: {{selectedPlaylist.tracks.total}}</h5>-->
   {{stars0}} Unrated
   <a href="javascript:void(0)" (click)="playRating(0, 'play')">

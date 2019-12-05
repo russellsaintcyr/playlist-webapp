@@ -1,12 +1,7 @@
 <meta http-equiv="refresh" content="30">
-<p><img *ngIf="track !== undefined" src="{{track.coverImage}}" class="img-responsive"></p>
+<p><img *ngIf="track !== undefined" src="{{track.coverImage}}" class="img-responsive albumCoverImg"></p>
 <p *ngIf="track !== undefined">
 <span *ngIf="!loadingTrack">
-<!--  <i class="far fa-star"></i>-->
-<!--  <i class="fad fa-star fa-5x"></i>-->
-<!--  <i class="fad fa-star fa-5x star-unselected"></i>-->
-<!--  <i class="fad fa-star fa-3x star-unselected"></i>-->
-<!--  <i class="fad fa-star fa-3x star-selected"></i>-->
   <i class="fad fa-star fa-3x star-unselected" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
   <i class="fad fa-star fa-3x star-unselected" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
   <i class="fad fa-star fa-3x star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
@@ -24,7 +19,7 @@
 
 </p>
 <div *ngIf="track !== undefined">
-  <h3 style="color: chartreuse">{{track.name}}</h3>
+  <h3 class="trackName">{{track.name}}</h3>
   <div>
     <!-- TODO loop through artists, and link -->
     <br>Main Artist <i class="fas fa-music-alt"></i> {{track.mainArtist}}

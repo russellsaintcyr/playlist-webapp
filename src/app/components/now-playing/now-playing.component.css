@@ -1,0 +1,7 @@
+.trackName {
+  text-shadow: -1px 0 black, 0 3px black, 3px 0 black, 0 -1px black;
+  color: chartreuse;
+}
+.albumCoverImg {
+  box-shadow: 5px 5px grey;
+}

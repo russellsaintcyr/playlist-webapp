@@ -39,4 +39,5 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 50px;
+  background-blend-mode: soft-light;
 }
