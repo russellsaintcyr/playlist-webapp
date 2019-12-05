@@ -11,6 +11,7 @@ import {AlertService} from "../../services/alert.service";
 export class NavbarComponent implements OnInit {
 
   public isPlaying: boolean;
+  public selectedPlaylist;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
     // console.log('getting currently playing.');
@@ -30,6 +31,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
   }
 
   playNextPrevious(direction:string) {

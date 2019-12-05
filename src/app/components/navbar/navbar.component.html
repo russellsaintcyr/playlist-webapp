@@ -12,8 +12,8 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="nowplaying">Now Playing</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="playlist">Current Playlist</a>
+      <li class="nav-item" *ngIf="selectedPlaylist">
+        <a class="nav-link" routerLink="playlist">{{selectedPlaylist.name}}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="settings">Settings</a>
