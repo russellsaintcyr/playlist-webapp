@@ -17,6 +17,8 @@ export class NowPlayingComponent implements OnInit {
   public autoSkip: boolean;
   public loadingTrack: boolean;
   public selectedPlaylist;
+  private timerRefresh;
+  private refreshPeriod = 60000;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
   }
@@ -34,6 +36,16 @@ export class NowPlayingComponent implements OnInit {
       console.log('Loaded ' + this.ratings.length + ' ratings from local data.');
     }
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
+    // reload in X seconds
+    console.log('Reloading now playing page in ' + (this.refreshPeriod/1000) + ' seconds.')
+    this.timerRefresh = setTimeout(function() {
+      location.reload();
+      }, this.refreshPeriod);
+  }
+
+  ngOnDestroy() {
+    console.log('Clearing timer refresh.')
+    clearTimeout(this.timerRefresh);
   }
 
   getCurrentlyPlaying(intervalId) {
