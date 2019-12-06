@@ -1,16 +1,15 @@
-<!-- TODO use bootstrap grid -->
-<table *ngIf="track !== undefined">
-  <tr>
-    <td valign="top">
+<div class="container" *ngIf="track !== undefined">
+  <div class="row">
+    <div class="col-md-8">
       <img src="{{track.coverImage}}" class="img-responsive albumCoverImg">
-    </td>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-    <td valign="top">
+    </div>
+    <div class="col-md-4">
       <i class="fad fa-star fa-3x star-unselected" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
       <i class="fad fa-star fa-3x star-unselected" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
       <i class="fad fa-star fa-3x star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
       <i class="fad fa-star fa-3x star-unselected" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
       <i class="fad fa-star fa-3x star-unselected" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
+      <br>
       <a (click)="playNextPrevious('next')" href="javascript:void(0)">
         Next
         <i class="fad fa-step-forward"></i>
@@ -26,6 +25,6 @@
         <br>Album <i class="fas fa-music-alt"></i> {{track.albumName}}
         <br>Playlist <i class="fas fa-music-alt"></i> {{selectedPlaylist.name}}
       </div>
-    </td>
-  </tr>
-</table>
+    </div>
+  </div>
+</div>
