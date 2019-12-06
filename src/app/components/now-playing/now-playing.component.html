@@ -1,30 +1,31 @@
-<!--<meta http-equiv="refresh" content="30">-->
-<p><img *ngIf="track !== undefined" src="{{track.coverImage}}" class="img-responsive albumCoverImg"></p>
-<p *ngIf="track !== undefined">
-<span *ngIf="!loadingTrack">
-  <i class="fad fa-star fa-3x star-unselected" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
-  <i class="fad fa-star fa-3x star-unselected" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
-  <i class="fad fa-star fa-3x star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
-  <i class="fad fa-star fa-3x star-unselected" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
-  <i class="fad fa-star fa-3x star-unselected" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
-  <a (click)="playNextPrevious('next')" href="javascript:void(0)">
-    Next
-    <i class="fad fa-step-forward"></i>
-  </a>
-</span>
-  <span *ngIf="loadingTrack">
-  <i class="fad fa-spinner fa-spin"></i>&nbsp;
-  Loading next track
-</span>
-
-</p>
-<div *ngIf="track !== undefined">
-  <div class="trackDetails">
-    <!-- TODO loop through artists, and link -->
-    <span class="trackName">{{track.name}}</span>
-    <br>Main Artist <i class="fas fa-music-alt"></i> {{track.mainArtist}}
-    <br>Album <i class="fas fa-music-alt"></i> {{track.albumName}}
-    <br>Playlist <i class="fas fa-music-alt"></i> {{selectedPlaylist.name}}
-  </div>
-</div>
-
+<!-- TODO use bootstrap grid -->
+<table *ngIf="track !== undefined">
+  <tr>
+    <td valign="top">
+      <img src="{{track.coverImage}}" class="img-responsive albumCoverImg">
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td valign="top">
+      <i class="fad fa-star fa-3x star-unselected" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
+      <i class="fad fa-star fa-3x star-unselected" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
+      <i class="fad fa-star fa-3x star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
+      <i class="fad fa-star fa-3x star-unselected" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
+      <i class="fad fa-star fa-3x star-unselected" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
+      <a (click)="playNextPrevious('next')" href="javascript:void(0)">
+        Next
+        <i class="fad fa-step-forward"></i>
+      </a>
+      <span *ngIf="loadingTrack">
+        <i class="fad fa-spinner fa-spin"></i>&nbsp;
+        Loading next track
+      </span>
+      <div class="trackDetails">
+        <!-- TODO loop through artists, and link -->
+        <span class="trackName">{{track.name}}</span>
+        <br>Main Artist <i class="fas fa-music-alt"></i> {{track.mainArtist}}
+        <br>Album <i class="fas fa-music-alt"></i> {{track.albumName}}
+        <br>Playlist <i class="fas fa-music-alt"></i> {{selectedPlaylist.name}}
+      </div>
+    </td>
+  </tr>
+</table>
