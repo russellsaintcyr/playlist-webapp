@@ -93,7 +93,7 @@ export class NowPlayingComponent implements OnInit {
       document.getElementById('star4-' + trackID).className = (rating >= 4) ? cssSelected : cssUnSelected;
       document.getElementById('star5-' + trackID).className = (rating == 5) ? cssSelected : cssUnSelected;
     } else {
-      console.log('Failed to get element with ID star1-' + trackID + '. Retrying in 1 second.');
+      // console.log('Failed to get element with ID star1-' + trackID + '. Retrying in 1 second.');
       let intervalId2 = setInterval(() => this.showStars(rating, trackID, intervalId2), 1000);
     }
   }

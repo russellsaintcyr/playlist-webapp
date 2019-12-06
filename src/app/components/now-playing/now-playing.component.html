@@ -1,4 +1,4 @@
-<meta http-equiv="refresh" content="30">
+<!--<meta http-equiv="refresh" content="30">-->
 <p><img *ngIf="track !== undefined" src="{{track.coverImage}}" class="img-responsive albumCoverImg"></p>
 <p *ngIf="track !== undefined">
 <span *ngIf="!loadingTrack">
@@ -19,9 +19,9 @@
 
 </p>
 <div *ngIf="track !== undefined">
-  <h3 class="trackName">{{track.name}}</h3>
-  <div>
+  <div class="trackDetails">
     <!-- TODO loop through artists, and link -->
+    <span class="trackName">{{track.name}}</span>
     <br>Main Artist <i class="fas fa-music-alt"></i> {{track.mainArtist}}
     <br>Album <i class="fas fa-music-alt"></i> {{track.albumName}}
     <br>Playlist <i class="fas fa-music-alt"></i> {{selectedPlaylist.name}}

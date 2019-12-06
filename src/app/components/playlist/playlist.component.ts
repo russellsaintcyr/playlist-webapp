@@ -28,6 +28,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   public ratings: Array<Rating>;
   public playlist;
   private ratingsLoaded: boolean;
+  private tracksLoaded: boolean;
+  private offset = 0;
 
   constructor(private _http: Http, private _spotifyService: SpotifyService,
               private alertService: AlertService) {
@@ -35,8 +37,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    // console.log('ngAfterViewChecked called.');
-    this.getRatings();
+    console.log('ngAfterViewChecked called.');
+    if (this.tracksLoaded && !this.ratingsLoaded) this.getRatings();
     // console.log('ratingsLoaded=' + this.ratingsLoaded);
   }
 
@@ -53,9 +55,19 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     console.log('ngOnInit called.');
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     document.body.style.backgroundImage = "url('" + this.selectedPlaylist.images[0].url + "')";
+    this.loadPlaylist();
+  }
+
+  loadPlaylist() {
     this._spotifyService.getPlaylist(this.selectedPlaylist, 0).subscribe(res => {
         this.tracks = res.items;
         this.playlist = res;
+        // get all the other tracks
+        if (this.playlist.total > (this.playlist.limit + this.playlist.offset)) {
+          this.showAllTracks();
+        } else {
+          this.tracksLoaded = true;
+        }
       },
       err => {
         // console.log('Error: ' + err.statusText);
@@ -117,7 +129,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
       this.ratings = JSON.parse(localStorage.getItem('ratings'));
       console.log('Loaded ' + this.ratings.length + ' ratings.');
       // loop through all tracks and adjust stars
-      console.log('Looping through tracks');
+      console.log('Looping through tracks for ratings');
       for (let x in this.tracks) {
         // first ensure is loaded in DOM
         if (document.getElementById('star1-' + this.tracks[x].track.id) === null) {
@@ -149,7 +161,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         if (this.tracks[x].track.rating === 4) this.stars4++;
         if (this.tracks[x].track.rating === 5) this.stars5++;
       }
-      console.log('Done looping through tracks');
+      console.log('Done looping through tracks for ratings');
       this.ratingsLoaded = true;
     } else {
       console.log('No ratings found in local storage');
@@ -159,11 +171,19 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   showAllTracks() {
     // call with offset, and then add
     this._spotifyService.getURL(this.playlist.next).subscribe(res => {
-        console.log('Pushing ' + res.items.length + ' to tracks array.');
+        console.log('Adding ' + res.items.length + ' items to tracks array.');
+        // update next URL so the offset changes
+        this.playlist.next = res.next;
+        // push new tracks
         res.items.forEach(element => {
           this.tracks.push(element);
         });
-        console.log('Tracks array length: ' + this.tracks.length);
+        // get all the other tracks
+        if (this.playlist.total > this.tracks.length) {
+          this.showAllTracks();
+        } else {
+          this.tracksLoaded = true;
+        }
       },
       err => {
         throw new Error(err.statusText)
