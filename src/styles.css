@@ -7,26 +7,33 @@
 @import "assets/styles/bootstrap.css";
 @import "assets/styles/bootstrap.darkly.css";
 /*body {*/
-  /*padding-top: 5rem;*/
+/*padding-top: 5rem;*/
 /*}*/
 /*.starter-template {*/
-  /*padding: 3rem 1.5rem;*/
-  /*text-align: center;*/
+/*padding: 3rem 1.5rem;*/
+/*text-align: center;*/
 /*}*/
 .star-width {
   padding-right: 12px;
 }
+
 .star-selected {
   color: yellow;
 }
+
 .star-unselected {
   color: gray;
+}
+
+.glyphicon.nowPlaying {
+  font-size: 45px;
 }
 
 html {
   position: relative;
   min-height: 100%;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -36,6 +43,7 @@ html {
   line-height: 50px; /* Vertically center the text there */
   background-color: #f5f5f5;
 }
+
 body {
   /* Margin bottom by footer height */
   margin-bottom: 50px;

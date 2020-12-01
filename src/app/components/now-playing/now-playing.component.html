@@ -4,11 +4,11 @@
       <img src="{{track.coverImage}}" class="img-responsive albumCoverImg">
     </div>
     <div class="col-md-4">
-      <i class="fad fa-star fa-3x star-unselected" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
-      <i class="fad fa-star fa-3x star-unselected" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
-      <i class="fad fa-star fa-3x star-unselected" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
-      <i class="fad fa-star fa-3x star-unselected" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
-      <i class="fad fa-star fa-3x star-unselected" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
+      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>
+      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>
+      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
+      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
+      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
       <br>
       <a (click)="playNextPrevious('next')" href="javascript:void(0)">
         Next
