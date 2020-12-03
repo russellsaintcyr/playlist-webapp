@@ -276,10 +276,4 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     )
   };
 
-  loadLocalFile() {
-    let url = 'assets/data/46JHZX9X1hHUpxhZCkKuS1.tracks.json';
-    // let headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
-    return this._http.get(url).map(res => res.json())
-  }
-
 }
