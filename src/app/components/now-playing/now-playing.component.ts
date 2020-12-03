@@ -139,7 +139,8 @@ export class NowPlayingComponent implements OnInit {
         let intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 1500);
       },
       err => {
-        this.alertService.error(err.statusText);
+        console.debug(err);
+        this.alertService.error(err._body);
       }
     )
   }
