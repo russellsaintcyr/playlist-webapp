@@ -97,7 +97,7 @@ export class NowPlayingComponent implements OnInit {
   static showStars(rating, trackID, intervalId2) {
     if (intervalId2 !== null) clearInterval(intervalId2);
     let cssSelected = 'glyphicon glyphicon-star star-selected nowPlaying';
-    let cssUnSelected = 'glyphicon glyphicon-star-empty star-unselected nowPlaying';
+    let cssUnSelected = 'glyphicon glyphicon-star star-unselected nowPlaying';
     if (document.getElementById('star1-' + trackID) !== null) {
       document.getElementById('star1-' + trackID).className = (rating >= 1) ? cssSelected : cssUnSelected;
       document.getElementById('star2-' + trackID).className = (rating >= 2) ? cssSelected : cssUnSelected;
