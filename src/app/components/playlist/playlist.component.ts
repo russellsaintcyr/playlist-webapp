@@ -222,7 +222,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
             console.log('Playback successfully called');
           },
           err => {
-            this.alertService.error(err.statusText);
+            console.debug(err);
+            this.alertService.error(err._body);
           }
         )
       } else {
@@ -235,12 +236,14 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
                 this.alertService.success('Created new playlist ' + playlistName + ' with ' + arrTracks.length + ' tracks.');
               },
               err => {
-                this.alertService.error(err.statusText);
+                console.debug(err);
+                this.alertService.error(err._body);
               }
             )
           },
           err => {
-            this.alertService.error(err.statusText);
+            console.debug(err);
+            this.alertService.error(err._body);
           }
         )
       }
@@ -254,8 +257,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         this.alertService.success('Playing all tracks in playlist');
       },
       err => {
-        this.alertService.error(err.statusText);
-        // throw new Error(err.statusText);
+        console.debug(err);
+        this.alertService.error(err._body);
       }
     )
   }
@@ -267,8 +270,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         // console.log(res);
       },
       err => {
-        this.alertService.error(err.statusText);
-        // throw new Error(err.statusText);
+        console.debug(err);
+        this.alertService.error(err._body);
       }
     )
   };
