@@ -6,7 +6,6 @@ import { AppRoutingModule} from "./app-routing/app-routing.module";
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { AboutComponent } from './components/about/about.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -20,14 +19,11 @@ import {AlertService} from "./services/alert.service";
 import {AlertComponent} from "./directives/alert.component";
 import { NowPlayingComponent } from './components/now-playing/now-playing.component';
 import { StatsComponent } from './components/stats/stats.component';
-import { FooComponent } from './components/foo/foo.component';
-import { FooServiceComponent } from './components/foo-service/foo-service.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    AboutComponent,
     DashboardComponent,
     FooterComponent,
     HeaderComponent,
@@ -38,9 +34,7 @@ import { FooServiceComponent } from './components/foo-service/foo-service.compon
     CallbackComponent,
     AlertComponent,
     NowPlayingComponent,
-    StatsComponent,
-    FooComponent,
-    FooServiceComponent
+    StatsComponent
   ],
   imports: [
     BrowserModule,

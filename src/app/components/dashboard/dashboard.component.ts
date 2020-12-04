@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SpotifyService} from "../../services/spotify.service";
+import {SpotifyService} from '../../services/spotify.service';
+import {Artist} from '../../classes/artist';
 
 @Component({
   selector: 'dashboard',
@@ -10,31 +11,36 @@ import {SpotifyService} from "../../services/spotify.service";
 export class DashboardComponent implements OnInit {
 
   searchStr: string;
+  public artists: Array<Artist>;
 
   keyPressed() {
     console.log(this.searchStr);
-    this._spotifyService.searchMusic(this.searchStr).subscribe(res => {
+    this._spotifyService.searchMusic(this.searchStr, 'artist').subscribe(res => {
         console.log(res.artists.items);
+        this.artists = res.artists.items;
       },
       err => {
         console.log('Error: ' + err.statusText);
-        // if (err.status === 401) alert('You need to login first.');
-        // this._spotifyService.authorize().subscribe(
-        //   res => {
-        //     console.log(res)
-        //   },
-        //   err => {
-        //     console.log(err)
-        //   }
-        // )
       }
     )
   }
 
   constructor(private _spotifyService: SpotifyService) {
+    this.searchStr = 'foo';
   }
 
   ngOnInit() {
+  }
+
+  showArtist(artist: Artist) {
+    console.log(artist);
+    this._spotifyService.getArtist(artist.id).subscribe(res => {
+        console.log(res);
+      },
+      err => {
+        console.log('Error: ' + err.statusText);
+      }
+    )
   }
 
 }

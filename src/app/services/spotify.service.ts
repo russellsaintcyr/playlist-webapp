@@ -28,22 +28,22 @@ export class SpotifyService {
   }
 
   getPlaylist(playlist, offset: number) {
-    // spotify:user:x1111x:playlist:46JHZX9X1hHUpxhZCkKuS1
-    // spotify:user:dan_deacon_official:playlist:6IcAMCeYekGcJWfXxuIcuM
-    let spotURL = 'https://api.spotify.com/v1/users/' + playlist.owner.id + '/playlists/' + playlist.id + '/tracks?offset=' + offset;
+    const spotURL = 'https://api.spotify.com/v1/users/' + playlist.owner.id + '/playlists/' + playlist.id + '/tracks?offset=' + offset;
     return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 
-  searchMusic(str: string, type = 'artist') {
-    this.searchURL = 'https://api.spotify.com/v1/search?q=foo&type=artist';
-    return this._http.get(this.searchURL, {headers: new Headers({
-      // 'ZZZ': 'fee',
-      // 'Zac-Meister': 'Nbnb mnb mnb'
-    })}).map(res => res.json())
+  searchMusic(searchString: string, type: string) {
+    const spotURL = 'https://api.spotify.com/v1/search?q=' + searchString + '&type=' + type;
+    return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
+  }
+
+  getArtist(artistID: string) {
+    const spotURL = 'https://api.spotify.com/v1/artists/' + artistID;
+    return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 
   playNextPrevious(direction) {
-    let URL = 'https://api.spotify.com/v1/me/player/' + direction;
+    const URL = 'https://api.spotify.com/v1/me/player/' + direction;
     return this._http.post(URL, null,{headers: this.headers}).map(res => res.json())
   };
 
