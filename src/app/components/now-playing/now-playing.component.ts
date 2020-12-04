@@ -28,7 +28,6 @@ export class NowPlayingComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Getting currently playing song....');
     this.autoSkip = false;
     this.getCurrentlyPlaying(null);
     if (localStorage.getItem('ratings') === null) {
@@ -65,18 +64,16 @@ export class NowPlayingComponent implements OnInit {
 
   getCurrentlyPlaying(intervalId) {
     this.spotifyService.getCurrentlyPlaying().subscribe(res => {
-        // console.log(res);
         if (res === null) {
           this.alertService.warn('No track is currently playing.')
         } else {
-          console.log(res.item);
           // first image in array is largest
           this.track = new Track(res.item.uri, res.item.name, res.item.album.images[0].url, res.item.album.name, res.item.artists[0].name,
-            res.item.id, res.progress_ms, res.item.duration_ms);
+            res.item.id, res.progress_ms, res.item.duration_ms, res.is_playing);
           // set playback times, and call loop
           this.used_ms = 0;
           this.initial_progress_ms = this.track.progress_ms;
-          this.computeTime(this);
+          if (this.track.is_playing) this.computeTime(this);
           // images
           document.body.style.backgroundImage = 'url(\'' + res.item.album.images[0].url + '\')';
           if (intervalId !== null) clearInterval(intervalId);
@@ -166,5 +163,27 @@ export class NowPlayingComponent implements OnInit {
     )
   }
 
+  stop() {
+    this.spotifyService.controlPlayback(null, 'pause').subscribe(res => {
+        this.track.is_playing = false;
+        clearTimeout(this.timerProgressBar);
+      },
+      err => {
+        console.debug(err);
+        this.alertService.error(err._body);
+      }
+    )
+  }
 
+  play() {
+    this.spotifyService.controlPlayback(null, 'play').subscribe(res => {
+        this.track.is_playing = true;
+        this.computeTime(this);
+      },
+      err => {
+        console.debug(err);
+        this.alertService.error(err._body);
+      }
+    )
+  }
 }

@@ -10,13 +10,9 @@
       <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
       <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
       <br>
-      <a (click)="playNextPrevious('next')" href="javascript:void(0)">
-        Next
-        <i class="glyphicon glyphicon-step-forward"></i>
-      </a>
       <span *ngIf="loadingTrack">
         <i class="glyphicon glyphicon-refresh"></i>&nbsp;
-        Loading next track
+        Loading track
       </span>
       <div class="trackDetails">
         <!-- TODO loop through artists, and link -->
@@ -26,6 +22,13 @@
         <br><br>
         <progress id="file" max="{{track.duration_ms}}" value="{{adjusted_progress_ms}}"></progress>
         <br>{{adjusted_progress_ms | date: 'm:ss'}} of {{track.duration_ms | date: 'm:ss'}}
+      </div>
+      <!-- playback -->
+      <div>
+        <button *ngIf="track.is_playing" type="button" class="btn btn-success" (click)="stop()"><i class="glyphicon glyphicon-stop"></i></button>
+        <button *ngIf="!track.is_playing" type="button" class="btn btn-success" (click)="play()"><i class="glyphicon glyphicon-play"></i></button>
+        <button *ngIf="track.is_playing" type="button" class="btn btn-success" (click)="playNextPrevious('previous')"><i class="glyphicon glyphicon-backward"></i></button>
+        <button *ngIf="track.is_playing" type="button" class="btn btn-success" (click)="playNextPrevious('next')"><i class="glyphicon glyphicon-forward"></i></button>
       </div>
     </div>
   </div>
