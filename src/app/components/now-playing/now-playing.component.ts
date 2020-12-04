@@ -18,7 +18,7 @@ export class NowPlayingComponent implements OnInit {
   public loadingTrack: boolean;
   public selectedPlaylist;
   private timerRefresh;
-  private refreshPeriod = 60000;
+  private refreshPeriod = 45000;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
   }
@@ -56,7 +56,8 @@ export class NowPlayingComponent implements OnInit {
         } else {
           console.log(res.item);
           // first image in array is largest
-          this.track = new Track(res.item.uri, res.item.name, res.item.album.images[0].url, res.item.album.name, res.item.artists[0].name, res.item.id);
+          this.track = new Track(res.item.uri, res.item.name, res.item.album.images[0].url, res.item.album.name, res.item.artists[0].name,
+            res.item.id, res.progress_ms, res.item.duration_ms);
           document.body.style.backgroundImage = "url('" + res.item.album.images[0].url + "')";
           if (intervalId !== null) clearInterval(intervalId);
           // search for existing rating

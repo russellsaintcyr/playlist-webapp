@@ -23,7 +23,9 @@
         <span class="trackName">{{track.name}}</span>
         <br><i class="glyphicon glyphicon-user"></i> &nbsp;{{track.mainArtist}}
         <br><i class="glyphicon glyphicon-cd"></i> &nbsp;{{track.albumName}}
-<!--        <br>Playlist <i class="glyphicon glyphicon-music"></i> {{selectedPlaylist.name}}-->
+        <br><br>
+        <progress id="file" max="{{track.duration_ms}}" value="{{track.progress_ms}}"></progress>
+        <br>{{track.progress_ms | date: 'm:ss'}} of {{track.duration_ms | date: 'm:ss'}}
       </div>
     </div>
   </div>
