@@ -24,8 +24,8 @@
         <br><i class="glyphicon glyphicon-user"></i> &nbsp;{{track.mainArtist}}
         <br><i class="glyphicon glyphicon-cd"></i> &nbsp;{{track.albumName}}
         <br><br>
-        <progress id="file" max="{{track.duration_ms}}" value="{{track.progress_ms}}"></progress>
-        <br>{{track.progress_ms | date: 'm:ss'}} of {{track.duration_ms | date: 'm:ss'}}
+        <progress id="file" max="{{track.duration_ms}}" value="{{adjusted_progress_ms}}"></progress>
+        <br>{{adjusted_progress_ms | date: 'm:ss'}} of {{track.duration_ms | date: 'm:ss'}}
       </div>
     </div>
   </div>

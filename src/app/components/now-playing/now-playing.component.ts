@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {SpotifyService} from "../../services/spotify.service";
-import {AlertService} from "../../services/alert.service";
-import {Track} from "../../classes/track";
-import {Rating} from "app/classes/rating";
+import {SpotifyService} from '../../services/spotify.service';
+import {AlertService} from '../../services/alert.service';
+import {Track} from '../../classes/track';
+import {Rating} from 'app/classes/rating';
 
 @Component({
   selector: 'now-playing',
@@ -18,7 +18,11 @@ export class NowPlayingComponent implements OnInit {
   public loadingTrack: boolean;
   public selectedPlaylist;
   private timerRefresh;
+  private timerProgressBar;
   private refreshPeriod = 45000;
+  private initial_progress_ms: number;
+  private used_ms = 0;
+  adjusted_progress_ms: number;
 
   constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
   }
@@ -37,15 +41,26 @@ export class NowPlayingComponent implements OnInit {
     }
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     // reload in X seconds
-    console.log('Reloading now playing page in ' + (this.refreshPeriod/1000) + ' seconds.')
+    console.log('Reloading now playing page in ' + (this.refreshPeriod / 1000) + ' seconds.')
     this.timerRefresh = setTimeout(function() {
       location.reload();
       }, this.refreshPeriod);
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
-    console.log('Clearing timer refresh.')
+    console.log('Clearing timers')
     clearTimeout(this.timerRefresh);
+    clearTimeout(this.timerProgressBar);
+  }
+
+  computeTime(obj) {
+    // console.log(this.adjusted_progress_ms);
+    obj.used_ms += 1000;
+    this.adjusted_progress_ms = (this.initial_progress_ms + this.used_ms);
+    this.timerProgressBar = setTimeout(function() {
+      obj.computeTime(obj);
+    }, 1000);
   }
 
   getCurrentlyPlaying(intervalId) {
@@ -58,13 +73,18 @@ export class NowPlayingComponent implements OnInit {
           // first image in array is largest
           this.track = new Track(res.item.uri, res.item.name, res.item.album.images[0].url, res.item.album.name, res.item.artists[0].name,
             res.item.id, res.progress_ms, res.item.duration_ms);
-          document.body.style.backgroundImage = "url('" + res.item.album.images[0].url + "')";
+          // set playback times, and call loop
+          this.used_ms = 0;
+          this.initial_progress_ms = this.track.progress_ms;
+          this.computeTime(this);
+          // images
+          document.body.style.backgroundImage = 'url(\'' + res.item.album.images[0].url + '\')';
           if (intervalId !== null) clearInterval(intervalId);
           // search for existing rating
           // let obj = undefined;
           // confirm we can use find() with array
           // if (typeof this.ratings.find === 'function') {
-          let obj = this.ratings.find(function (obj: Rating) {
+          const obj = this.ratings.find(function (obj: Rating) {
             return obj.trackURI === res.item.uri;
           });
           // } else {
@@ -97,8 +117,8 @@ export class NowPlayingComponent implements OnInit {
 
   static showStars(rating, trackID, intervalId2) {
     if (intervalId2 !== null) clearInterval(intervalId2);
-    let cssSelected = 'glyphicon glyphicon-star star-selected nowPlaying';
-    let cssUnSelected = 'glyphicon glyphicon-star star-unselected nowPlaying';
+    const cssSelected = 'glyphicon glyphicon-star star-selected nowPlaying';
+    const cssUnSelected = 'glyphicon glyphicon-star star-unselected nowPlaying';
     if (document.getElementById('star1-' + trackID) !== null) {
       document.getElementById('star1-' + trackID).className = (rating >= 1) ? cssSelected : cssUnSelected;
       document.getElementById('star2-' + trackID).className = (rating >= 2) ? cssSelected : cssUnSelected;
@@ -107,23 +127,23 @@ export class NowPlayingComponent implements OnInit {
       document.getElementById('star5-' + trackID).className = (rating == 5) ? cssSelected : cssUnSelected;
     } else {
       // console.log('Failed to get element with ID star1-' + trackID + '. Retrying in 1 second.');
-      let intervalId2 = setInterval(() => this.showStars(rating, trackID, intervalId2), 1000);
+      const intervalId2 = setInterval(() => this.showStars(rating, trackID, intervalId2), 1000);
     }
   }
 
   setRating(rating: number, track: Track) {
-    let elem = document.getElementById('star' + rating);
+    const elem = document.getElementById('star' + rating);
     // console.log();
     NowPlayingComponent.showStars(rating, track.id, null);
-    let newRating = new Rating(track.uri, rating);
+    const newRating = new Rating(track.uri, rating);
     // search for existing rating
-    let obj = this.ratings.find(function (obj: Rating) {
+    const obj = this.ratings.find(function (obj: Rating) {
       return obj.trackURI === track.uri;
     });
     if (obj === undefined) {
       this.ratings.push(newRating);
     } else {
-      let xxx = this.ratings.findIndex(function (obj: Rating) {
+      const xxx = this.ratings.findIndex(function (obj: Rating) {
         return obj.trackURI === track.uri;
       });
       this.ratings.splice(xxx, 1, newRating);
@@ -137,7 +157,7 @@ export class NowPlayingComponent implements OnInit {
     this.loadingTrack = true;
     this.spotifyService.playNextPrevious(direction).subscribe(res => {
         // update track
-        let intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 1500);
+        const intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 1500);
       },
       err => {
         console.debug(err);
