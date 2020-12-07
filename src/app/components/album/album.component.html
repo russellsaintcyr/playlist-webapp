@@ -1,9 +1,16 @@
-<div>
-  <img src="{{album.images[1].url}}" class="img-responsive albumCoverImg" alt="Cover">
-  <ol>
-  <li *ngFor="let track of album.tracks.items; let i = index">
-    {{track.name}} ({{track.duration_ms | date: 'm:ss'}})
-  </li>
-  </ol>
-
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <img src="{{album.images[1].url}}" class="img-responsive albumCoverImg" alt="Cover">
+    </div>
+    <div class="col-md-6">
+      <h2>{{album.name}}</h2>
+      <br><i class="glyphicon glyphicon-user"></i>&nbsp;<a (click)="viewArtist(album.artists[0].id)" [routerLink]="">{{album.artists[0].name}}</a>
+      <br><i class="glyphicon glyphicon-cd"></i>&nbsp;{{album.release_date | date: 'MMMM dd, yyyy'}}
+      <ol>
+        <li *ngFor="let track of album.tracks.items; let i = index">
+          {{track.name}} ({{track.duration_ms | date: 'm:ss'}})
+        </li>
+      </ol>
+    </div>
 </div>

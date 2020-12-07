@@ -7,6 +7,7 @@ import {NowPlayingComponent} from "../now-playing/now-playing.component";
 import {AfterViewChecked} from "@angular/core";
 import {Track} from "../../classes/track";
 import {MetaTrack} from "../../classes/metatrack";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'playlist',
@@ -31,13 +32,12 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   private tracksLoaded: boolean;
   private offset = 0;
 
-  constructor(private _http: Http, private _spotifyService: SpotifyService,
-              private alertService: AlertService) {
+  constructor(private _http: Http, private _spotifyService: SpotifyService, private alertService: AlertService, private router: Router) {
     this.ratingsLoaded = false;
   }
 
   ngAfterViewChecked() {
-    console.log('ngAfterViewChecked called.');
+    // console.log('ngAfterViewChecked called.');
     if (this.tracksLoaded && !this.ratingsLoaded) this.getRatings();
     // console.log('ratingsLoaded=' + this.ratingsLoaded);
   }
@@ -52,7 +52,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    console.log('ngOnInit called.');
+    // console.log('ngOnInit called.');
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     document.body.style.backgroundImage = "url('" + this.selectedPlaylist.images[0].url + "')";
     this.loadPlaylist();
@@ -129,7 +129,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
       this.ratings = JSON.parse(localStorage.getItem('ratings'));
       console.log('Loaded ' + this.ratings.length + ' ratings.');
       // loop through all tracks and adjust stars
-      console.log('Looping through tracks for ratings');
+      // console.log('Looping through tracks for ratings');
       for (let x in this.tracks) {
         // first ensure is loaded in DOM
         if (document.getElementById('star1-' + this.tracks[x].track.id) === null) {
@@ -161,7 +161,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         if (this.tracks[x].track.rating === 4) this.stars4++;
         if (this.tracks[x].track.rating === 5) this.stars5++;
       }
-      console.log('Done looping through tracks for ratings');
+      // console.log('Done looping through tracks for ratings');
       this.ratingsLoaded = true;
     } else {
       console.log('No ratings found in local storage');
@@ -276,4 +276,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     )
   };
 
+  viewArtist(artistID) {
+    localStorage.setItem('artistID', artistID);
+    this.router.navigateByUrl('/artist');
+  }
 }

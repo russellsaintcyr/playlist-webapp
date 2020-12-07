@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SpotifyService} from '../../services/spotify.service';
 import {AlertService} from '../../services/alert.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'artist',
@@ -9,9 +10,13 @@ import {AlertService} from '../../services/alert.service';
   providers: [SpotifyService]
 })
 export class ArtistComponent implements OnInit {
-  private artist: any;
 
-  constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
+  private artistID: string;
+
+  public artist: any;
+  public albums: any;
+
+  constructor(private spotifyService: SpotifyService, private alertService: AlertService, private router: Router) {
 
   }
 
@@ -19,15 +24,37 @@ export class ArtistComponent implements OnInit {
     if (localStorage.getItem('artistID') === null) {
       this.alertService.error('No artistID found in local storage.');
     } else {
-      const artistID = localStorage.getItem('artistID');
-      this.spotifyService.getArtist(artistID).subscribe(response => {
-          this.artist = response;
-          console.log(this.artist);
-        }, err => {
-          console.debug(err);
-          this.alertService.error(err._body);
-        }
-      )
-    }  }
+      this.artistID = localStorage.getItem('artistID');
+      this.getArtistDetails();
+      this.getArtistAlbumDetails();
+    }
+  }
+
+  getArtistDetails() {
+    this.spotifyService.getArtist(this.artistID).subscribe(response => {
+        this.artist = response;
+        console.log(this.artist);
+      }, err => {
+        console.debug(err);
+        this.alertService.error(err._body);
+      }
+    )
+  }
+
+  getArtistAlbumDetails() {
+    this.spotifyService.getArtistAlbums(this.artistID).subscribe(response => {
+        this.albums = response.items;
+        console.log(this.albums);
+      }, err => {
+        console.debug(err);
+        this.alertService.error(err._body);
+      }
+    )
+  }
+
+  viewAlbum(albumID) {
+    localStorage.setItem('albumID', albumID);
+    this.router.navigateByUrl('/album');
+  }
 
 }

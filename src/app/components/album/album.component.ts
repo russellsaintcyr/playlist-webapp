@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SpotifyService} from '../../services/spotify.service';
 import {AlertService} from '../../services/alert.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'album',
@@ -11,7 +12,7 @@ import {AlertService} from '../../services/alert.service';
 export class AlbumComponent implements OnInit {
   public album: any;
 
-  constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
+  constructor(private spotifyService: SpotifyService, private alertService: AlertService, private router: Router) {
 
   }
 
@@ -31,4 +32,8 @@ export class AlbumComponent implements OnInit {
     }
   }
 
+  viewArtist(artistID) {
+    localStorage.setItem('artistID', artistID);
+    this.router.navigateByUrl('/artist');
+  }
 }

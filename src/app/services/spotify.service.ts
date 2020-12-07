@@ -42,6 +42,11 @@ export class SpotifyService {
     return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 
+  getArtistAlbums(artistID: string) {
+    const spotURL = 'https://api.spotify.com/v1/artists/' + artistID + '/albums';
+    return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
+  }
+
   playNextPrevious(direction) {
     const URL = 'https://api.spotify.com/v1/me/player/' + direction;
     return this._http.post(URL, null, {headers: this.headers}).map(res => res.json())
