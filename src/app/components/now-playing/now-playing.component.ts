@@ -64,12 +64,13 @@ export class NowPlayingComponent implements OnInit {
 
   getCurrentlyPlaying(intervalId) {
     this.spotifyService.getCurrentlyPlaying().subscribe(res => {
+        console.log(res);
         if (res === null) {
           this.alertService.warn('No track is currently playing.')
         } else {
           // first image in array is largest
           this.track = new Track(res.item.uri, res.item.name, res.item.album.images[0].url, res.item.album.name, res.item.artists[0].name,
-            res.item.id, res.progress_ms, res.item.duration_ms, res.is_playing);
+            res.item.id, res.progress_ms, res.item.duration_ms, res.is_playing, res.item.album.release_date);
           // set playback times, and call loop
           this.used_ms = 0;
           this.initial_progress_ms = this.track.progress_ms;

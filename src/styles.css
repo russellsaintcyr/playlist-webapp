@@ -21,8 +21,16 @@
   color: yellow;
 }
 
+.star-selected:hover {
+  color: #e9e965;
+}
+
 .star-unselected {
   color: gray;
+}
+
+.star-unselected:hover {
+  color: #cbc3c3;
 }
 
 .glyphicon.nowPlaying {
