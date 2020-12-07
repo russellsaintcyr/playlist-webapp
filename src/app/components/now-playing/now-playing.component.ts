@@ -4,6 +4,7 @@ import {AlertService} from '../../services/alert.service';
 import {Track} from '../../classes/track';
 import {Rating} from 'app/classes/rating';
 import {Router} from '@angular/router';
+import {Artist} from '../../classes/artist';
 
 @Component({
   selector: 'now-playing',
@@ -102,9 +103,11 @@ export class NowPlayingComponent implements OnInit {
             this.lastTrack = this.track;
           }
           // first image in array is largest
+          const artists = [];
+          response.item.artists.forEach(element => artists.push(new Artist(element.name, element.id)));
           this.track = new Track(response.item.uri, response.item.name, response.item.album.images[0].url, response.item.album.name, response.item.artists[0].name,
             response.item.id, response.progress_ms, response.item.duration_ms, response.is_playing, response.item.album.release_date, response.item.album.id,
-            response.item.artists[0].id);
+            response.item.artists[0].id, artists);
           // set playback times, and call loop
           this.used_ms = 0;
           this.initial_progress_ms = this.track.progress_ms;

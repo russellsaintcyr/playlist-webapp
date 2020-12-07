@@ -69,7 +69,10 @@
           <img src="{{track.track.album.images[2].url}}" class="btn btn-success" style="margin: 5px;" (click)="playTrack(track.track)">
         </td>
         <td>
-          {{track.track.name}} - by <a (click)="viewArtist(track.track.artists[0].id)" [routerLink]="">{{track.track.artists[0].name}}</a>
+          {{track.track.name}} - by
+          <span *ngFor="let artist of track.track.artists; let i = index">
+            <a (click)="viewArtist(artist.id)" [routerLink]="">{{artist.name}}</a>
+          </span>
           <br>
           <i class="glyphicon glyphicon-star-empty" id="{{'star1-' + track.track.id}}" (click)="setRating(1, track.track)"></i>
           <i class="glyphicon glyphicon-star-empty" id="{{'star2-' + track.track.id}}" (click)="setRating(2, track.track)"></i>
