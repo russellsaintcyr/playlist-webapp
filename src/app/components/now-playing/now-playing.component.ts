@@ -3,6 +3,7 @@ import {SpotifyService} from '../../services/spotify.service';
 import {AlertService} from '../../services/alert.service';
 import {Track} from '../../classes/track';
 import {Rating} from 'app/classes/rating';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'now-playing',
@@ -10,21 +11,50 @@ import {Rating} from 'app/classes/rating';
   styleUrls: ['./now-playing.component.css'],
   providers: [SpotifyService]
 })
+
 export class NowPlayingComponent implements OnInit {
 
-  public track: Track;
-  public ratings: Array<Rating>;
-  public autoSkip: boolean;
-  public loadingTrack: boolean;
-  public selectedPlaylist;
+  // private spotifyService: SpotifyService;
+  // private alertService: AlertService;
+  // private static spotifyService: SpotifyService;
+  // private static alertService: AlertService;
+
   private timerRefresh;
   private timerProgressBar;
   private refreshPeriod = 45000;
   private initial_progress_ms: number;
   private used_ms = 0;
+
   adjusted_progress_ms: number;
 
-  constructor(private spotifyService: SpotifyService, private alertService: AlertService) {
+  public track: Track;
+  public lastTrack: Track;
+  public ratings: Array<Rating>;
+  public autoSkip: boolean;
+  public loadingTrack: boolean;
+  public selectedPlaylist;
+
+  static showStars(rating, trackID, intervalId2) {
+    if (intervalId2 !== null) {
+      clearInterval(intervalId2);
+    }
+    const cssSelected = 'glyphicon glyphicon-star star-selected nowPlaying';
+    const cssUnSelected = 'glyphicon glyphicon-star star-unselected nowPlaying';
+    if (document.getElementById('star1-' + trackID) !== null) {
+      document.getElementById('star1-' + trackID).className = (rating >= 1) ? cssSelected : cssUnSelected;
+      document.getElementById('star2-' + trackID).className = (rating >= 2) ? cssSelected : cssUnSelected;
+      document.getElementById('star3-' + trackID).className = (rating >= 3) ? cssSelected : cssUnSelected;
+      document.getElementById('star4-' + trackID).className = (rating >= 4) ? cssSelected : cssUnSelected;
+      document.getElementById('star5-' + trackID).className = (rating === 5) ? cssSelected : cssUnSelected;
+    } else {
+
+      // console.log('Failed to get element with ID star1-' + trackID + '. Retrying in 1 second.');
+      const intervalId2: NodeJS.Timer = setInterval(() => this.showStars(rating, trackID, intervalId2), 1000);
+    }
+  }
+
+  constructor(private spotifyService: SpotifyService, private alertService: AlertService, private router: Router) {
+    console.log('NowPlayingComponent constructor called');
   }
 
   ngOnInit() {
@@ -46,7 +76,6 @@ export class NowPlayingComponent implements OnInit {
       }, this.refreshPeriod);
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
     console.log('Clearing timers')
     clearTimeout(this.timerRefresh);
@@ -57,33 +86,42 @@ export class NowPlayingComponent implements OnInit {
     // console.log(this.adjusted_progress_ms);
     obj.used_ms += 1000;
     this.adjusted_progress_ms = (this.initial_progress_ms + this.used_ms);
-    this.timerProgressBar = setTimeout(function() {
+    this.timerProgressBar = setTimeout(function () {
       obj.computeTime(obj);
     }, 1000);
   }
 
   getCurrentlyPlaying(intervalId) {
-    this.spotifyService.getCurrentlyPlaying().subscribe(res => {
-        console.log(res);
-        if (res === null) {
+    this.spotifyService.getCurrentlyPlaying().subscribe(response => {
+        console.log(response);
+        if (response === null) {
           this.alertService.warn('No track is currently playing.')
         } else {
+          // store last track if there is one
+          if (this.track !== undefined) {
+            this.lastTrack = this.track;
+          }
           // first image in array is largest
-          this.track = new Track(res.item.uri, res.item.name, res.item.album.images[0].url, res.item.album.name, res.item.artists[0].name,
-            res.item.id, res.progress_ms, res.item.duration_ms, res.is_playing, res.item.album.release_date);
+          this.track = new Track(response.item.uri, response.item.name, response.item.album.images[0].url, response.item.album.name, response.item.artists[0].name,
+            response.item.id, response.progress_ms, response.item.duration_ms, response.is_playing, response.item.album.release_date, response.item.album.id,
+            response.item.artists[0].id);
           // set playback times, and call loop
           this.used_ms = 0;
           this.initial_progress_ms = this.track.progress_ms;
-          if (this.track.is_playing) this.computeTime(this);
+          if (this.track.is_playing) {
+            this.computeTime(this);
+          }
           // images
-          document.body.style.backgroundImage = 'url(\'' + res.item.album.images[0].url + '\')';
-          if (intervalId !== null) clearInterval(intervalId);
+          document.body.style.backgroundImage = 'url(\'' + response.item.album.images[0].url + '\')';
+          if (intervalId !== null) {
+            clearInterval(intervalId);
+          }
           // search for existing rating
           // let obj = undefined;
           // confirm we can use find() with array
           // if (typeof this.ratings.find === 'function') {
           const obj = this.ratings.find(function (obj: Rating) {
-            return obj.trackURI === res.item.uri;
+            return obj.trackURI === response.item.uri;
           });
           // } else {
           //   this.alertService.warn('Array.find not supported.');
@@ -92,9 +130,9 @@ export class NowPlayingComponent implements OnInit {
           //   })[0];
           // }
           if (obj === undefined) {
-            NowPlayingComponent.showStars(0, res.item.id, null);
+            NowPlayingComponent.showStars(0, response.item.id, null);
           } else {
-            NowPlayingComponent.showStars(obj.rating, res.item.id, null);
+            NowPlayingComponent.showStars(obj.rating, response.item.id, null);
             // TODO add this as a preference/setting
             if (this.autoSkip) {
               console.log('Skipping song since is already rated.');
@@ -111,22 +149,6 @@ export class NowPlayingComponent implements OnInit {
         this.loadingTrack = false;
       }
     )
-  }
-
-  static showStars(rating, trackID, intervalId2) {
-    if (intervalId2 !== null) clearInterval(intervalId2);
-    const cssSelected = 'glyphicon glyphicon-star star-selected nowPlaying';
-    const cssUnSelected = 'glyphicon glyphicon-star star-unselected nowPlaying';
-    if (document.getElementById('star1-' + trackID) !== null) {
-      document.getElementById('star1-' + trackID).className = (rating >= 1) ? cssSelected : cssUnSelected;
-      document.getElementById('star2-' + trackID).className = (rating >= 2) ? cssSelected : cssUnSelected;
-      document.getElementById('star3-' + trackID).className = (rating >= 3) ? cssSelected : cssUnSelected;
-      document.getElementById('star4-' + trackID).className = (rating >= 4) ? cssSelected : cssUnSelected;
-      document.getElementById('star5-' + trackID).className = (rating == 5) ? cssSelected : cssUnSelected;
-    } else {
-      // console.log('Failed to get element with ID star1-' + trackID + '. Retrying in 1 second.');
-      const intervalId2 = setInterval(() => this.showStars(rating, trackID, intervalId2), 1000);
-    }
   }
 
   setRating(rating: number, track: Track) {
@@ -186,5 +208,15 @@ export class NowPlayingComponent implements OnInit {
         this.alertService.error(err._body);
       }
     )
+  }
+
+  viewAlbum() {
+    localStorage.setItem('albumID', this.track.albumID);
+    this.router.navigateByUrl('/album');
+  }
+
+  viewArtist(artistID) {
+    localStorage.setItem('artistID', artistID);
+    this.router.navigateByUrl('/artist');
   }
 }

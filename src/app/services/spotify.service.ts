@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers} from "@angular/http";
+import {Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {AlertService} from "./alert.service";
-import {Location} from "@angular/common";
+import {AlertService} from './alert.service';
+import {Location} from '@angular/common';
 
 @Injectable()
 export class SpotifyService {
@@ -17,14 +17,14 @@ export class SpotifyService {
 
   constructor(private _http: Http, private alertService: AlertService, lokation: Location) {
     // save state to return if token expired
-    let currentState = location.pathname.substring(1);
+    const currentState = location.pathname.substring(1);
     if (currentState !== 'callback') localStorage.setItem('savedState', currentState);
     // TODO remove hard-coded user ID
     this.userID = 'x1111x';
     this.bearerToken = localStorage.getItem('bearerToken');
     this.baseURL = location.hostname;
     if (location.port !== '') this.baseURL += ':' + location.port;
-    this.headers = new Headers({ 'Authorization': 'Bearer '+ this.bearerToken });
+    this.headers = new Headers({ 'Authorization': 'Bearer ' + this.bearerToken });
   }
 
   getPlaylist(playlist, offset: number) {
@@ -44,45 +44,24 @@ export class SpotifyService {
 
   playNextPrevious(direction) {
     const URL = 'https://api.spotify.com/v1/me/player/' + direction;
-    return this._http.post(URL, null,{headers: this.headers}).map(res => res.json())
+    return this._http.post(URL, null, {headers: this.headers}).map(res => res.json())
   };
 
   getCurrentlyPlaying() {
-    let URL = 'https://api.spotify.com/v1/me/player/currently-playing';
-    return this._http.get(URL,{headers: this.headers}).map(res => res.json())
+    const URL = 'https://api.spotify.com/v1/me/player/currently-playing';
+    return this._http.get(URL, {headers: this.headers}).map(res => res.json())
   };
 
   controlPlayback(body, verb) {
-    let URL = 'https://api.spotify.com/v1/me/player/' + verb;
+    const URL = 'https://api.spotify.com/v1/me/player/' + verb;
     return this._http.put(URL, body, {headers: this.headers}).map(res => res.json())
   };
 
-  // authorize() {
-  //   // need to set the scopes below
-  //   // user-read-currently-playing
-  //   // user-read-playback-state
-  //
-  //   const headers = new Headers({
-  //     // 'Access-Control-Allow-Origin': '*'
-  //     // headers.set("Access-Control-Allow-Methods", "GET");
-  //   });
-  //   // headers.set("Access-Control-Allow-Origin", "*");
-  //   // headers.set("Access-Control-Allow-Methods", "GET");
-  //   // headers.set("Foo", "yo yo yo");
-  //
-  //   // Implicit Grant Flow
-  //   // Implicit grant flow is for clients that are implemented entirely using JavaScript and running in the resource owner’s browser.
-  //   //   You do not need any server-side code to use it. Rate limits for requests are improved but there is no refresh token provided.
-  //   //   This flow is described in RFC-6749.
-  //   return this._http.get(this.authURL, {headers: headers}).map(res => res.json())
-  // }
-
   getAuthorizeURL() {
-    let client_id = 'e8629f625be5446a8434f03c0063ac27';
-    let response_type = 'token'; // Implicit Grant Flow https://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow
-    let redirect_uri = 'http://' + this.baseURL + '/callback';
-    // let scopes = 'user-modify-playback-state';
-    let scopes = 'user-read-currently-playing user-read-playback-state playlist-modify-private playlist-modify-public playlist-read-private streaming user-modify-playback-state user-read-currently-playing user-read-recently-played';
+    const client_id = 'e8629f625be5446a8434f03c0063ac27';
+    const response_type = 'token'; // Implicit Grant Flow https://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow
+    const redirect_uri = 'http://' + this.baseURL + '/callback';
+    const scopes = 'user-read-currently-playing user-read-playback-state playlist-modify-private playlist-modify-public playlist-read-private streaming user-modify-playback-state user-read-currently-playing user-read-recently-played';
     console.log('Spotify scopes: ' + scopes);
     this.authURL = 'http://accounts.spotify.com/authorize?client_id=' + client_id +
       '&scope=' + encodeURIComponent(scopes) +
@@ -98,18 +77,23 @@ export class SpotifyService {
   }
 
   getPlaylists() {
-    let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
+    const spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
     return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 
   createPlaylist(body) {
-    let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
-    return this._http.post(spotURL, body,{headers: this.headers}).map(res => res.json())
+    const spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
+    return this._http.post(spotURL, body, {headers: this.headers}).map(res => res.json())
   }
 
   addToPlaylist(body, playlistID: string) {
-    let spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/' + playlistID + '/tracks';
-    return this._http.post(spotURL, body,{headers: this.headers}).map(res => res.json())
+    const spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/' + playlistID + '/tracks';
+    return this._http.post(spotURL, body, {headers: this.headers}).map(res => res.json())
+  }
+
+  getAlbum(albumID: string) {
+    const spotURL = 'https://api.spotify.com/v1/albums/' + albumID;
+    return this._http.get(spotURL, {headers: this.headers}).map(res => res.json())
   }
 
 }

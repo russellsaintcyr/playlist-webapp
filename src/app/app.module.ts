@@ -19,6 +19,8 @@ import {AlertService} from "./services/alert.service";
 import {AlertComponent} from "./directives/alert.component";
 import { NowPlayingComponent } from './components/now-playing/now-playing.component';
 import { StatsComponent } from './components/stats/stats.component';
+import {AlbumComponent} from './components/album/album.component';
+import {ArtistComponent} from './components/artist/artist.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { StatsComponent } from './components/stats/stats.component';
     CallbackComponent,
     AlertComponent,
     NowPlayingComponent,
-    StatsComponent
+    StatsComponent,
+    AlbumComponent,
+    ArtistComponent
   ],
   imports: [
     BrowserModule,

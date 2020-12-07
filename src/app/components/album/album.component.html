@@ -1,0 +1,9 @@
+<div>
+  <img src="{{album.images[1].url}}" class="img-responsive albumCoverImg" alt="Cover">
+  <ol>
+  <li *ngFor="let track of album.tracks.items; let i = index">
+    {{track.name}} ({{track.duration_ms | date: 'm:ss'}})
+  </li>
+  </ol>
+
+</div>
