@@ -1,10 +1,29 @@
 <form>
   <div class="form-group">
-    <input type="text" [(ngModel)]="bearerToken" name="zorg" class="form-control">
+    <label>Token
+      <input type="text" [(ngModel)]="bearerToken" name="zorg" class="form-control">
+    </label>
     <button type="button" class="btn btn-default" (click)="setBearerToken()">Set Token</button>
   </div>
 </form>
-<a (click)="clearRatings()" href="javascript:void(0)">Clear ratings</a>
 <div *ngIf="bearerToken === null">
   No bearerToken found in local storage.
 </div>
+
+<hr>
+<stats></stats>
+<a (click)="clearRatings()" href="javascript:void(0)" class="btn btn-danger">Clear ratings</a>
+
+<hr>
+<login></login>
+
+<hr>
+Rating system. 5/3 stars or 3 thumbs (no, yes, maybe)
+<p>
+  <label for="STARS">Stars 5</label>
+  <input type="radio" name="ratingSystem" id="STARS" value="STARS" (click)="setRatingSystem('STARS')" [ngModel]="ratingSystem">
+  <label for="STARS3">Stars 3</label>
+  <input type="radio" name="ratingSystem" id="STARS3" value="STARS3" (click)="setRatingSystem('STARS3')" [ngModel]="ratingSystem">
+  <label for="THUMBS">Thumbs</label>
+  <input type="radio" name="ratingSystem" id="THUMBS" value="THUMBS" (click)="setRatingSystem('THUMBS')" [ngModel]="ratingSystem">
+</p>

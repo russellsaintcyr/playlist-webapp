@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertService} from "../../services/alert.service";
+import {AlertService} from '../../services/alert.service';
+import {AppSettings} from '../../../appSettings';
 
 @Component({
   selector: 'settings',
@@ -8,12 +9,16 @@ import {AlertService} from "../../services/alert.service";
 })
 export class SettingsComponent implements OnInit {
 
+  public ratingSystem: string;
   public bearerToken: string;
+
   constructor(private alertService: AlertService) {
     this.bearerToken = localStorage.getItem('bearerToken');
   }
 
   ngOnInit() {
+    console.log(localStorage.getItem('ratingSystem'));
+    this.ratingSystem = (localStorage.getItem('ratingSystem') !== null) ? localStorage.getItem('ratingSystem') : AppSettings.RATING_SYSTEMS.STARS5;
   }
 
   setBearerToken() {
@@ -24,5 +29,10 @@ export class SettingsComponent implements OnInit {
   clearRatings() {
     localStorage.removeItem('ratings');
     this.alertService.success('Cleared ratings')
+  }
+
+  setRatingSystem(ratingSystem: string) {
+    console.log(ratingSystem);
+    localStorage.setItem('ratingSystem', ratingSystem);
   }
 }

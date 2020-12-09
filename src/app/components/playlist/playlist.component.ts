@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Http} from "@angular/http";
-import {SpotifyService} from "../../services/spotify.service";
-import {AlertService} from "../../services/alert.service";
-import {Rating} from "../../classes/rating";
-import {NowPlayingComponent} from "../now-playing/now-playing.component";
-import {AfterViewChecked} from "@angular/core";
-import {Track} from "../../classes/track";
-import {MetaTrack} from "../../classes/metatrack";
+import {Http} from '@angular/http';
+import {SpotifyService} from '../../services/spotify.service';
+import {AlertService} from '../../services/alert.service';
+import {Rating} from '../../classes/rating';
+import {NowPlayingComponent} from '../now-playing/now-playing.component';
+import {AfterViewChecked} from '@angular/core';
+import {Track} from '../../classes/track';
+import {MetaTrack} from '../../classes/metatrack';
 import {Router} from '@angular/router';
 
 @Component({
@@ -28,6 +28,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   public stars5 = 0;
   public ratings: Array<Rating>;
   public playlist;
+  public ratingSystem: string;
+
   private ratingsLoaded: boolean;
   private tracksLoaded: boolean;
   private offset = 0;
@@ -54,8 +56,9 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     // console.log('ngOnInit called.');
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
-    document.body.style.backgroundImage = "url('" + this.selectedPlaylist.images[0].url + "')";
+    document.body.style.backgroundImage = 'url(\'' + this.selectedPlaylist.images[0].url + '\')';
     this.loadPlaylist();
+    this.ratingSystem = (localStorage.getItem('ratingSystem') !== null) ? localStorage.getItem('ratingSystem') : 'STARS';
   }
 
   loadPlaylist() {
@@ -78,10 +81,10 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   setRating(rating: number, track) {
-    let elem = document.getElementById('star' + rating);
+    const elem = document.getElementById(this.ratingSystem + rating);
     // console.log();
     NowPlayingComponent.showStars(rating, track.id, null);
-    let newRating = new Rating(track.uri, rating);
+    const newRating = new Rating(track.uri, rating);
     // search for existing rating
     let obj = undefined;
     if (this.ratings !== undefined) {
@@ -96,7 +99,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
       this.ratings.push(newRating);
     } else {
       let oldRating = -1;
-      let xxx = this.ratings.findIndex(function (obj: Rating) {
+      const xxx = this.ratings.findIndex(function (obj: Rating) {
         oldRating = track.rating;
         return obj.trackURI === track.uri;
       });
@@ -124,15 +127,15 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
       console.log('Tracks not yet defined so not getting ratings.');
       return;
     }
-    let traxx = this.tracks;
+    const traxx = this.tracks;
     if (localStorage.getItem('ratings') !== null) {
       this.ratings = JSON.parse(localStorage.getItem('ratings'));
       console.log('Loaded ' + this.ratings.length + ' ratings.');
       // loop through all tracks and adjust stars
       // console.log('Looping through tracks for ratings');
-      for (let x in this.tracks) {
+      for (const x in this.tracks) {
         // first ensure is loaded in DOM
-        if (document.getElementById('star1-' + this.tracks[x].track.id) === null) {
+        if (document.getElementById(this.ratingSystem + '1-' + this.tracks[x].track.id) === null) {
           console.log('Exiting for loop because DOM is not ready');
           break;
         }
@@ -208,8 +211,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   playRating(rating: number, action: string) {
-    let arrTracks = [];
-    for (let x in this.tracks) {
+    const arrTracks = [];
+    for (const x in this.tracks) {
       // console.log(this.tracks[x].uri + ' ' + this.tracks[x].rating);
       if (this.tracks[x].track.rating === rating) {
         arrTracks.push(this.tracks[x].track.uri);
@@ -229,7 +232,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
       } else {
         this.alertService.info('Creating new playlist');
         // TODO get playlist name from user?
-        let playlistName = rating + '-star Tracks';
+        const playlistName = rating + '-star Tracks';
         // first create playlist, then add tracks
         this._spotifyService.createPlaylist({name: playlistName}).subscribe(res => {
             this._spotifyService.addToPlaylist({uris: arrTracks}, res.id).subscribe(res2 => {
@@ -280,4 +283,5 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     localStorage.setItem('artistID', artistID);
     this.router.navigateByUrl('/artist');
   }
+
 }
