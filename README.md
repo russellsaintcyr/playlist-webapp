@@ -2,6 +2,9 @@
 
 This project was started in 2017 to help me resolve a musical challenge. Each year I create a Spotify playlist of songs that I discover and like. At year end, I typically have added 200-300 songs. I wanted a way to select my favorite 40 songs, partly a tribute to American Top 40 and Kasey Kasem. Spotify offers no way to rate tracks, and it was frustrating manually adding songs to a new playlist. I wanted an easier and fun solution. So I created a browser-based webapp which accesses the Spotify API and allows users to play and rate tracks as they listen.
 
+![Now Playing](now_playing.png)
+![Now Playing](2021.png)
+
 ## Architecture
 * Angular frontend
 * Node.js and Express backend
