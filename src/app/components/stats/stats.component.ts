@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Rating} from "../../classes/rating";
+import { Rating } from "../../classes/rating";
 
 @Component({
-  selector: 'stats',
+  selector: 'app-stats',
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.css']
 })
@@ -15,7 +15,8 @@ export class StatsComponent implements OnInit {
   public stars4 = 0;
   public stars5 = 0;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.ratings = JSON.parse(localStorage.getItem('ratings'));
