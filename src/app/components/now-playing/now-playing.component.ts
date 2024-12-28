@@ -22,7 +22,7 @@ export class NowPlayingComponent implements OnInit {
 
   private timerRefresh;
   private timerProgressBar;
-  private refreshPeriod = 45000;
+  private refreshPeriod = 60000;
   private initial_progress_ms: number;
   private used_ms = 0;
 
@@ -94,7 +94,7 @@ export class NowPlayingComponent implements OnInit {
 
   getCurrentlyPlaying(intervalId) {
     this.spotifyService.getCurrentlyPlaying().subscribe(response => {
-        console.log(response);
+        // console.log(response);
         if (response === null) {
           this.alertService.warn('No track is currently playing.')
         } else {

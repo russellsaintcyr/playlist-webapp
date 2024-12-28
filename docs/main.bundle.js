@@ -1108,7 +1108,7 @@ var NowPlayingComponent = NowPlayingComponent_1 = (function () {
         this.spotifyService = spotifyService;
         this.alertService = alertService;
         this.router = router;
-        this.refreshPeriod = 45000;
+        this.refreshPeriod = 60000;
         this.used_ms = 0;
         console.log('NowPlayingComponent constructor called');
     }
@@ -1166,7 +1166,7 @@ var NowPlayingComponent = NowPlayingComponent_1 = (function () {
     NowPlayingComponent.prototype.getCurrentlyPlaying = function (intervalId) {
         var _this = this;
         this.spotifyService.getCurrentlyPlaying().subscribe(function (response) {
-            console.log(response);
+            // console.log(response);
             if (response === null) {
                 _this.alertService.warn('No track is currently playing.');
             }
@@ -2180,6 +2180,7 @@ var SpotifyService = (function () {
         if (location.port !== '') {
             this.baseURL += ':' + location.port;
         }
+        console.log("Base URL: " + this.baseURL, location);
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.bearerToken });
     }
     SpotifyService.prototype.getPlaylist = function (playlist, offset) {

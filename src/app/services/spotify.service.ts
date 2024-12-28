@@ -28,6 +28,7 @@ export class SpotifyService {
     if (location.port !== '') {
       this.baseURL += ':' + location.port;
     }
+    console.log(`Base URL: ${this.baseURL}`, location);
     this.headers = new Headers({'Authorization': 'Bearer ' + this.bearerToken});
   }
 
