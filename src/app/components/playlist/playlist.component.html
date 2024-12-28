@@ -81,6 +81,7 @@
           <span *ngFor="let artist of track.track.artists; let i = index">
             <a (click)="viewArtist(artist.id)" [routerLink]="">{{ artist.name }}</a>
           </span>
+          <br>
           <i class="glyphicon glyphicon-thumbs-down icons"
              id="{{'THUMBS3-' + track.track.id}}"
              [class.star-selected]="track.track.rating === 3"

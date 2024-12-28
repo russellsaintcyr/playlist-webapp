@@ -121,22 +121,16 @@ export class NowPlayingComponent implements OnInit {
             clearInterval(intervalId);
           }
           // search for existing rating
-          // let obj = undefined;
-          // confirm we can use find() with array
-          // if (typeof this.ratings.find === 'function') {
+          console.log('Searching for rating for ' + response.item.uri);
           const obj = this.ratings.find(function (obj: Rating) {
             return obj.trackURI === response.item.uri;
           });
-          // } else {
-          //   this.alertService.warn('Array.find not supported.');
-          //   let obj = this.ratings.filter(function (obj: Rating) {
-          //     return obj.trackURI === res.item.uri;
-          //   })[0];
-          // }
           if (obj === undefined) {
-            NowPlayingComponent.showStars(0, response.item.id, null);
+            console.log(`No rating found for ${response.item.uri}`);
+            // NowPlayingComponent.showStars(0, response.item.id, null);
           } else {
-            NowPlayingComponent.showStars(obj.rating, response.item.id, null);
+            this.track.rating = obj.rating;
+            // NowPlayingComponent.showStars(obj.rating, response.item.id, null);
             // TODO add this as a preference/setting
             if (this.autoSkip) {
               console.log('Skipping song since is already rated.');
@@ -174,6 +168,8 @@ export class NowPlayingComponent implements OnInit {
       this.ratings.splice(xxx, 1, newRating);
     }
     localStorage.setItem('ratings', JSON.stringify(this.ratings));
+    // update track rating
+    this.track.rating = rating;
     // TODO enable next line via user preference, for now do automatically
     // this.playNextPrevious('next');
   }
