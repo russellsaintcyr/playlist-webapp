@@ -7,7 +7,6 @@ import { Location } from '@angular/common';
 @Injectable()
 export class SpotifyService {
 
-  private searchURL: string;
   private authURL: string;
   // TODO remove need for user ID
   private readonly userID: string;
@@ -24,10 +23,9 @@ export class SpotifyService {
     // TODO remove hard-coded user ID
     this.userID = 'x1111x';
     this.bearerToken = localStorage.getItem('bearerToken');
-    console.log(location);
-    console.log(`location.hostname: ${location.hostname}`);
-    console.log(`location.host: ${location.host}`);
-    console.log(`location.href: ${location.href}`);
+    // console.log(`location.hostname: ${location.hostname}`);
+    // console.log(`location.host: ${location.host}`);
+    // console.log(`location.href: ${location.href}`);
     this.callbackRedirectURI = (location.host.includes('github')) ? location.href + 'callback' : `http://${location.host}/callback`;
     console.log(`callbackRedirectURI: ${this.callbackRedirectURI}`);
     this.headers = new Headers({'Authorization': 'Bearer ' + this.bearerToken});

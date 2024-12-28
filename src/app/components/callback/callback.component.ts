@@ -16,13 +16,13 @@ export class CallbackComponent implements OnInit {
   public queryStringArray: Array<string>;
 
   constructor(private location: Location, private router: Router) {
-    let queryString = this.location.path(true).substring(10);
+    const queryString = this.location.path(true).substring(10);
     this.queryStringArray = queryString.split('&');
   }
 
   getQueryVariable(variable) {
-    for (var i = 0; i < this.queryStringArray.length; i++) {
-      var pair = this.queryStringArray[i].split('=');
+    for (let i = 0; i < this.queryStringArray.length; i++) {
+      const pair = this.queryStringArray[i].split('=');
       if (decodeURIComponent(pair[0]) == variable) {
         return decodeURIComponent(pair[1]);
       }
@@ -39,7 +39,7 @@ export class CallbackComponent implements OnInit {
     localStorage.setItem('bearerToken', this.accessToken);
     console.log('Updated local storage token');
     // redirect
-    let savedState = localStorage.getItem('savedState');
+    const savedState = localStorage.getItem('savedState');
     if (savedState !== null && savedState !== undefined) {
       console.log('Navigating to saved state of ' + savedState);
       this.router.navigateByUrl('/' + savedState);
