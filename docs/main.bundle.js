@@ -2176,11 +2176,14 @@ var SpotifyService = (function () {
         // TODO remove hard-coded user ID
         this.userID = 'x1111x';
         this.bearerToken = localStorage.getItem('bearerToken');
-        this.baseURL = location.hostname;
-        if (location.port !== '') {
-            this.baseURL += ':' + location.port;
-        }
-        console.log("Base URL: " + this.baseURL, location);
+        this.baseURL = location.host;
+        console.log("location.hostname: " + location.hostname);
+        console.log("location.host: " + location.host);
+        console.log("location.href: " + location.href);
+        // if (location.port !== '') {
+        //   this.baseURL += ':' + location.port;
+        // }
+        console.log("Base URL: " + this.baseURL);
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.bearerToken });
     }
     SpotifyService.prototype.getPlaylist = function (playlist, offset) {
@@ -2217,7 +2220,7 @@ var SpotifyService = (function () {
     SpotifyService.prototype.getAuthorizeURL = function () {
         var client_id = 'e8629f625be5446a8434f03c0063ac27';
         var response_type = 'token'; // Implicit Grant Flow https://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow
-        var redirect_uri = 'http://' + this.baseURL + '/callback';
+        var redirect_uri = "http://" + this.baseURL + "/callback";
         var scopes = 'user-read-currently-playing user-read-playback-state playlist-modify-private playlist-modify-public playlist-read-private streaming user-modify-playback-state user-read-currently-playing user-read-recently-played';
         console.log('Spotify scopes: ' + scopes);
         this.authURL = 'http://accounts.spotify.com/authorize?client_id=' + client_id +

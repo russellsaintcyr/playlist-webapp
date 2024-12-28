@@ -24,11 +24,14 @@ export class SpotifyService {
     // TODO remove hard-coded user ID
     this.userID = 'x1111x';
     this.bearerToken = localStorage.getItem('bearerToken');
-    this.baseURL = location.hostname;
-    if (location.port !== '') {
-      this.baseURL += ':' + location.port;
-    }
-    console.log(`Base URL: ${this.baseURL}`, location);
+    this.baseURL = location.host;
+    console.log(`location.hostname: ${location.hostname}`);
+    console.log(`location.host: ${location.host}`);
+    console.log(`location.href: ${location.href}`);
+    // if (location.port !== '') {
+    //   this.baseURL += ':' + location.port;
+    // }
+    console.log(`Base URL: ${this.baseURL}`);
     this.headers = new Headers({'Authorization': 'Bearer ' + this.bearerToken});
   }
 
@@ -70,7 +73,7 @@ export class SpotifyService {
   getAuthorizeURL() {
     const client_id = 'e8629f625be5446a8434f03c0063ac27';
     const response_type = 'token'; // Implicit Grant Flow https://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow
-    const redirect_uri = 'http://' + this.baseURL + '/callback';
+    const redirect_uri = `http://${this.baseURL}/callback`;
     const scopes = 'user-read-currently-playing user-read-playback-state playlist-modify-private playlist-modify-public playlist-read-private streaming user-modify-playback-state user-read-currently-playing user-read-recently-played';
     console.log('Spotify scopes: ' + scopes);
     this.authURL = 'http://accounts.spotify.com/authorize?client_id=' + client_id +
