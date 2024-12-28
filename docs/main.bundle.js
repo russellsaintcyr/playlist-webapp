@@ -2180,8 +2180,8 @@ var SpotifyService = (function () {
         console.log("location.hostname: " + location.hostname);
         console.log("location.host: " + location.host);
         console.log("location.href: " + location.href);
-        this.baseURL = (location.host.includes('github')) ? location.href : location.host; // host includes port
-        console.log("Base URL: " + this.baseURL);
+        this.callbackBaseURL = (location.host.includes('github')) ? location.href : location.host + '/'; // host includes port
+        console.log("callbackBaseURL: " + this.callbackBaseURL);
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.bearerToken });
     }
     SpotifyService.prototype.getPlaylist = function (playlist, offset) {
@@ -2218,7 +2218,7 @@ var SpotifyService = (function () {
     SpotifyService.prototype.getAuthorizeURL = function () {
         var client_id = 'e8629f625be5446a8434f03c0063ac27';
         var response_type = 'token'; // Implicit Grant Flow https://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow
-        var redirect_uri = "http://" + this.baseURL + "/callback";
+        var redirect_uri = "http://" + this.callbackBaseURL + "callback";
         var scopes = 'user-read-currently-playing user-read-playback-state playlist-modify-private playlist-modify-public playlist-read-private streaming user-modify-playback-state user-read-currently-playing user-read-recently-played';
         console.log('Spotify scopes: ' + scopes);
         this.authURL = 'http://accounts.spotify.com/authorize?client_id=' + client_id +
