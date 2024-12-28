@@ -10,10 +10,10 @@ export class SpotifyService {
   private searchURL: string;
   private authURL: string;
   // TODO remove need for user ID
-  private userID: string;
-  private bearerToken: string;
-  private callbackBaseURL: string;
-  private headers;
+  private readonly userID: string;
+  private readonly bearerToken: string;
+  private readonly callbackRedirectURI: string;
+  private readonly headers;
 
   constructor(private _http: Http, private alertService: AlertService, lokation: Location) {
     // save state to return if token expired
@@ -28,8 +28,8 @@ export class SpotifyService {
     console.log(`location.hostname: ${location.hostname}`);
     console.log(`location.host: ${location.host}`);
     console.log(`location.href: ${location.href}`);
-    this.callbackBaseURL = (location.host.includes('github')) ? location.href : location.host + '/'; // host includes port
-    console.log(`callbackBaseURL: ${this.callbackBaseURL}`);
+    this.callbackRedirectURI = (location.host.includes('github')) ? location.href + 'callback' : `http://${location.host}/callback`;
+    console.log(`callbackRedirectURI: ${this.callbackRedirectURI}`);
     this.headers = new Headers({'Authorization': 'Bearer ' + this.bearerToken});
   }
 
@@ -71,7 +71,7 @@ export class SpotifyService {
   getAuthorizeURL() {
     const client_id = 'e8629f625be5446a8434f03c0063ac27';
     const response_type = 'token'; // Implicit Grant Flow https://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow
-    const redirect_uri = `http://${this.callbackBaseURL}callback`;
+    const redirect_uri = this.callbackRedirectURI;
     const scopes = 'user-read-currently-playing user-read-playback-state playlist-modify-private playlist-modify-public playlist-read-private streaming user-modify-playback-state user-read-currently-playing user-read-recently-played';
     console.log('Spotify scopes: ' + scopes);
     this.authURL = 'http://accounts.spotify.com/authorize?client_id=' + client_id +
