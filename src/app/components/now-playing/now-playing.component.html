@@ -26,13 +26,15 @@
         <span class="trackName">{{ track.name }}</span>
         <br><i class="glyphicon glyphicon-user"></i>&nbsp;
         <span *ngFor="let artist of track.artists; let i = index">
-            <a (click)="viewArtist(artist.id)" [routerLink]="">{{ artist.name }}</a>
-          </span>
+          <a (click)="viewArtist(artist.id)" [routerLink]="">{{ artist.name }}</a><span *ngIf="i < track.artists.length - 1">, </span>
+        </span>
         <br>
         <i class="glyphicon glyphicon-cd"></i>&nbsp;
         <a (click)="viewAlbum()" [routerLink]="">{{ track.albumName }} ({{ track.albumYear | date: 'yyyy' }})</a>
         <br>
         <i class="glyphicon glyphicon-time"></i> &nbsp;{{ track.duration_ms | date: 'm:ss' }}
+        &nbsp;<progress *ngIf="track.is_playing" id="file" max="{{track.duration_ms}}" value="{{adjusted_progress_ms}}"></progress>
+        &nbsp;{{ adjusted_progress_ms | date: 'm:ss' }}
         <br>
         <i class="glyphicon glyphicon glyphicon-list"></i>
         <a routerLink="/playlist">{{ this.selectedPlaylist.name }}</a>
@@ -47,21 +49,6 @@
         <button *ngIf="track.is_playing" type="button" class="btn btn-success" (click)="playNextPrevious('next')"><i class="glyphicon glyphicon-forward"></i>
         </button>
       </div>
-      <!-- progress bar -->
-      <div *ngIf="track.is_playing">
-        <br>
-        <progress id="file" max="{{track.duration_ms}}" value="{{adjusted_progress_ms}}"></progress>
-        <br>{{ adjusted_progress_ms | date: 'm:ss' }}
-      </div>
-      <!-- last playing song -->
-      <!--      <div>-->
-      <!--        <hr>-->
-      <!--        Last Playing Song<br>-->
-      <!--        {{lastTrack.name}} by {{lastTrack.mainArtist}}<br>-->
-      <!--        <i class="glyphicon glyphicon-thumbs-down star-unselected nowPlaying" id="no" (click)="setRating(3, track)"></i>&nbsp;&nbsp;-->
-      <!--        <i class="glyphicon glyphicon-hand-right star-unselected nowPlaying" id="maybe" (click)="setRating(4, track)"></i>&nbsp;&nbsp;-->
-      <!--        <i class="glyphicon glyphicon-thumbs-up star-unselected nowPlaying" id="yes" (click)="setRating(5, track)"></i>&nbsp;&nbsp;-->
-      <!--      </div>-->
     </div>
   </div>
 </div>

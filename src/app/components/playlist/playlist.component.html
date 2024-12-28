@@ -79,7 +79,7 @@
         <td>
           {{ track.track.name }} - by
           <span *ngFor="let artist of track.track.artists; let i = index">
-            <a (click)="viewArtist(artist.id)" [routerLink]="">{{ artist.name }}</a>
+            <a (click)="viewArtist(artist.id)" [routerLink]="">{{ artist.name }}</a><span *ngIf="i < track.track.artists.length - 1">, </span>
           </span>
           <br>
           <i class="glyphicon glyphicon-thumbs-down icons"
