@@ -24,14 +24,11 @@ export class SpotifyService {
     // TODO remove hard-coded user ID
     this.userID = 'x1111x';
     this.bearerToken = localStorage.getItem('bearerToken');
-    this.baseURL = location.host;
-    console.log(`location: `, location);
+    console.log(location);
     console.log(`location.hostname: ${location.hostname}`);
     console.log(`location.host: ${location.host}`);
     console.log(`location.href: ${location.href}`);
-    // if (location.port !== '') {
-    //   this.baseURL += ':' + location.port;
-    // }
+    this.baseURL = (location.host.includes('github')) ? location.href : location.host; // host includes port
     console.log(`Base URL: ${this.baseURL}`);
     this.headers = new Headers({'Authorization': 'Bearer ' + this.bearerToken});
   }

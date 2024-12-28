@@ -2176,14 +2176,11 @@ var SpotifyService = (function () {
         // TODO remove hard-coded user ID
         this.userID = 'x1111x';
         this.bearerToken = localStorage.getItem('bearerToken');
-        this.baseURL = location.host;
-        console.log("location: ", location);
+        console.log(location);
         console.log("location.hostname: " + location.hostname);
         console.log("location.host: " + location.host);
         console.log("location.href: " + location.href);
-        // if (location.port !== '') {
-        //   this.baseURL += ':' + location.port;
-        // }
+        this.baseURL = (location.host.includes('github')) ? location.href : location.host; // host includes port
         console.log("Base URL: " + this.baseURL);
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.bearerToken });
     }
