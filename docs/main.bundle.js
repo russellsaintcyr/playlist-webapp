@@ -443,9 +443,9 @@ var AlbumComponent = (function () {
             var albumID = localStorage.getItem('albumID');
             this.spotifyService.getAlbum(albumID).subscribe(function (response) {
                 _this.album = response;
-                console.log(_this.album);
+                // console.log(this.album);
             }, function (err) {
-                console.debug(err);
+                console.error(err);
                 _this.alertService.error(err._body);
             });
         }
@@ -540,7 +540,7 @@ var ArtistComponent = (function () {
             _this.artist = response;
             console.log(_this.artist);
         }, function (err) {
-            console.debug(err);
+            console.error(err);
             _this.alertService.error(err._body);
         });
     };
@@ -548,9 +548,9 @@ var ArtistComponent = (function () {
         var _this = this;
         this.spotifyService.getArtistAlbums(this.artistID).subscribe(function (response) {
             _this.albums = response.items;
-            console.log(_this.albums);
+            // console.log(this.albums);
         }, function (err) {
-            console.debug(err);
+            console.error(err);
             _this.alertService.error(err._body);
         });
     };
@@ -1019,7 +1019,7 @@ var NavbarComponent = (function () {
         this.spotifyService.playNextPrevious(direction).subscribe(function (res) {
             // this.alertService.success('Playing  ' + direction + ' track');
         }, function (err) {
-            console.debug(err);
+            console.error(err);
             _this.alertService.error(err._body);
         });
     };
@@ -1029,7 +1029,7 @@ var NavbarComponent = (function () {
             _this.alertService.success('Stopping playback');
             _this.isPlaying = false;
         }, function (err) {
-            console.debug(err);
+            console.error(err);
             _this.alertService.error(err._body);
         });
     };
@@ -1071,7 +1071,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/now-playing/now-playing.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" *ngIf=\"track !== undefined\">\n  <div class=\"row\">\n    <div class=\"col-md-8\">\n      <img src=\"{{track.coverImage}}\" class=\"img-responsive albumCoverImg\">\n    </div>\n    <div class=\"col-md-4\">\n      <i class=\"glyphicon glyphicon-thumbs-down nowPlaying\"\n         id=\"{{'THUMBS3-' + track.id}}\"\n         [class.star-selected]=\"track.rating === 3\"\n         (click)=\"setRating(3, track)\"></i>\n      <i class=\"glyphicon glyphicon-hand-right nowPlaying\"\n         id=\"{{'THUMBS4-' + track.id}}\"\n         [class.star-selected]=\"track.rating === 4\"\n         (click)=\"setRating(4, track)\"></i>\n      <i class=\"glyphicon glyphicon-thumbs-up nowPlaying\"\n         id=\"{{'THUMBS5-' + track.id}}\"\n         [class.star-selected]=\"track.rating === 5\"\n         (click)=\"setRating(5, track)\"></i>\n      <br>\n      <span *ngIf=\"loadingTrack\">\n        <i class=\"glyphicon glyphicon-refresh\"></i>&nbsp;\n        Loading track\n      </span>\n      <div class=\"trackDetails\">\n        <!-- TODO loop through artists, and link -->\n        <span class=\"trackName\">{{ track.name }}</span>\n        <br><i class=\"glyphicon glyphicon-user\"></i>&nbsp;\n        <span *ngFor=\"let artist of track.artists; let i = index\">\n            <a (click)=\"viewArtist(artist.id)\" [routerLink]=\"\">{{ artist.name }}</a>\n          </span>\n        <br>\n        <i class=\"glyphicon glyphicon-cd\"></i>&nbsp;\n        <a (click)=\"viewAlbum()\" [routerLink]=\"\">{{ track.albumName }} ({{ track.albumYear | date: 'yyyy' }})</a>\n        <br>\n        <i class=\"glyphicon glyphicon-time\"></i> &nbsp;{{ track.duration_ms | date: 'm:ss' }}\n        <br>\n        <i class=\"glyphicon glyphicon glyphicon-list\"></i>\n        <a routerLink=\"/playlist\">{{ this.selectedPlaylist.name }}</a>\n      </div>\n      <!-- playback -->\n      <div>\n        <br>\n        <button *ngIf=\"track.is_playing\" type=\"button\" class=\"btn btn-success\" (click)=\"stop()\"><i class=\"glyphicon glyphicon-stop\"></i></button>\n        <button *ngIf=\"!track.is_playing\" type=\"button\" class=\"btn btn-success\" (click)=\"play()\"><i class=\"glyphicon glyphicon-play\"></i></button>\n        <button *ngIf=\"track.is_playing\" type=\"button\" class=\"btn btn-success\" (click)=\"playNextPrevious('previous')\"><i\n          class=\"glyphicon glyphicon-backward\"></i></button>\n        <button *ngIf=\"track.is_playing\" type=\"button\" class=\"btn btn-success\" (click)=\"playNextPrevious('next')\"><i class=\"glyphicon glyphicon-forward\"></i>\n        </button>\n      </div>\n      <!-- progress bar -->\n      <div *ngIf=\"track.is_playing\">\n        <br>\n        <progress id=\"file\" max=\"{{track.duration_ms}}\" value=\"{{adjusted_progress_ms}}\"></progress>\n        <br>{{ adjusted_progress_ms | date: 'm:ss' }}\n      </div>\n      <!-- last playing song -->\n      <!--      <div>-->\n      <!--        <hr>-->\n      <!--        Last Playing Song<br>-->\n      <!--        {{lastTrack.name}} by {{lastTrack.mainArtist}}<br>-->\n      <!--        <i class=\"glyphicon glyphicon-thumbs-down star-unselected nowPlaying\" id=\"no\" (click)=\"setRating(3, track)\"></i>&nbsp;&nbsp;-->\n      <!--        <i class=\"glyphicon glyphicon-hand-right star-unselected nowPlaying\" id=\"maybe\" (click)=\"setRating(4, track)\"></i>&nbsp;&nbsp;-->\n      <!--        <i class=\"glyphicon glyphicon-thumbs-up star-unselected nowPlaying\" id=\"yes\" (click)=\"setRating(5, track)\"></i>&nbsp;&nbsp;-->\n      <!--      </div>-->\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container\" *ngIf=\"track !== undefined\">\n  <div class=\"row\">\n    <div class=\"col-md-8\">\n      <img src=\"{{track.coverImage}}\" class=\"img-responsive albumCoverImg\">\n    </div>\n    <div class=\"col-md-4\">\n      <i class=\"glyphicon glyphicon-thumbs-down nowPlaying\"\n         id=\"{{'THUMBS3-' + track.id}}\"\n         [class.star-selected]=\"track.rating === 3\"\n         (click)=\"setRating(3, track)\"></i>\n      <i class=\"glyphicon glyphicon-hand-right nowPlaying\"\n         id=\"{{'THUMBS4-' + track.id}}\"\n         [class.star-selected]=\"track.rating === 4\"\n         (click)=\"setRating(4, track)\"></i>\n      <i class=\"glyphicon glyphicon-thumbs-up nowPlaying\"\n         id=\"{{'THUMBS5-' + track.id}}\"\n         [class.star-selected]=\"track.rating === 5\"\n         (click)=\"setRating(5, track)\"></i>\n      <br>\n      <span *ngIf=\"loadingTrack\">\n        <i class=\"glyphicon glyphicon-refresh\"></i>&nbsp;\n        Loading track\n      </span>\n      <div class=\"trackDetails\">\n        <!-- TODO loop through artists, and link -->\n        <span class=\"trackName\">{{ track.name }}</span>\n        <br><i class=\"glyphicon glyphicon-user\"></i>&nbsp;\n        <span *ngFor=\"let artist of track.artists; let i = index\">\n          <a (click)=\"viewArtist(artist.id)\" [routerLink]=\"\">{{ artist.name }}</a><span *ngIf=\"i < track.artists.length - 1\">, </span>\n        </span>\n        <br>\n        <i class=\"glyphicon glyphicon-cd\"></i>&nbsp;\n        <a (click)=\"viewAlbum()\" [routerLink]=\"\">{{ track.albumName }} ({{ track.albumYear | date: 'yyyy' }})</a>\n        <br>\n        <i class=\"glyphicon glyphicon-time\"></i> &nbsp;{{ track.duration_ms | date: 'm:ss' }}\n        &nbsp;<progress *ngIf=\"track.is_playing\" id=\"file\" max=\"{{track.duration_ms}}\" value=\"{{adjusted_progress_ms}}\"></progress>\n        &nbsp;{{ adjusted_progress_ms | date: 'm:ss' }}\n        <br>\n        <i class=\"glyphicon glyphicon glyphicon-list\"></i>\n        <a routerLink=\"/playlist\">{{ this.selectedPlaylist.name }}</a>\n      </div>\n      <!-- playback -->\n      <div>\n        <br>\n        <button *ngIf=\"track.is_playing\" type=\"button\" class=\"btn btn-success\" (click)=\"stop()\"><i class=\"glyphicon glyphicon-stop\"></i></button>\n        <button *ngIf=\"!track.is_playing\" type=\"button\" class=\"btn btn-success\" (click)=\"play()\"><i class=\"glyphicon glyphicon-play\"></i></button>\n        <button *ngIf=\"track.is_playing\" type=\"button\" class=\"btn btn-success\" (click)=\"playNextPrevious('previous')\"><i\n          class=\"glyphicon glyphicon-backward\"></i></button>\n        <button *ngIf=\"track.is_playing\" type=\"button\" class=\"btn btn-success\" (click)=\"playNextPrevious('next')\"><i class=\"glyphicon glyphicon-forward\"></i>\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1179,7 +1179,7 @@ var NowPlayingComponent = NowPlayingComponent_1 = (function () {
                 var artists_1 = [];
                 response.item.artists.forEach(function (element) { return artists_1.push(new __WEBPACK_IMPORTED_MODULE_6__classes_artist__["a" /* Artist */](element.name, element.id)); });
                 _this.track = new __WEBPACK_IMPORTED_MODULE_3__classes_track__["a" /* Track */](response.item.uri, response.item.name, response.item.album.images[0].url, response.item.album.name, response.item.artists[0].name, response.item.id, response.progress_ms, response.item.duration_ms, response.is_playing, response.item.album.release_date, response.item.album.id, response.item.artists[0].id, artists_1);
-                console.log(_this.track);
+                // console.log(this.track);
                 // set playback times, and call loop
                 _this.used_ms = 0;
                 _this.initial_progress_ms = _this.track.progress_ms;
@@ -1260,7 +1260,7 @@ var NowPlayingComponent = NowPlayingComponent_1 = (function () {
             _this.track.is_playing = false;
             clearTimeout(_this.timerProgressBar);
         }, function (err) {
-            console.debug(err);
+            console.error(err);
             _this.alertService.error(err._body);
         });
     };
@@ -1270,7 +1270,7 @@ var NowPlayingComponent = NowPlayingComponent_1 = (function () {
             _this.track.is_playing = true;
             _this.computeTime(_this);
         }, function (err) {
-            console.debug(err);
+            console.error(err);
             _this.alertService.error(err._body);
         });
     };
@@ -1320,7 +1320,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/playlist/playlist.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--<meta http-equiv=\"refresh\" content=\"3600\">-->\n<div *ngIf=\"selectedPlaylist === undefined\">\n  selectedPlaylist is undefined\n</div>\n\n<div *ngIf=\"selectedPlaylist === null\">\n  selectedPlaylist is null\n</div>\n\n<div *ngIf=\"selectedPlaylist !== undefined && selectedPlaylist !== null\">\n  <h2>{{ selectedPlaylist.name }}</h2>\n  <img src=\"{{selectedPlaylist.images[0]?.url}}\" class=\"img-responsive\">\n  <!--<h5>No. of Tracks: {{selectedPlaylist.tracks.total}}</h5>-->\n  {{ stars0 }} Unrated\n  <a href=\"javascript:void(0)\" (click)=\"playRating(0, 'play')\">\n    Play <i class=\"glyphicon glyphicon-play\"></i>\n  </a>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(0, 'createPlaylist')\">Create Playlist <i class=\"glyphicon glyphicon-file\"></i></a>\n  <br>\n  {{ stars3 }}\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'THUMBS'\" class=\"glyphicon glyphicon-thumbs-down\"></i>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(3, 'play')\">Play <i class=\"glyphicon glyphicon-play\"></i></a>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(3, 'createPlaylist')\">Create Playlist <i class=\"glyphicon glyphicon-file\"></i></a>\n  <br>\n  {{ stars4 }}\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'THUMBS'\" class=\"glyphicon glyphicon-hand-right\"></i>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(4, 'play')\">Play <i class=\"glyphicon glyphicon-play\"></i></a>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(4, 'createPlaylist')\">Create Playlist <i class=\"glyphicon glyphicon-file\"></i></a>\n  <br>\n  {{ stars5 }}\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'THUMBS'\" class=\"glyphicon glyphicon-thumbs-up\"></i>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(5, 'play')\">Play <i class=\"glyphicon glyphicon-play\"></i></a>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(5, 'createPlaylist')\">Create Playlist <i class=\"glyphicon glyphicon-file\"></i></a>\n  <br>\n  <a href=\"javascript:void(0)\" (click)=\"playAllTracks()\">\n    Play All <i class=\"glyphicon glyphicon-play\"></i>\n  </a>\n  <a href=\"javascript:void(0)\" (click)=\"updateCounts()\">\n    Update Counts <i class=\"glyphicon glyphicon-repeat\"></i>\n  </a>\n  <br>\n  <a routerLink=\"/nowplaying\">Now Playing</a>\n\n\n  <!--loop through tracks-->\n  <div *ngIf=\"tracks !== null && tracks !== undefined\">\n    {{ playlist.total }} tracks in playlist\n    <!--TODO make the controls a directive-->\n    <div *ngIf=\"playlist.previous !== null\">\n      <a (click)=\"loadOffset(playlist.previous)\" href=\"javascript:void(0)\">\n        Previous\n        <i class=\"glyphicon glyphicon-fast-backward\"></i>\n      </a>\n    </div>\n    <div *ngIf=\"playlist.next !== null\">\n      <a (click)=\"loadOffset(playlist.next)\" href=\"javascript:void(0)\">\n        Next\n        <i class=\"glyphicon glyphicon-step-forward\"></i>\n      </a>\n    </div>\n\n    <table>\n      <tr *ngFor=\"let track of tracks; let i = index\">\n        <td>\n          <img src=\"{{track.track.album.images[2]?.url}}\" class=\"btn btn-success\" style=\"margin: 5px;\" (click)=\"playTrack(track.track)\">\n        </td>\n        <td>\n          {{ track.track.name }} - by\n          <span *ngFor=\"let artist of track.track.artists; let i = index\">\n            <a (click)=\"viewArtist(artist.id)\" [routerLink]=\"\">{{ artist.name }}</a>\n          </span>\n          <br>\n          <i class=\"glyphicon glyphicon-thumbs-down icons\"\n             id=\"{{'THUMBS3-' + track.track.id}}\"\n             [class.star-selected]=\"track.track.rating === 3\"\n             (click)=\"setRating(3, track.track)\"></i>\n          <i class=\"glyphicon glyphicon-hand-right icons\"\n             id=\"{{'THUMBS4-' + track.track.id}}\"\n             [class.star-selected]=\"track.track.rating === 4\"\n             (click)=\"setRating(4, track.track)\"></i>\n          <i class=\"glyphicon glyphicon-thumbs-up icons\"\n             id=\"{{'THUMBS5-' + track.track.id}}\"\n             [class.star-selected]=\"track.track.rating === 5\"\n             (click)=\"setRating(5, track.track)\"></i>\n        </td>\n      </tr>\n    </table>\n\n    <div *ngIf=\"playlist.previous !== null\">\n      <a (click)=\"loadOffset(playlist.previous)\" href=\"javascript:void(0)\">\n        Previous\n        <i class=\"glyphicon glyphicon-fast-backward\"></i>\n      </a>\n    </div>\n    <div *ngIf=\"playlist.next !== null\">\n      <a (click)=\"loadOffset(playlist.next)\" href=\"javascript:void(0)\">\n        Next\n        <i class=\"glyphicon glyphicon-step-forward\"></i>\n      </a>\n    </div>\n  </div>\n</div>\n\n"
+module.exports = "<!--<meta http-equiv=\"refresh\" content=\"3600\">-->\n<div *ngIf=\"selectedPlaylist === undefined\">\n  selectedPlaylist is undefined\n</div>\n\n<div *ngIf=\"selectedPlaylist === null\">\n  selectedPlaylist is null\n</div>\n\n<div *ngIf=\"selectedPlaylist !== undefined && selectedPlaylist !== null\">\n  <h2>{{ selectedPlaylist.name }}</h2>\n  <img src=\"{{selectedPlaylist.images[0]?.url}}\" class=\"img-responsive\">\n  <!--<h5>No. of Tracks: {{selectedPlaylist.tracks.total}}</h5>-->\n  {{ stars0 }} Unrated\n  <a href=\"javascript:void(0)\" (click)=\"playRating(0, 'play')\">\n    Play <i class=\"glyphicon glyphicon-play\"></i>\n  </a>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(0, 'createPlaylist')\">Create Playlist <i class=\"glyphicon glyphicon-file\"></i></a>\n  <br>\n  {{ stars3 }}\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'THUMBS'\" class=\"glyphicon glyphicon-thumbs-down\"></i>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(3, 'play')\">Play <i class=\"glyphicon glyphicon-play\"></i></a>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(3, 'createPlaylist')\">Create Playlist <i class=\"glyphicon glyphicon-file\"></i></a>\n  <br>\n  {{ stars4 }}\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'THUMBS'\" class=\"glyphicon glyphicon-hand-right\"></i>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(4, 'play')\">Play <i class=\"glyphicon glyphicon-play\"></i></a>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(4, 'createPlaylist')\">Create Playlist <i class=\"glyphicon glyphicon-file\"></i></a>\n  <br>\n  {{ stars5 }}\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'STARS'\" class=\"glyphicon glyphicon-star\"></i>\n  <i *ngIf=\"ratingSystem === 'THUMBS'\" class=\"glyphicon glyphicon-thumbs-up\"></i>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(5, 'play')\">Play <i class=\"glyphicon glyphicon-play\"></i></a>\n  <a href=\"javascript:void(0)\" (click)=\"playRating(5, 'createPlaylist')\">Create Playlist <i class=\"glyphicon glyphicon-file\"></i></a>\n  <br>\n  <a href=\"javascript:void(0)\" (click)=\"playAllTracks()\">\n    Play All <i class=\"glyphicon glyphicon-play\"></i>\n  </a>\n  <a href=\"javascript:void(0)\" (click)=\"updateCounts()\">\n    Update Counts <i class=\"glyphicon glyphicon-repeat\"></i>\n  </a>\n  <br>\n  <a routerLink=\"/nowplaying\">Now Playing</a>\n\n\n  <!--loop through tracks-->\n  <div *ngIf=\"tracks !== null && tracks !== undefined\">\n    {{ playlist.total }} tracks in playlist\n    <!--TODO make the controls a directive-->\n    <div *ngIf=\"playlist.previous !== null\">\n      <a (click)=\"loadOffset(playlist.previous)\" href=\"javascript:void(0)\">\n        Previous\n        <i class=\"glyphicon glyphicon-fast-backward\"></i>\n      </a>\n    </div>\n    <div *ngIf=\"playlist.next !== null\">\n      <a (click)=\"loadOffset(playlist.next)\" href=\"javascript:void(0)\">\n        Next\n        <i class=\"glyphicon glyphicon-step-forward\"></i>\n      </a>\n    </div>\n\n    <table>\n      <tr *ngFor=\"let track of tracks; let i = index\">\n        <td>\n          <img src=\"{{track.track.album.images[2]?.url}}\" class=\"btn btn-success\" style=\"margin: 5px;\" (click)=\"playTrack(track.track)\">\n        </td>\n        <td>\n          {{ track.track.name }} - by\n          <span *ngFor=\"let artist of track.track.artists; let i = index\">\n            <a (click)=\"viewArtist(artist.id)\" [routerLink]=\"\">{{ artist.name }}</a><span *ngIf=\"i < track.track.artists.length - 1\">, </span>\n          </span>\n          <br>\n          <i class=\"glyphicon glyphicon-thumbs-down icons\"\n             id=\"{{'THUMBS3-' + track.track.id}}\"\n             [class.star-selected]=\"track.track.rating === 3\"\n             (click)=\"setRating(3, track.track)\"></i>\n          <i class=\"glyphicon glyphicon-hand-right icons\"\n             id=\"{{'THUMBS4-' + track.track.id}}\"\n             [class.star-selected]=\"track.track.rating === 4\"\n             (click)=\"setRating(4, track.track)\"></i>\n          <i class=\"glyphicon glyphicon-thumbs-up icons\"\n             id=\"{{'THUMBS5-' + track.track.id}}\"\n             [class.star-selected]=\"track.track.rating === 5\"\n             (click)=\"setRating(5, track.track)\"></i>\n        </td>\n      </tr>\n    </table>\n\n    <div *ngIf=\"playlist.previous !== null\">\n      <a (click)=\"loadOffset(playlist.previous)\" href=\"javascript:void(0)\">\n        Previous\n        <i class=\"glyphicon glyphicon-fast-backward\"></i>\n      </a>\n    </div>\n    <div *ngIf=\"playlist.next !== null\">\n      <a (click)=\"loadOffset(playlist.next)\" href=\"javascript:void(0)\">\n        Next\n        <i class=\"glyphicon glyphicon-step-forward\"></i>\n      </a>\n    </div>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -1594,7 +1594,7 @@ var PlaylistComponent = (function () {
                 this._spotifyService.controlPlayback({ uris: arrTracks }, 'play').subscribe(function (res) {
                     console.log('Playback successfully called');
                 }, function (err) {
-                    console.debug(err);
+                    console.error(err);
                     _this.alertService.error(err._body);
                 });
             }
@@ -1607,11 +1607,11 @@ var PlaylistComponent = (function () {
                     _this._spotifyService.addToPlaylist({ uris: arrTracks }, res.id).subscribe(function (res2) {
                         _this.alertService.success('Created new playlist ' + playlistName_1 + ' with ' + arrTracks.length + ' tracks.');
                     }, function (err) {
-                        console.debug(err);
+                        console.error(err);
                         _this.alertService.error(err._body);
                     });
                 }, function (err) {
-                    console.debug(err);
+                    console.error(err);
                     _this.alertService.error(err._body);
                 });
             }
@@ -1625,7 +1625,7 @@ var PlaylistComponent = (function () {
         this._spotifyService.controlPlayback({ context_uri: this.selectedPlaylist.uri }, 'play').subscribe(function (res) {
             _this.alertService.success('Playing all tracks in playlist');
         }, function (err) {
-            console.debug(err);
+            console.error(err);
             _this.alertService.error(err._body);
         });
     };
@@ -1636,7 +1636,7 @@ var PlaylistComponent = (function () {
         this._spotifyService.controlPlayback({ uris: [track.uri] }, 'play').subscribe(function (res) {
             // console.log(res);
         }, function (err) {
-            console.debug(err);
+            console.error(err);
             _this.alertService.error(err._body);
         });
     };

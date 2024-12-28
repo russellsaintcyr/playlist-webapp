@@ -108,7 +108,7 @@ export class NowPlayingComponent implements OnInit {
           this.track = new Track(response.item.uri, response.item.name, response.item.album.images[0].url, response.item.album.name, response.item.artists[0].name,
             response.item.id, response.progress_ms, response.item.duration_ms, response.is_playing, response.item.album.release_date, response.item.album.id,
             response.item.artists[0].id, artists);
-          console.log(this.track);
+          // console.log(this.track);
           // set playback times, and call loop
           this.used_ms = 0;
           this.initial_progress_ms = this.track.progress_ms;
@@ -193,7 +193,7 @@ export class NowPlayingComponent implements OnInit {
         clearTimeout(this.timerProgressBar);
       },
       err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )
@@ -205,7 +205,7 @@ export class NowPlayingComponent implements OnInit {
         this.computeTime(this);
       },
       err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )

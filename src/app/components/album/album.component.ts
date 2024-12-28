@@ -23,9 +23,9 @@ export class AlbumComponent implements OnInit {
       const albumID = localStorage.getItem('albumID');
       this.spotifyService.getAlbum(albumID).subscribe(response => {
           this.album = response;
-          console.log(this.album);
+          // console.log(this.album);
         }, err => {
-          console.debug(err);
+          console.error(err);
           this.alertService.error(err._body);
         }
       )

@@ -35,7 +35,7 @@ export class ArtistComponent implements OnInit {
         this.artist = response;
         console.log(this.artist);
       }, err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )
@@ -44,9 +44,9 @@ export class ArtistComponent implements OnInit {
   getArtistAlbumDetails() {
     this.spotifyService.getArtistAlbums(this.artistID).subscribe(response => {
         this.albums = response.items;
-        console.log(this.albums);
+        // console.log(this.albums);
       }, err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )

@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
         // this.alertService.success('Playing  ' + direction + ' track');
       },
       err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )
@@ -51,7 +51,7 @@ export class NavbarComponent implements OnInit {
         this.isPlaying = false;
       },
       err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )

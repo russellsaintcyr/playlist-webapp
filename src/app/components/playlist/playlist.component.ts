@@ -243,7 +243,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
             console.log('Playback successfully called');
           },
           err => {
-            console.debug(err);
+            console.error(err);
             this.alertService.error(err._body);
           }
         )
@@ -257,13 +257,13 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
                 this.alertService.success('Created new playlist ' + playlistName + ' with ' + arrTracks.length + ' tracks.');
               },
               err => {
-                console.debug(err);
+                console.error(err);
                 this.alertService.error(err._body);
               }
             )
           },
           err => {
-            console.debug(err);
+            console.error(err);
             this.alertService.error(err._body);
           }
         )
@@ -278,7 +278,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         this.alertService.success('Playing all tracks in playlist');
       },
       err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )
@@ -291,7 +291,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         // console.log(res);
       },
       err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )
