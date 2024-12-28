@@ -28,7 +28,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   public stars5 = 0;
   public ratings: Array<Rating>;
   public playlist;
-  public ratingSystem: string;
+  public ratingSystem = 'THUMBS';
 
   private ratingsLoaded: boolean;
   private tracksLoaded: boolean;
@@ -58,7 +58,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     document.body.style.backgroundImage = 'url(\'' + this.selectedPlaylist.images[0].url + '\')';
     this.loadPlaylist();
-    this.ratingSystem = (localStorage.getItem('ratingSystem') !== null) ? localStorage.getItem('ratingSystem') : 'STARS';
+    // this.ratingSystem = (localStorage.getItem('ratingSystem') !== null) ? localStorage.getItem('ratingSystem') : 'STARS';
   }
 
   loadPlaylist() {
@@ -81,7 +81,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   }
 
   setRating(rating: number, track: Track) {
-    console.log('Setting rating to ' + rating + ' for ' + track.name, track);
+    console.log(`Setting rating to ${rating} for ${track.name}`);
     const elem = document.getElementById(this.ratingSystem + rating);
     // console.log();
     NowPlayingComponent.showStars(rating, track.id, null);
@@ -125,15 +125,15 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     // update local track
     track.rating = rating;
     // auto play
-    this._spotifyService.playNextPrevious('next').subscribe(res => {
-        // update track
-        // const intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 1500);
-      },
-      err => {
-        console.error(err);
-        this.alertService.error(err._body);
-      }
-    )
+    // this._spotifyService.playNextPrevious('next').subscribe(res => {
+    //     // update track
+    //     // const intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 1500);
+    //   },
+    //   err => {
+    //     console.error(err);
+    //     this.alertService.error(err._body);
+    //   }
+    // )
   }
 
   getRatings() {
@@ -192,7 +192,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   showAllTracks() {
     // call with offset, and then add
     this._spotifyService.getURL(this.playlist.next).subscribe(res => {
-        console.log('Adding ' + res.items.length + ' items to tracks array.');
+        console.log(`Adding ${res.items.length} items to tracks array (${this.playlist.total} total).`);
         // update next URL so the offset changes
         this.playlist.next = res.next;
         // push new tracks

@@ -9,7 +9,7 @@ import {AppSettings} from '../../../appSettings';
 })
 export class SettingsComponent implements OnInit {
 
-  public ratingSystem: string;
+  public ratingSystem = 'THUMBS';
   public bearerToken: string;
 
   constructor(private alertService: AlertService) {
@@ -17,8 +17,8 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(localStorage.getItem('ratingSystem'));
-    this.ratingSystem = (localStorage.getItem('ratingSystem') !== null) ? localStorage.getItem('ratingSystem') : AppSettings.RATING_SYSTEMS.STARS5;
+    // console.log(localStorage.getItem('ratingSystem'));
+    // this.ratingSystem = (localStorage.getItem('ratingSystem') !== null) ? localStorage.getItem('ratingSystem') : AppSettings.RATING_SYSTEMS.STARS5;
   }
 
   setBearerToken() {

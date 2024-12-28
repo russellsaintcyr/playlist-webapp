@@ -108,6 +108,7 @@ export class NowPlayingComponent implements OnInit {
           this.track = new Track(response.item.uri, response.item.name, response.item.album.images[0].url, response.item.album.name, response.item.artists[0].name,
             response.item.id, response.progress_ms, response.item.duration_ms, response.is_playing, response.item.album.release_date, response.item.album.id,
             response.item.artists[0].id, artists);
+          console.log(this.track);
           // set playback times, and call loop
           this.used_ms = 0;
           this.initial_progress_ms = this.track.progress_ms;
@@ -155,6 +156,7 @@ export class NowPlayingComponent implements OnInit {
   }
 
   setRating(rating: number, track: Track) {
+    console.log(`Setting rating to ${rating} for ${track.name}`);
     const elem = document.getElementById('star' + rating);
     // console.log();
     NowPlayingComponent.showStars(rating, track.id, null);
@@ -173,7 +175,7 @@ export class NowPlayingComponent implements OnInit {
     }
     localStorage.setItem('ratings', JSON.stringify(this.ratings));
     // TODO enable next line via user preference, for now do automatically
-    this.playNextPrevious('next');
+    // this.playNextPrevious('next');
   }
 
   playNextPrevious(direction: string) {
