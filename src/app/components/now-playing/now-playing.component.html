@@ -6,9 +6,16 @@
     <div class="col-md-4">
 <!--      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star1-' + track.id}}" (click)="setRating(1, track)"></i>-->
 <!--      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star2-' + track.id}}" (click)="setRating(2, track)"></i>-->
-      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star3-' + track.id}}" (click)="setRating(3, track)"></i>
-      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star4-' + track.id}}" (click)="setRating(4, track)"></i>
-      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying" id="{{'star5-' + track.id}}" (click)="setRating(5, track)"></i>
+      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying"
+         id="{{'star3-' + track.id}}"
+         (click)="setRating(3, track)"></i>
+      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying"
+         id="{{'star4-' + track.id}}"
+         (click)="setRating(4, track)"></i>
+      <i class="glyphicon glyphicon-star-empty star-unselected nowPlaying"
+         id="{{'star5-' + track.id}}"
+         (click)="setRating(5, track)"></i>
+      Rating: {{track.rating}}
       <br>
       <span *ngIf="loadingTrack">
         <i class="glyphicon glyphicon-refresh"></i>&nbsp;

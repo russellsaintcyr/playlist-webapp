@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-import {AlertService} from './alert.service';
-import {Location} from '@angular/common';
+import { AlertService } from './alert.service';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class SpotifyService {
@@ -18,13 +18,17 @@ export class SpotifyService {
   constructor(private _http: Http, private alertService: AlertService, lokation: Location) {
     // save state to return if token expired
     const currentState = location.pathname.substring(1);
-    if (currentState !== 'callback') localStorage.setItem('savedState', currentState);
+    if (currentState !== 'callback') {
+      localStorage.setItem('savedState', currentState);
+    }
     // TODO remove hard-coded user ID
     this.userID = 'x1111x';
     this.bearerToken = localStorage.getItem('bearerToken');
     this.baseURL = location.hostname;
-    if (location.port !== '') this.baseURL += ':' + location.port;
-    this.headers = new Headers({ 'Authorization': 'Bearer ' + this.bearerToken });
+    if (location.port !== '') {
+      this.baseURL += ':' + location.port;
+    }
+    this.headers = new Headers({'Authorization': 'Bearer ' + this.bearerToken});
   }
 
   getPlaylist(playlist, offset: number) {
@@ -49,7 +53,7 @@ export class SpotifyService {
 
   playNextPrevious(direction) {
     const URL = 'https://api.spotify.com/v1/me/player/' + direction;
-    return this._http.post(URL, null, {headers: this.headers}).map(res => res.json())
+    return this._http.post(URL, null, {headers: this.headers});
   };
 
   getCurrentlyPlaying() {

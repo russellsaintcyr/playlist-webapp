@@ -8,26 +8,26 @@
 </div>
 
 <div *ngIf="selectedPlaylist !== undefined && selectedPlaylist !== null">
-  <h2>{{selectedPlaylist.name}}</h2>
-  <img src="{{selectedPlaylist.images[0].url}}" class="img-responsive">
+  <h2>{{ selectedPlaylist.name }}</h2>
+  <img src="{{selectedPlaylist.images[0]?.url}}" class="img-responsive">
   <!--<h5>No. of Tracks: {{selectedPlaylist.tracks.total}}</h5>-->
-  {{stars0}} Unrated
+  {{ stars0 }} Unrated
   <a href="javascript:void(0)" (click)="playRating(0, 'play')">
     Play <i class="glyphicon glyphicon-play"></i>
   </a>
   <a href="javascript:void(0)" (click)="playRating(0, 'createPlaylist')">Create Playlist <i class="glyphicon glyphicon-file"></i></a>
   <br>
-<!--  <div *ngIf="ratingSystem === 'STARS'">-->
-<!--    {{stars1}} <i class="glyphicon glyphicon-star"></i>-->
-<!--    <a href="javascript:void(0)" (click)="playRating(1, 'play')">Play <i class="glyphicon glyphicon-play"></i></a>-->
-<!--    <a href="javascript:void(0)" (click)="playRating(1, 'createPlaylist')">Create Playlist <i class="glyphicon glyphicon-file"></i></a>-->
-<!--    <br>-->
-<!--    {{stars2}} <i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i>-->
-<!--    <a href="javascript:void(0)" (click)="playRating(2, 'play')">Play <i class="glyphicon glyphicon-play"></i></a>-->
-<!--    <a href="javascript:void(0)" (click)="playRating(2, 'createPlaylist')">Create Playlist <i class="glyphicon glyphicon-file"></i></a>-->
-<!--    <br>-->
-<!--  </div>-->
-  {{stars3}}
+  <!--  <div *ngIf="ratingSystem === 'STARS'">-->
+  <!--    {{stars1}} <i class="glyphicon glyphicon-star"></i>-->
+  <!--    <a href="javascript:void(0)" (click)="playRating(1, 'play')">Play <i class="glyphicon glyphicon-play"></i></a>-->
+  <!--    <a href="javascript:void(0)" (click)="playRating(1, 'createPlaylist')">Create Playlist <i class="glyphicon glyphicon-file"></i></a>-->
+  <!--    <br>-->
+  <!--    {{stars2}} <i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i>-->
+  <!--    <a href="javascript:void(0)" (click)="playRating(2, 'play')">Play <i class="glyphicon glyphicon-play"></i></a>-->
+  <!--    <a href="javascript:void(0)" (click)="playRating(2, 'createPlaylist')">Create Playlist <i class="glyphicon glyphicon-file"></i></a>-->
+  <!--    <br>-->
+  <!--  </div>-->
+  {{ stars3 }}
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
@@ -35,7 +35,7 @@
   <a href="javascript:void(0)" (click)="playRating(3, 'play')">Play <i class="glyphicon glyphicon-play"></i></a>
   <a href="javascript:void(0)" (click)="playRating(3, 'createPlaylist')">Create Playlist <i class="glyphicon glyphicon-file"></i></a>
   <br>
-  {{stars4}}
+  {{ stars4 }}
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
@@ -44,7 +44,7 @@
   <a href="javascript:void(0)" (click)="playRating(4, 'play')">Play <i class="glyphicon glyphicon-play"></i></a>
   <a href="javascript:void(0)" (click)="playRating(4, 'createPlaylist')">Create Playlist <i class="glyphicon glyphicon-file"></i></a>
   <br>
-  {{stars5}}
+  {{ stars5 }}
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
   <i *ngIf="ratingSystem === 'STARS'" class="glyphicon glyphicon-star"></i>
@@ -63,7 +63,7 @@
 
   <!--loop through tracks-->
   <div *ngIf="tracks !== null && tracks !== undefined">
-    {{playlist.total}} tracks in playlist
+    {{ playlist.total }} tracks in playlist
     <!--TODO make the controls a directive-->
     <div *ngIf="playlist.previous !== null">
       <a (click)="loadOffset(playlist.previous)" href="javascript:void(0)">
@@ -81,26 +81,35 @@
     <table>
       <tr *ngFor="let track of tracks; let i = index">
         <td>
-          <img src="{{track.track.album.images[2].url}}" class="btn btn-success" style="margin: 5px;" (click)="playTrack(track.track)">
+          <img src="{{track.track.album.images[2]?.url}}" class="btn btn-success" style="margin: 5px;" (click)="playTrack(track.track)">
         </td>
         <td>
-          {{track.track.name}} - by
+          {{ track.track.name }} - by
           <span *ngFor="let artist of track.track.artists; let i = index">
-            <a (click)="viewArtist(artist.id)" [routerLink]="">{{artist.name}}</a>
+            <a (click)="viewArtist(artist.id)" [routerLink]="">{{ artist.name }}</a>
           </span>
-          <br>{{ratingSystem}}
           <div *ngIf="ratingSystem === 'STARS'">
-<!--            <i class="glyphicon glyphicon-star-empty" id="{{'STARS1-' + track.track.id}}" (click)="setRating(1, track.track)"></i>-->
-<!--            <i class="glyphicon glyphicon-star-empty" id="{{'STARS2-' + track.track.id}}" (click)="setRatapp.config.tsing(2, track.track)"></i>-->
-            <i class="glyphicon glyphicon-star-empty" id="{{'STARS3-' + track.track.id}}" (click)="setRating(3, track.track)"></i>
-            <i class="glyphicon glyphicon-star-empty" id="{{'STARS4-' + track.track.id}}" (click)="setRating(4, track.track)"></i>
-            <i class="glyphicon glyphicon-star-empty" id="{{'STARS5-' + track.track.id}}" (click)="setRating(5, track.track)"></i>
+            <!--            <i class="glyphicon glyphicon-star-empty" id="{{'STARS1-' + track.track.id}}" (click)="setRating(1, track.track)"></i>-->
+            <!--            <i class="glyphicon glyphicon-star-empty" id="{{'STARS2-' + track.track.id}}" (click)="setRatapp.config.tsing(2, track.track)"></i>-->
+            <i class="glyphicon glyphicon-star-empty icons" id="{{'STARS3-' + track.track.id}}" (click)="setRating(3, track.track)"></i>
+            <i class="glyphicon glyphicon-star-empty icons" id="{{'THUMBS2-' + track.track.id}}" (click)="setRating(4, track.track)"></i>
+            <i class="glyphicon glyphicon-star-empty icons" id="{{'STARS5-' + track.track.id}}" (click)="setRating(5, track.track)"></i>
           </div>
           <div *ngIf="ratingSystem === 'THUMBS'">
-            <i class="glyphicon glyphicon-thumbs-down" id="{{'THUMBS3-' + track.track.id}}" (click)="setRating(3, track.track)"></i>
-            <i class="glyphicon glyphicon-hand-right" id="{{'THUMBS4-' + track.track.id}}" (click)="setRating(4, track.track)"></i>
-            <i class="glyphicon glyphicon-thumbs-up" id="{{'THUMBS5-' + track.track.id}}" (click)="setRating(5, track.track)"></i>
+            <i class="glyphicon glyphicon-thumbs-down icons star-selected"
+               id="{{'THUMBS3-' + track.track.id}}"
+               [class.star-selected] = "track.track.rating === 3"
+               (click)="setRating(3, track.track)"></i>
+            <i class="glyphicon glyphicon-hand-right icons"
+               id="{{'THUMBS4-' + track.track.id}}"
+               [class.star-selected] = "track.track.rating === 4"
+               (click)="setRating(4, track.track)"></i>
+            <i class="glyphicon glyphicon-thumbs-up icons"
+               id="{{'THUMBS5-' + track.track.id}}"
+               [class.star-selected] = "track.track.rating === 5"
+               (click)="setRating(5, track.track)"></i>
           </div>
+<!--          Rating: {{ track.track.rating }}-->
         </td>
       </tr>
     </table>

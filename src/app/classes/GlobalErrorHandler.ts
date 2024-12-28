@@ -1,6 +1,6 @@
-import {ErrorHandler, Injectable} from "@angular/core";
-import {AlertService} from "../services/alert.service";
-import {SpotifyService} from "../services/spotify.service";
+import { ErrorHandler, Injectable } from '@angular/core';
+import { AlertService } from '../services/alert.service';
+import { SpotifyService } from '../services/spotify.service';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {

@@ -62,16 +62,16 @@ export class NowPlayingComponent implements OnInit {
     this.autoSkip = false;
     this.getCurrentlyPlaying(null);
     if (localStorage.getItem('ratings') === null) {
-      console.log('No local ratings yet set.');
+      console.log('ngOnInit - No local ratings yet set.');
       this.ratings = [];
       localStorage.setItem('ratings', JSON.stringify(this.ratings));
     } else {
       this.ratings = JSON.parse(localStorage.getItem('ratings'));
-      console.log('Loaded ' + this.ratings.length + ' ratings from local data.');
+      console.log('ngOnInit - Loaded ' + this.ratings.length + ' ratings from local data.');
     }
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     // reload in X seconds
-    console.log('Reloading now playing page in ' + (this.refreshPeriod / 1000) + ' seconds.')
+    console.log('ngOnInit - Reloading now playing page in ' + (this.refreshPeriod / 1000) + ' seconds.')
     this.timerRefresh = setTimeout(function() {
       location.reload();
       }, this.refreshPeriod);
@@ -183,7 +183,7 @@ export class NowPlayingComponent implements OnInit {
         const intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 1500);
       },
       err => {
-        console.debug(err);
+        console.error(err);
         this.alertService.error(err._body);
       }
     )

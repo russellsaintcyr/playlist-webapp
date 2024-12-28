@@ -80,7 +80,8 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  setRating(rating: number, track) {
+  setRating(rating: number, track: Track) {
+    console.log('Setting rating to ' + rating + ' for ' + track.name, track);
     const elem = document.getElementById(this.ratingSystem + rating);
     // console.log();
     NowPlayingComponent.showStars(rating, track.id, null);
@@ -112,6 +113,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
       if (oldRating === 5) this.stars5--;
       this.ratings.splice(xxx, 1, newRating);
     }
+    // update local storage
     localStorage.setItem('ratings', JSON.stringify(this.ratings));
     // increment
     if (rating === 0) this.stars0++;
@@ -120,6 +122,18 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
     if (rating === 3) this.stars3++;
     if (rating === 4) this.stars4++;
     if (rating === 5) this.stars5++;
+    // update local track
+    track.rating = rating;
+    // auto play
+    this._spotifyService.playNextPrevious('next').subscribe(res => {
+        // update track
+        // const intervalId = setInterval(() => this.getCurrentlyPlaying(intervalId), 1500);
+      },
+      err => {
+        console.error(err);
+        this.alertService.error(err._body);
+      }
+    )
   }
 
   getRatings() {
@@ -132,12 +146,16 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
       this.ratings = JSON.parse(localStorage.getItem('ratings'));
       console.log('Loaded ' + this.ratings.length + ' ratings.');
       // loop through all tracks and adjust stars
-      // console.log('Looping through tracks for ratings');
+      console.log(`Looping through tracks for ratings, system ${this.ratingSystem}`);
       for (const x in this.tracks) {
         // first ensure is loaded in DOM
-        if (document.getElementById(this.ratingSystem + '1-' + this.tracks[x].track.id) === null) {
-          console.log('Exiting for loop because DOM is not ready');
+        const elemName = this.ratingSystem + '3-' + this.tracks[x].track.id;
+        // console.log(`Searching for element ${elemName}`);
+        if (document.getElementById(elemName) === null) {
+          console.log(`Exiting for loop because could not find element ${elemName}`);
           break;
+        } else {
+          // console.log(`Found element ${elemName}`);
         }
         // see if have rating
         let obj = undefined;
@@ -164,7 +182,7 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
         if (this.tracks[x].track.rating === 4) this.stars4++;
         if (this.tracks[x].track.rating === 5) this.stars5++;
       }
-      // console.log('Done looping through tracks for ratings');
+      console.log('Done looping through tracks for ratings');
       this.ratingsLoaded = true;
     } else {
       console.log('No ratings found in local storage');
