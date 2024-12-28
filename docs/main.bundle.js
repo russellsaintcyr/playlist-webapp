@@ -2177,6 +2177,7 @@ var SpotifyService = (function () {
         this.userID = 'x1111x';
         this.bearerToken = localStorage.getItem('bearerToken');
         this.baseURL = location.host;
+        console.log("location: ", location);
         console.log("location.hostname: " + location.hostname);
         console.log("location.host: " + location.host);
         console.log("location.href: " + location.href);
