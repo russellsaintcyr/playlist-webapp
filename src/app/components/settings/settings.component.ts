@@ -3,7 +3,7 @@ import {AlertService} from '../../services/alert.service';
 import {AppSettings} from '../../../appSettings';
 
 @Component({
-  selector: 'settings',
+  selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })

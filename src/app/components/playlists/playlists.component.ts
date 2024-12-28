@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {SpotifyService} from "../../services/spotify.service";
-import {AlertService} from "../../services/alert.service";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { SpotifyService } from "../../services/spotify.service";
+import { AlertService } from "../../services/alert.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'playlists',
+  selector: 'app-playlists',
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.css'],
   providers: [SpotifyService]

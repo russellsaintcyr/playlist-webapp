@@ -10,7 +10,7 @@ import {MetaTrack} from '../../classes/metatrack';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'playlist',
+  selector: 'app-playlist',
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.css'],
   providers: [SpotifyService]

@@ -3,7 +3,7 @@ import {SpotifyService} from '../../services/spotify.service';
 import {Artist} from '../../classes/artist';
 
 @Component({
-  selector: 'dashboard',
+  selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   providers: [SpotifyService]

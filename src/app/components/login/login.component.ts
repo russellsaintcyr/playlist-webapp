@@ -3,7 +3,7 @@ import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
 
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   providers: [SpotifyService]

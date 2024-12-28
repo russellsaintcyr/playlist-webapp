@@ -4,7 +4,7 @@ import {AlertService} from '../../services/alert.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'artist',
+  selector: 'app-artist',
   templateUrl: './artist.component.html',
   styleUrls: ['./artist.component.css'],
   providers: [SpotifyService]

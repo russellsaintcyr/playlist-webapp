@@ -3,7 +3,7 @@ import {SpotifyService} from "../../services/spotify.service";
 import {AlertService} from "../../services/alert.service";
 
 @Component({
-  selector: 'navbar',
+  selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   providers: [SpotifyService]

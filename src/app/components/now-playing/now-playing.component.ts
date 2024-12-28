@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 import {Artist} from '../../classes/artist';
 
 @Component({
-  selector: 'now-playing',
+  selector: 'app-now-playing',
   templateUrl: './now-playing.component.html',
   styleUrls: ['./now-playing.component.css'],
   providers: [SpotifyService]
