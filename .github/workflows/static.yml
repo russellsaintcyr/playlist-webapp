@@ -22,7 +22,8 @@ jobs:
 #      - name: Run tests
 #        run: npm run ng -- test --no-watch --no-progress --browsers=ChromeHeadless
 
-      - name: Prepare and deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run ng -- deploy --base-href=/playlist-webapp/ --name="Russell Saint Cyr" --email="russellsaintcyr@gmail.com"
+# Need to wait until can upgrade Angular CLI
+#      - name: Prepare and deploy
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: npm run ng -- deploy --base-href=/playlist-webapp/ --name="Russell Saint Cyr" --email="russellsaintcyr@gmail.com"
