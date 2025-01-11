@@ -113,7 +113,7 @@
       }
     }
   },
-  "defaultProject": "zzz",
+  "defaultProject": "playlist-rater",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "",
