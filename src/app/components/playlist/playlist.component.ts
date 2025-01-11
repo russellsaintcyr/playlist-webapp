@@ -1,13 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Http} from '@angular/http';
-import {SpotifyService} from '../../services/spotify.service';
-import {AlertService} from '../../services/alert.service';
-import {Rating} from '../../classes/rating';
-import {NowPlayingComponent} from '../now-playing/now-playing.component';
-import {AfterViewChecked} from '@angular/core';
-import {Track} from '../../classes/track';
-import {MetaTrack} from '../../classes/metatrack';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { SpotifyService } from '../../services/spotify.service';
+import { AlertService } from '../../services/alert.service';
+import { Rating } from '../../classes/rating';
+import { NowPlayingComponent } from '../now-playing/now-playing.component';
+import { AfterViewChecked } from '@angular/core';
+import { Track } from '../../classes/track';
+import { MetaTrack } from '../../classes/metatrack';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-playlist',
@@ -34,7 +33,9 @@ export class PlaylistComponent implements OnInit, AfterViewChecked {
   private tracksLoaded: boolean;
   private offset = 0;
 
-  constructor(private _http: Http, private _spotifyService: SpotifyService, private alertService: AlertService, private router: Router) {
+  constructor(private _spotifyService: SpotifyService,
+              private alertService: AlertService,
+              private router: Router) {
     this.ratingsLoaded = false;
   }
 

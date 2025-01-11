@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-// TODO migrate from Http to HttpClient
-import { Http, Headers } from '@angular/http';
-import { map } from "rxjs/operators";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SpotifyService {
@@ -13,7 +12,7 @@ export class SpotifyService {
   private readonly callbackRedirectURI: string;
   private readonly headers;
 
-  constructor(private _http: Http) {
+  constructor(private httpClient: HttpClient) {
     // save state to return if token expired
     const currentState = location.pathname.substring(1);
     if (currentState !== 'callback') {
@@ -27,45 +26,43 @@ export class SpotifyService {
     // console.log(`location.href: ${location.href}`);
     this.callbackRedirectURI = (location.host.includes('github')) ? location.href + 'callback' : `http://${location.host}/callback`;
     console.log(`callbackRedirectURI: ${this.callbackRedirectURI}`);
-    this.headers = new Headers({'Authorization': 'Bearer ' + this.bearerToken});
+    this.headers = new HttpHeaders({'Authorization': 'Bearer ' + this.bearerToken});
+    console.log(`this.headers:`, this.headers);
   }
 
-  getPlaylist(playlist, offset: number) {
+  getPlaylist(playlist, offset: number): Observable<any> {
     const spotURL = 'https://api.spotify.com/v1/users/' + playlist.owner.id + '/playlists/' + playlist.id + '/tracks?offset=' + offset;
-    // this.http.get('https://example.com/api/items').pipe(map(data => {})).subscribe(result => {
-    //   console.log(result);
-    // });
-    return this._http.get(spotURL, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.get(spotURL, {headers: this.headers});
   }
 
-  searchMusic(searchString: string, type: string) {
+  searchMusic(searchString: string, type: string): Observable<any> {
     const spotURL = 'https://api.spotify.com/v1/search?q=' + searchString + '&type=' + type;
-    return this._http.get(spotURL, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.get(spotURL, {headers: this.headers})
   }
 
-  getArtist(artistID: string) {
+  getArtist(artistID: string): Observable<any> {
     const spotURL = 'https://api.spotify.com/v1/artists/' + artistID;
-    return this._http.get(spotURL, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.get(spotURL, {headers: this.headers})
   }
 
-  getArtistAlbums(artistID: string) {
+  getArtistAlbums(artistID: string): Observable<any> {
     const spotURL = 'https://api.spotify.com/v1/artists/' + artistID + '/albums';
-    return this._http.get(spotURL, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.get(spotURL, {headers: this.headers})
   }
 
-  playNextPrevious(direction) {
+  playNextPrevious(direction): Observable<any> {
     const URL = 'https://api.spotify.com/v1/me/player/' + direction;
-    return this._http.post(URL, null, {headers: this.headers});
+    return this.httpClient.post(URL, null, {headers: this.headers});
   };
 
-  getCurrentlyPlaying() {
+  getCurrentlyPlaying(): Observable<any> {
     const URL = 'https://api.spotify.com/v1/me/player/currently-playing';
-    return this._http.get(URL, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.get(URL, {headers: this.headers})
   };
 
-  controlPlayback(body, verb) {
+  controlPlayback(body, verb): Observable<any> {
     const URL = 'https://api.spotify.com/v1/me/player/' + verb;
-    return this._http.put(URL, body, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.put(URL, body, {headers: this.headers})
   };
 
   getAuthorizeURL() {
@@ -83,28 +80,28 @@ export class SpotifyService {
     return this.authURL;
   }
 
-  getURL(spotURL) {
-    return this._http.get(spotURL, {headers: this.headers}).pipe(map(res => res.json()))
+  getURL(spotURL): Observable<any> {
+    return this.httpClient.get(spotURL, {headers: this.headers})
   }
 
-  getPlaylists() {
+  getPlaylists(): Observable<any> {
     const spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
-    return this._http.get(spotURL, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.get(spotURL, {headers: this.headers})
   }
 
-  createPlaylist(body) {
+  createPlaylist(body): Observable<any> {
     const spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/';
-    return this._http.post(spotURL, body, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.post(spotURL, body, {headers: this.headers})
   }
 
-  addToPlaylist(body, playlistID: string) {
+  addToPlaylist(body, playlistID: string): Observable<any> {
     const spotURL = 'https://api.spotify.com/v1/users/' + this.userID + '/playlists/' + playlistID + '/tracks';
-    return this._http.post(spotURL, body, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.post(spotURL, body, {headers: this.headers})
   }
 
-  getAlbum(albumID: string) {
+  getAlbum(albumID: string): Observable<any> {
     const spotURL = 'https://api.spotify.com/v1/albums/' + albumID;
-    return this._http.get(spotURL, {headers: this.headers}).pipe(map(res => res.json()))
+    return this.httpClient.get(spotURL, {headers: this.headers})
   }
 
 }
