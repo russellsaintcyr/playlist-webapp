@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
+// TODO migrate from Http to HttpClient
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AlertService } from './alert.service';
-import { Location } from '@angular/common';
 
 @Injectable()
 export class SpotifyService {
@@ -14,7 +13,7 @@ export class SpotifyService {
   private readonly callbackRedirectURI: string;
   private readonly headers;
 
-  constructor(private _http: Http, private alertService: AlertService, lokation: Location) {
+  constructor(private _http: Http) {
     // save state to return if token expired
     const currentState = location.pathname.substring(1);
     if (currentState !== 'callback') {

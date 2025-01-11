@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {SpotifyService} from '../../services/spotify.service';
-import {AlertService} from '../../services/alert.service';
-import {Track} from '../../classes/track';
-import {Rating} from 'app/classes/rating';
-import {Router} from '@angular/router';
-import {Artist} from '../../classes/artist';
+import { Component, OnInit } from '@angular/core';
+import { SpotifyService } from '../../services/spotify.service';
+import { AlertService } from '../../services/alert.service';
+import { Track } from '../../classes/track';
+import { Rating } from 'app/classes/rating';
+import { Router } from '@angular/router';
+import { Artist } from '../../classes/artist';
 
 @Component({
   selector: 'app-now-playing',
@@ -72,9 +72,9 @@ export class NowPlayingComponent implements OnInit {
     this.selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
     // reload in X seconds
     console.log('ngOnInit - Reloading now playing page in ' + (this.refreshPeriod / 1000) + ' seconds.')
-    this.timerRefresh = setTimeout(function() {
+    this.timerRefresh = setTimeout(function () {
       location.reload();
-      }, this.refreshPeriod);
+    }, this.refreshPeriod);
   }
 
   ngOnDestroy() {
@@ -94,8 +94,9 @@ export class NowPlayingComponent implements OnInit {
 
   getCurrentlyPlaying(intervalId) {
     this.spotifyService.getCurrentlyPlaying().subscribe(response => {
+        // console.log('getCurrentlyPlaying response:', response);
         // console.log(response);
-        if (response === null) {
+        if (response === null || response.item === null) {
           this.alertService.warn('No track is currently playing.')
         } else {
           // store last track if there is one

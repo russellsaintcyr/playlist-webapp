@@ -1,7 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
-
-import { Alert, AlertType } from "../models/alert";
-import { AlertService } from "../services/alert.service";
+import { Alert, AlertType } from '../models/alert';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   moduleId: module.id,
@@ -9,7 +8,7 @@ import { AlertService } from "../services/alert.service";
   templateUrl: 'alert.component.html'
 })
 
-export class AlertComponent {
+export class AlertComponent implements OnInit {
   alerts: Alert[] = [];
 
   constructor(private alertService: AlertService) {
